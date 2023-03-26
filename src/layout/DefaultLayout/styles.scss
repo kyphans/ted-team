@@ -1,0 +1,48 @@
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 32px;
+  margin: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  // background: rgb(212, 212, 212);
+}
+
+.content-test {
+	height: 100%;
+}
+
+.default-layout {
+  height: 100vh;
+
+  .ant-layout-sider-zero-width-trigger {
+    top: 12px !important  // custom btn Trigger Sider
+  }
+
+  &-sider{
+    height: 100%;
+    z-index: 99;
+  }
+
+  &-content {
+    margin: 15px 10px;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
