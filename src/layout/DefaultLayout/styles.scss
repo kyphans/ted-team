@@ -20,22 +20,24 @@
   color: white;
   font-weight: 700;
   font-size: 20px;
-  // background: rgb(212, 212, 212);
 }
 
 .content-test {
-	height: 100%;
+  height: 100vh;
+  min-height: 0;
 }
 
 .default-layout {
   height: 100vh;
+  min-height: 0;
 
   .ant-layout-sider-zero-width-trigger {
     top: 12px !important  // custom btn Trigger Sider
   }
 
   &-sider{
-    height: 100%;
+    height: 100vh;
+    min-height: 0;
     z-index: 99;
   }
 
