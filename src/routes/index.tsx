@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import DefaultLayout from '../layout/DefaultLayout';
 import Home from '../pages/Home';
 import Members from '../pages/Members';
 
@@ -9,15 +10,12 @@ const publicRouter = createBrowserRouter([
   },
   {
     path: '/',
-    element: <Home />,
-  },
-  {
-    path: '/home',
-    element: <Home />,
-  },
-  {
-    path: '/members',
-    element: <Members />,
+    element: <DefaultLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: 'home', element: <Home /> },
+      { path: 'members', element: <Members /> },
+    ],
   },
 ]);
 
