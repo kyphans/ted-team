@@ -22,11 +22,6 @@
   font-size: 20px;
 }
 
-.content-test {
-  height: 100vh;
-  min-height: 0;
-}
-
 .default-layout {
   height: 100vh;
   min-height: 0;
@@ -42,8 +37,8 @@
   }
 
   &-content {
-    margin: 15px 10px;
-    padding: 20px;
+    // margin: 15px 10px;
+    padding: 10px;
     overflow-x: hidden;
     overflow-y: scroll;
   }
