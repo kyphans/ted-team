@@ -63,13 +63,11 @@ const DefaultLayout = () => {
 
   const handleMenuItemClick = ({ key }: { key: string }) => {
     const { path } = itemsMenu.find((item) => item.key === key) || {};
-    if (path) {
+    if (path && path !== location.pathname) {
       navigate(path);
       setSelectedKey(key);
     }
   };
-
-  console.log('Default layout');
 
   return (
     <Layout className="default-layout">
