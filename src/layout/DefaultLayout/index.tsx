@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Grid, theme } from 'antd';
 import './styles.scss';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 interface LayoutProps {
   children: ReactNode;
@@ -36,21 +36,18 @@ const itemsMenu: MenuItem[] = [
   },
 ];
 
-const DefaultLayout = ({ children }: LayoutProps) => {
+const DefaultLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
 
-  // get path and set selectedKey for Menu
+  // Get location path and set selectedKey for Menu
   const location = useLocation();
-  const [selectedKey, setSelectedKey] = useState(
-    itemsMenu.find((_item) => location.pathname.startsWith(_item.path))?.key || 'home',
-  );
-  useEffect(() => {
+  const [selectedKey, setSelectedKey] = useState(() => {
     const item = itemsMenu.find((_item) => location.pathname.startsWith(_item.path));
-    const key = item ? item.key : 'home';
-    setSelectedKey(key);
-  }, [location]);
+    return item?.key || 'home';
+  });
 
+  // Get theme UI
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -64,12 +61,15 @@ const DefaultLayout = ({ children }: LayoutProps) => {
     setCollapsed(broken);
   };
 
-  const handleMenuClick = ({ key }: { key: string }): void => {
+  const handleMenuItemClick = ({ key }: { key: string }) => {
     const { path } = itemsMenu.find((item) => item.key === key) || {};
     if (path) {
       navigate(path);
+      setSelectedKey(key);
     }
   };
+
+  console.log('Default layout');
 
   return (
     <Layout className="default-layout">
@@ -87,18 +87,21 @@ const DefaultLayout = ({ children }: LayoutProps) => {
         <div className="logo">
           <span>TED TEAM</span>
         </div>
-        <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} onClick={handleMenuClick} items={itemsMenu} />
+        <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} onClick={handleMenuItemClick} items={itemsMenu} />
       </Sider>
       <Layout className="site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }}>
-          {isScreenLg &&
-            React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-              className: 'trigger',
-              onClick: () => setCollapsed(!collapsed),
-            })}
+          {
+            // Only Show trigger Menu button for large screens
+            isScreenLg &&
+              React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                className: 'trigger',
+                onClick: () => setCollapsed(!collapsed),
+              })
+          }
         </Header>
         <Content className="default-layout-content" style={{ background: colorBgContainer }}>
-          {children}
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
