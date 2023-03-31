@@ -6,26 +6,62 @@ class BaseAPI {
 
   constructor(config?: AxiosRequestConfig) {
     const aa = {
-      'api-key': 'API_KEY',
+      'api-key': 'MTkyMzc=66ac6a652a3529ed3a887ca0cMTYxMzU2NzUwMw==',
     };
     this.getHeaders = () => aa;
-    this.axiosInstance = axios.create({ ...config, headers: this.getHeaders() });
+    this.axiosInstance = axios.create({
+      ...config,
+      headers: this.getHeaders(),
+      timeout: 10000,
+    });
   }
 
-  get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.axiosInstance.get(url, config);
+  handleResponseData<T>(data?: any): Promise<AxiosResponse<T>> {
+    if (!!data && data.status === 200) {
+      console.log(data);
+      return Promise.resolve(data);
+    }
+    return Promise.reject(data);
   }
 
-  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.axiosInstance.post(url, data, config);
+  async get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    try {
+      const response = await this.axiosInstance.get<T>(url, config);
+      console.log('response', response);
+      return this.handleResponseData<T>(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
-  put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.axiosInstance.put(url, data, config);
+  async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    try {
+      const response = await this.axiosInstance.post<T>(url, data, config);
+      console.log('response', response);
+      return this.handleResponseData<T>(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
-  delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.axiosInstance.delete(url, config);
+  async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    try {
+      const response = await this.axiosInstance.put<T>(url, data, config);
+      console.log('response', response);
+      return this.handleResponseData<T>(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    try {
+      const response = await this.axiosInstance.delete<T>(url, config);
+      console.log('response', response);
+      return this.handleResponseData<T>(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 }
 

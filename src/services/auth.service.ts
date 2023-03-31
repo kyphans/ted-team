@@ -10,15 +10,15 @@ interface Parameters {
   m_id: number;
 }
 
-class DemoService extends BaseService {
+class AuthService extends BaseService {
   getTest<T>(params: Parameters): Promise<AxiosResponse<T>> {
     const config: AxiosRequestConfig = { params };
-    return this.get('/log-order', config);
+    return this.get('/users', config);
   }
 
   createTest<T>(payload: UserPayload): Promise<AxiosResponse<T>> {
-    return this.post('/log-order', payload);
+    return this.post('/users', payload);
   }
 }
 
-export default new DemoService();
+export default new AuthService();
