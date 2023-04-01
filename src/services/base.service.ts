@@ -6,7 +6,8 @@ interface HeaderRequestConfig extends AxiosRequestConfig {
 }
 
 class BaseService {
-  private defaultConfig: HeaderRequestConfig = { baseURL: 'https://api.baostar.pro/api/v2' };
+  // Config for baseURL
+  private defaultConfig: HeaderRequestConfig = { baseURL: 'https://exmaple.com.vn' };
 
   get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return API.get(url, { ...this.defaultConfig, ...config });

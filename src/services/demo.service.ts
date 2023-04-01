@@ -11,13 +11,13 @@ interface Parameters {
 }
 
 class DemoService extends BaseService {
-  getTest<T>(params: Parameters): Promise<AxiosResponse<T>> {
-    const config: AxiosRequestConfig = { params };
-    return this.get('/log-order', config);
-  }
+  // Using mock data in https://fakestoreapi.com/docs
 
-  createTest<T>(payload: UserPayload): Promise<AxiosResponse<T>> {
-    return this.post('/log-order', payload);
+  getAllUsers<T>(): Promise<AxiosResponse<T>> {
+    const config: AxiosRequestConfig = {
+      baseURL: 'https://fakestoreapi.com',
+    };
+    return this.get('/users', config);
   }
 }
 

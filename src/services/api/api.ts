@@ -18,17 +18,16 @@ class BaseAPI {
 
   handleResponseData<T>(data?: any): Promise<AxiosResponse<T>> {
     if (!!data && data.status === 200) {
-      console.log(data);
       return Promise.resolve(data);
     }
+    console.log('reject');
     return Promise.reject(data);
   }
 
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     try {
       const response = await this.axiosInstance.get<T>(url, config);
-      console.log('response', response);
-      return this.handleResponseData<T>(response.data);
+      return this.handleResponseData<T>(response);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -37,8 +36,7 @@ class BaseAPI {
   async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     try {
       const response = await this.axiosInstance.post<T>(url, data, config);
-      console.log('response', response);
-      return this.handleResponseData<T>(response.data);
+      return this.handleResponseData<T>(response);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -47,8 +45,7 @@ class BaseAPI {
   async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     try {
       const response = await this.axiosInstance.put<T>(url, data, config);
-      console.log('response', response);
-      return this.handleResponseData<T>(response.data);
+      return this.handleResponseData<T>(response);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -57,8 +54,7 @@ class BaseAPI {
   async delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     try {
       const response = await this.axiosInstance.delete<T>(url, config);
-      console.log('response', response);
-      return this.handleResponseData<T>(response.data);
+      return this.handleResponseData<T>(response);
     } catch (error) {
       return Promise.reject(error);
     }
