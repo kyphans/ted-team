@@ -1,6 +1,7 @@
 import LoginForm from '../../components/LoginForm';
+import DemoService from '../../services/demo.service';
 
-function Login() {
+function TestComponent() {
   return (
     <>
       <LoginForm />
@@ -8,4 +9,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default TestComponent;
