@@ -1,20 +1,18 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
+import React from 'react';
+import ButtonTest from '../../components/ButtonTest';
 import DemoService from '../../services/demo.service';
 
-function Login() {
-  // Access the client
-  const queryClient = useQueryClient();
-
+function TestComponent() {
   // Queries
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['users'],
     queryFn: () => DemoService.getAllUsers<any>(),
-    staleTime: 5 * 60 * 1000, // 5 minute
+    staleTime: 5 * 60 * 1000, // 5 minute,
   });
 
-  console.log({ isFetching, isLoading, data });
-  console.log('==============');
+  console.log('TestComponent');
 
   function normalizeData(data: any) {
     return data?.map((item: any) => ({
@@ -57,10 +55,10 @@ function Login() {
 
   return (
     <>
-      <span> Test Component</span>
-      <Table loading={isFetching} dataSource={normalizeData(data?.data)} columns={columns} />
+      <ButtonTest />
+      <Table loading={isLoading || isFetching} dataSource={normalizeData(data?.data)} columns={columns} />
     </>
   );
 }
 
-export default Login;
+export default React.memo(TestComponent);
