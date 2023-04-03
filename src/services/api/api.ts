@@ -20,7 +20,6 @@ class BaseAPI {
     if (!!data && data.status === 200) {
       return Promise.resolve(data);
     }
-    console.log('reject');
     return Promise.reject(data);
   }
 
@@ -33,11 +32,28 @@ class BaseAPI {
     }
   }
 
-  async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  // async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  //   try {
+  //     const response = await this.axiosInstance.post<T>(url, data, config);
+  //     return this.handleResponseData<T>(response);
+  //   } catch (error: any) {
+  //     return Promise.reject(error);
+  //   }
+  // }
+
+  // API POST TEST
+  async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<any> {
     try {
-      const response = await this.axiosInstance.post<T>(url, data, config);
-      return this.handleResponseData<T>(response);
-    } catch (error) {
+      const response = {
+        data: { ...data, token: 'token-12312313132132131313' },
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: config,
+      };
+      console.log('api base');
+      return Promise.resolve(response);
+    } catch (error: any) {
       return Promise.reject(error);
     }
   }

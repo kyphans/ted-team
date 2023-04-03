@@ -12,8 +12,6 @@ function TestComponent() {
     staleTime: 5 * 60 * 1000, // 5 minute,
   });
 
-  console.log('TestComponent');
-
   function normalizeData(data: any) {
     return data?.map((item: any) => ({
       key: item.id,
