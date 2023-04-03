@@ -2,7 +2,7 @@ import React, { useState, ReactNode, useEffect } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
+  QuestionCircleOutlined,
   HomeOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons';
@@ -33,6 +33,12 @@ const itemsMenu: MenuItem[] = [
     icon: <UsergroupAddOutlined />,
     label: 'Members',
     path: '/members',
+  },
+  {
+    key: 'test',
+    icon: <QuestionCircleOutlined />,
+    label: 'test',
+    path: '/test',
   },
 ];
 
