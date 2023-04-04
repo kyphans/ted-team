@@ -5,7 +5,7 @@ import {
   QuestionCircleOutlined,
   HomeOutlined,
   UsergroupAddOutlined,
-  LogoutOutlined
+  LogoutOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Grid, theme } from 'antd';
 import './styles.scss';
@@ -21,7 +21,6 @@ interface MenuItem {
 }
 
 const { Header, Sider, Content } = Layout;
-
 
 const DefaultLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -52,7 +51,7 @@ const DefaultLayout = () => {
       icon: <LogoutOutlined />,
       label: 'logout',
       path: '/logout',
-      onClick: ()=> authLogout()
+      onClick: () => authLogout(),
     },
   ];
 
@@ -63,7 +62,7 @@ const DefaultLayout = () => {
 
   // Custom Sider for mobile
   const { lg } = Grid.useBreakpoint();
-  const styleSider = lg ? 'unset' : 'absolute';
+  const styleSider = lg ? 'unset' : 'fixed';
   const isScreenLg = lg ?? true; // check nullish for lg
   const triggerBtnSider = isScreenLg ? null : false;
   const onBreakpoint = (broken: boolean) => {
@@ -88,7 +87,7 @@ const DefaultLayout = () => {
   return (
     <Layout className="default-layout">
       <Sider
-        className="default-layout-sider"
+        className="default-layout-sider h-screen"
         style={{ position: styleSider }}
         trigger={triggerBtnSider}
         collapsible
@@ -103,7 +102,7 @@ const DefaultLayout = () => {
         </div>
         <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} onClick={handleMenuItemClick} items={itemsMenu} />
       </Sider>
-      <Layout className="site-layout">
+      <Layout className="default-layout-site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }}>
           {
             // Only Show trigger Menu button for large screens
