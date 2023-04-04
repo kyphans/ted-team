@@ -23,25 +23,25 @@
 }
 
 .default-layout {
-  height: 100vh;
-  min-height: 0;
-  min-height: -webkit-fill-available;
-
   .ant-layout-sider-zero-width-trigger {
-    top: 12px !important  // custom btn Trigger Sider
+    top: 12px !important; // custom btn Trigger Sider
   }
 
-  &-sider{
-    height: 100vh;
-    min-height: -webkit-fill-available;
-    min-height: 0;
-    z-index: 99;
+  &-sider {
+    z-index: 10;
+  }
+
+  &-site-layout {
+    z-index: 1;
   }
 
   &-content {
-    margin: 15px 10px;
-    padding: 20px;
-    overflow-x: hidden;
+    height: 100vh;
+    height: calc(var(--window-height) - 20px - 64px);
+    min-height: 0;
     overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 10px 10px;
+    padding: 10px;
   }
 }

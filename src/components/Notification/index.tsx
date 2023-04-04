@@ -4,7 +4,7 @@ import { useNotification } from '../../context/NotificationContext';
 const Notification = () => {
   const { notifications, removeNotification } = useNotification();
   return (
-    <div className="flex flex-col items-end absolute top-2 right-5 z-50">
+    <div className="flex flex-col items-end fixed top-2 right-5 z-50">
       {notifications.map((notification) => (
         <div className="py-1 w-fit" key={notification.id}>
           <Alert
