@@ -114,7 +114,7 @@ const DefaultLayout = () => {
               })
           }
         </Header>
-        <Content className="default-layout-content" style={{ background: colorBgContainer }}>
+        <Content className="default-layout-content" style={{ background: 'rgb(231 231 231)' }}>
           <Outlet />
         </Content>
       </Layout>
