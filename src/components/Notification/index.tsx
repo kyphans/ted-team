@@ -1,5 +1,5 @@
 import { Alert } from 'antd';
-import { useNotification } from './NotificationContext';
+import { useNotification } from '../../context/NotificationContext';
 
 const Notification = () => {
   const { notifications, removeNotification } = useNotification();
