@@ -1,57 +1,60 @@
-import React, { useState, ReactNode, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   QuestionCircleOutlined,
   HomeOutlined,
   UsergroupAddOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Grid, theme } from 'antd';
 import './styles.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
-interface LayoutProps {
-  children: ReactNode;
-}
 interface MenuItem {
   key: string;
   icon: JSX.Element;
   label: string;
   path: string;
+  onClick?: () => void;
 }
 
 const { Header, Sider, Content } = Layout;
-const itemsMenu: MenuItem[] = [
-  {
-    key: 'home',
-    icon: <HomeOutlined />,
-    label: 'Home',
-    path: '/home',
-  },
-  {
-    key: 'members',
-    icon: <UsergroupAddOutlined />,
-    label: 'Members',
-    path: '/members',
-  },
-  {
-    key: 'test',
-    icon: <QuestionCircleOutlined />,
-    label: 'test',
-    path: '/test',
-  },
-];
+
 
 const DefaultLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const { logout: authLogout } = useAuth();
 
-  // Get location path and set selectedKey for Menu
-  const location = useLocation();
-  const [selectedKey, setSelectedKey] = useState(() => {
-    const item = itemsMenu.find((_item) => location.pathname.startsWith(_item.path));
-    return item?.key || 'home';
-  });
+  const itemsMenu: MenuItem[] = [
+    {
+      key: 'home',
+      icon: <HomeOutlined />,
+      label: 'Home',
+      path: '/home',
+    },
+    {
+      key: 'members',
+      icon: <UsergroupAddOutlined />,
+      label: 'Members',
+      path: '/members',
+    },
+    {
+      key: 'test',
+      icon: <QuestionCircleOutlined />,
+      label: 'test',
+      path: '/test',
+    },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'logout',
+      path: '/logout',
+      onClick: ()=> authLogout()
+    },
+  ];
 
   // Get theme UI
   const {
@@ -66,6 +69,13 @@ const DefaultLayout = () => {
   const onBreakpoint = (broken: boolean) => {
     setCollapsed(broken);
   };
+
+  // Get location path and set selectedKey for Menu
+  const location = useLocation();
+  const [selectedKey, setSelectedKey] = useState(() => {
+    const item = itemsMenu.find((_item) => location.pathname.startsWith(_item.path));
+    return item?.key || 'home';
+  });
 
   const handleMenuItemClick = ({ key }: { key: string }) => {
     const { path } = itemsMenu.find((item) => item.key === key) || {};

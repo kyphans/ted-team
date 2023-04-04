@@ -31,8 +31,6 @@ export const NotificationProvider: any = ({ children }: any) => {
   };
 
   const removeNotification = (id: number) => {
-    console.log('removeNotification');
-
     setNotifications((prevState) => prevState.filter((n) => n.id !== id));
   };
 
