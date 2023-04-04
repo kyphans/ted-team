@@ -18,6 +18,8 @@ body {
 #root {
   height: 100vh;
   min-height: 0;
+  // height: -webkit-fill-available;
+  min-height: -webkit-fill-available;
 }
 
 .App {
