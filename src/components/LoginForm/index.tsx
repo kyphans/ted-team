@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNotification } from '../../context/NotificationContext';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../context/AuthContext';
+import './styles.scss'
 
 function LoginForm() {
   const navigate = useNavigate();
