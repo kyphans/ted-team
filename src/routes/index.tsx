@@ -4,15 +4,20 @@ import Login from '../pages/Login';
 import TestComponent from '../pages/TestComponent';
 import Home from '../pages/Home';
 import Members from '../pages/Members';
+import { ProtectedRoute } from '../components/ProtectedRoute';
 
-const publicRouter = createBrowserRouter([
+const privateRouter = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
   },
   {
     path: '/',
-    element: <DefaultLayout />,
+    element: (
+      <ProtectedRoute>
+        <DefaultLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <Home /> },
       { path: 'test', element: <TestComponent /> },
@@ -26,11 +31,11 @@ const publicRouter = createBrowserRouter([
   },
 ]);
 
-const privateRouter = createBrowserRouter([
+const privateRouter1 = createBrowserRouter([
   {
     path: '/',
     element: <div>Private Hello world!</div>,
   },
 ]);
 
-export { publicRouter };
+export { privateRouter };

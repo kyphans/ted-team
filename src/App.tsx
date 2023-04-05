@@ -1,9 +1,10 @@
 import { RouterProvider } from 'react-router-dom';
-import { publicRouter } from './routes';
-import { NotificationProvider } from './components/Notification/NotificationContext';
+import { privateRouter } from './routes';
+import { NotificationProvider } from './context/NotificationContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Notification from './components/Notification';
+import { AuthProvider } from './context/AuthContext';
 import './components/GlobalStyles';
 import viVN from 'antd/locale/vi_VN';
 import 'dayjs/locale/vi';
@@ -16,12 +17,14 @@ function App() {
     <div className="App">
       <ConfigProvider locale={viVN} theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <NotificationProvider>
-            <Notification />
-            <RouterProvider router={publicRouter} />
-            {/* Dev tool of React Query*/}
-            <ReactQueryDevtools initialIsOpen={false} />
-          </NotificationProvider>
+          <AuthProvider>
+            <NotificationProvider>
+              <Notification />
+              <RouterProvider router={privateRouter} />
+              {/* Dev tool of React Query*/}
+              <ReactQueryDevtools initialIsOpen={false} />
+            </NotificationProvider>
+          </AuthProvider>
         </QueryClientProvider>
       </ConfigProvider>
     </div>

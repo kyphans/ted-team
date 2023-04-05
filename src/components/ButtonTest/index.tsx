@@ -1,9 +1,9 @@
 import { Button } from 'antd';
-import React from 'react';
-import { useNotification } from '../../components/Notification/NotificationContext';
+import { useNotification } from '../../context/NotificationContext';
 
 const ButtonTest = () => {
   const { addNotification } = useNotification();
+
   return (
     <>
       <div>Notification ButtonTest</div>

@@ -9,6 +9,7 @@ import ReactFlow, {
   Edge,
   Position,
   Controls,
+  Background
 } from 'reactflow';
 import dagre from 'dagre';
 import 'reactflow/dist/style.css';
@@ -90,6 +91,7 @@ const OrgChart = () => {
         }}
       >
         <Controls />
+        <Background color="#aaa" gap={16} />
       </ReactFlow>
       <div className="controls">
         <button onClick={() => onLayout('TB')}>Vertical layout</button>
