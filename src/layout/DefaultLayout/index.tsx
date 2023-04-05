@@ -11,6 +11,7 @@ import { Layout, Menu, Grid, theme } from 'antd';
 import './styles.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import 'dayjs/locale/vi';
 
 interface MenuItem {
   key: string;
@@ -113,7 +114,10 @@ const DefaultLayout = () => {
               })
           }
         </Header>
-        <Content className="default-layout-content" style={{ background: 'rgb(231 231 231)' }}>
+        <Content
+          className="default-layout-content overflow-y-hidden rounded-xl p-4"
+          style={{ background: 'rgb(255 255 255)' }}
+        >
           <Outlet />
         </Content>
       </Layout>

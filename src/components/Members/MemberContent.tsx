@@ -1,23 +1,31 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Col, Divider, Row, Space, Typography } from 'antd';
+import { ExclamationCircleFilled, PlusOutlined } from '@ant-design/icons';
+import { Col, Divider, Form, Modal, Row, Space, Typography } from 'antd';
+import dayjs from 'dayjs';
 import _ from 'lodash';
-import { useEffect, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import PrimaryButton from '../common/custom/button/PrimaryButton';
+import PrimaryForm from '../common/custom/form/PrimaryForm';
+import PrimaryModal, { primaryModalFuncProps } from '../common/custom/modal/PrimaryModal';
 import PrimarySelect from '../common/custom/select/PrimarySelect';
 import { PrimaryEditTableProps } from '../common/custom/Table/PrimaryEditableRowTable';
 import PrimaryTable from '../common/custom/Table/PrimaryTable';
 import PrimaryTooltip from '../common/custom/tooltip/PrimaryTooltip';
+import SharedMemberForm from '../common/shared/SharedMemberForm';
+import { MemberFormEnum } from './memberFormEnum';
 import data from './sampleData';
 import { DataType } from './sampleData.type';
 
 type ColumnTypes = Exclude<PrimaryEditTableProps['columns'], undefined>;
 
 const MemberContent = () => {
+  const [form] = Form.useForm();
   const [dataTable, setTableData] = useState<DataType[]>(data || []);
   const [dataTableSearch, setTableDataSearch] = useState<any[]>([]);
+  const [changeModeForm, setModeForm] = useState<MemberFormEnum>(MemberFormEnum.Create);
+  const [isOpenMemberFormModal, setOpenMemberFormModal] = useState<boolean>(false);
 
   const newDataTableOption = _.map(dataTable ?? [], (item, index) => {
-    const { name } = item ?? {};
+    const { name } = item;
     return {
       ...{
         label: name,
@@ -87,15 +95,41 @@ const MemberContent = () => {
     },
     {
       title: 'Action',
-      render: (__: any, record: { key: React.Key }) =>
+      render: (text: any, record: { key: Key | null | undefined }, index: number) =>
         data.length >= 1 ? (
-          <Space key={record?.key}>
-            <PrimaryButton variant="refuse">Remove</PrimaryButton>
-            <PrimaryButton variant="primary">Edit</PrimaryButton>
+          <Space key={index}>
+            <PrimaryButton variant="refuse" onClick={() => handleClickRemoveMemberButton()}>
+              Remove
+            </PrimaryButton>
+            <PrimaryButton variant="primary" onClick={() => handleEditMemberForm(record)}>
+              Edit
+            </PrimaryButton>
           </Space>
         ) : null,
     },
   ];
+
+  const handleEditMemberForm = async (value: any) => {
+    setModeForm(MemberFormEnum.Edit);
+    const { name, dayOfBirth, phoneNumber, email, nickname } = value ?? {};
+    await form.setFieldsValue({ fullName: name, dayOfBirth: dayjs(dayOfBirth), phoneNumber, email, nickname });
+    setOpenMemberFormModal(true);
+  };
+  const handleSaveMemberForm = async () => {
+    await form.validateFields();
+    setOpenMemberFormModal(false);
+  };
+
+  const handleClickRemoveMemberButton = () => {
+    Modal.confirm({
+      ...primaryModalFuncProps().info,
+      title: 'Thông báo',
+      icon: <ExclamationCircleFilled />,
+      content: 'Bạn có chắc chắn xóa Teddy này ra khỏi danh sách?',
+      onOk: () => {},
+      onCancel: () => {},
+    });
+  };
 
   useEffect(() => {
     formatDataColumns(dataTable);
@@ -104,8 +138,8 @@ const MemberContent = () => {
   return (
     <>
       <Typography className="text-base font-medium">DANH SÁCH TEDDY</Typography>
-      <Divider className="my-6" />
-      <div className="pb-6">
+      <Divider className="mb-4 mt-3" />
+      <div className="pb-4">
         <Row gutter={[12, 12]}>
           <Col span={8}>
             <PrimarySelect
@@ -134,7 +168,14 @@ const MemberContent = () => {
           </Col>
           <Col span={12}></Col>
           <Col span={4} className="flex items-center">
-            <PrimaryButton className="h-10" variant="primary">
+            <PrimaryButton
+              className="h-10"
+              variant="primary"
+              onClick={() => {
+                setModeForm(MemberFormEnum.Create);
+                setOpenMemberFormModal(true);
+              }}
+            >
               <Space className="flex items-center justify-center">
                 <PlusOutlined className="flex items-center" /> Add new Teddy
               </Space>
@@ -143,10 +184,43 @@ const MemberContent = () => {
         </Row>
       </div>
       <PrimaryTable
+        rowKey="key"
         rowClassName="overflow-y-hidden"
         columns={defaultColumns}
         rows={dataTableSearch?.length ? dataTableSearch : dataTable}
       />
+      <PrimaryModal
+        title={
+          _.includes(MemberFormEnum.Create, changeModeForm) ? (
+            <Typography className="text-blue-2">Thêm Teddy mới</Typography>
+          ) : (
+            <Typography className="text-blue-2">Chỉnh sửa Teddy</Typography>
+          )
+        }
+        centered
+        destroyOnClose
+        noBodySpacing
+        width={800}
+        open={isOpenMemberFormModal}
+        onCancel={() => {
+          setOpenMemberFormModal(false);
+          form.resetFields();
+        }}
+        footer={null}
+      >
+        <Divider />
+        <div className="p-6">
+          <PrimaryForm form={form} layout="vertical" name="member-form">
+            <SharedMemberForm
+              onSaveMemberForm={handleSaveMemberForm}
+              onCancelMemberForm={() => {
+                setOpenMemberFormModal(false);
+                form.resetFields();
+              }}
+            />
+          </PrimaryForm>
+        </div>
+      </PrimaryModal>
     </>
   );
 };
