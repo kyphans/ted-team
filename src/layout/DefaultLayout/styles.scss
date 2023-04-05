@@ -21,6 +21,9 @@
   font-weight: 700;
   font-size: 20px;
 }
+body {
+  overflow: hidden;
+}
 
 .default-layout {
   .ant-layout-sider-zero-width-trigger {

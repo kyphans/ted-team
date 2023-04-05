@@ -98,7 +98,7 @@ const MemberContent = () => {
       render: (text: any, record: { key: Key | null | undefined }, index: number) =>
         data.length >= 1 ? (
           <Space key={index}>
-            <PrimaryButton variant="refuse" onClick={() => handleClickRemoveMemberButton()}>
+            <PrimaryButton variant="refuse" onClick={() => handleClickRemoveMemberButton(record)}>
               Remove
             </PrimaryButton>
             <PrimaryButton variant="primary" onClick={() => handleEditMemberForm(record)}>
@@ -109,10 +109,10 @@ const MemberContent = () => {
     },
   ];
 
-  const handleEditMemberForm = async (value: any) => {
+  const handleEditMemberForm = (value: any) => {
     setModeForm(MemberFormEnum.Edit);
     const { name, dayOfBirth, phoneNumber, email, nickname } = value ?? {};
-    await form.setFieldsValue({ fullName: name, dayOfBirth: dayjs(dayOfBirth), phoneNumber, email, nickname });
+    form.setFieldsValue({ fullName: name, dayOfBirth: dayjs(dayOfBirth), phoneNumber, email, nickname });
     setOpenMemberFormModal(true);
   };
   const handleSaveMemberForm = async () => {
@@ -120,12 +120,17 @@ const MemberContent = () => {
     setOpenMemberFormModal(false);
   };
 
-  const handleClickRemoveMemberButton = () => {
-    Modal.confirm({
+  const handleClickRemoveMemberButton = (value: any) => {
+    const { name } = value;
+    return Modal.confirm({
       ...primaryModalFuncProps().info,
       title: 'Thông báo',
       icon: <ExclamationCircleFilled />,
-      content: 'Bạn có chắc chắn xóa Teddy này ra khỏi danh sách?',
+      content: (
+        <Typography>
+          Bạn có chắc chắn xóa <strong>Teddy {name} </strong> ra khỏi danh sách?
+        </Typography>
+      ),
       onOk: () => {},
       onCancel: () => {},
     });
@@ -161,7 +166,7 @@ const MemberContent = () => {
               }}
               options={newDataTableOption}
               maxTagPlaceholder={(e: string | any[]) => {
-                const titleToolTip = _.map(e, (item, index) => <p>{item.label}</p>);
+                const titleToolTip = _.map(e, (item, index) => <p key={index}>{item.label}</p>);
                 return <PrimaryTooltip title={titleToolTip}>+ {e.length}...</PrimaryTooltip>;
               }}
             />
@@ -185,7 +190,6 @@ const MemberContent = () => {
       </div>
       <PrimaryTable
         rowKey="key"
-        rowClassName="overflow-y-hidden"
         columns={defaultColumns}
         rows={dataTableSearch?.length ? dataTableSearch : dataTable}
       />

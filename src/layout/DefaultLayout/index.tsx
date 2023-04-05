@@ -114,10 +114,7 @@ const DefaultLayout = () => {
               })
           }
         </Header>
-        <Content
-          className="default-layout-content overflow-y-hidden rounded-xl p-4"
-          style={{ background: 'rgb(255 255 255)' }}
-        >
+        <Content className="default-layout-content  rounded-xl p-4" style={{ background: 'rgb(255 255 255)' }}>
           <Outlet />
         </Content>
       </Layout>
