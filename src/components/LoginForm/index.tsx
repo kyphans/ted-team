@@ -35,12 +35,10 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
-      <Card>
+    <div className="w-full h-screen flex justify-center items-center">
+      <Card type="inner" title="TED TEAM">
         <Form
           name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600}}
           initialValues={{ remember: true }}
           onFinish={onFinish}
@@ -63,7 +61,7 @@ function LoginForm() {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ span: 16 }}>
+          <Form.Item >
             <Button className="w-full" type="primary" htmlType="submit" loading={isLoading}>
               Login
             </Button>

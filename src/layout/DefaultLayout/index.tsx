@@ -7,7 +7,7 @@ import {
   UsergroupAddOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Grid, theme } from 'antd';
+import { Layout, Menu, Grid, theme, Avatar, Image } from 'antd';
 import './styles.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -104,6 +104,14 @@ const DefaultLayout = () => {
       </Sider>
       <Layout className="default-layout-site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }}>
+          <div className="flex justify-end m-3 mr-5">
+            <Avatar
+              size={44}
+              icon={
+                <Image width={64} src="https://drive.google.com/uc?export=view&id=1Qy7R3YjqIwE3ZInTwYNCtL_Fc9CRRwfz" />
+              }
+            />
+          </div>
           {
             // Only Show trigger Menu button for large screens
             isScreenLg &&
