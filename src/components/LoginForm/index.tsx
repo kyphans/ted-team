@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNotification } from '../../context/NotificationContext';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../context/AuthContext';
-import './styles.scss'
+import './styles.scss';
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -12,13 +12,14 @@ function LoginForm() {
   const { login: authLogin } = useAuth();
 
   const handleLoginSuccess = (data:any) => {
-    console.log('handleLoginSuccess data', data);
     addNotification('Đăng nhập thành công', 'success');
-    authLogin(data?.data?.token);
+    console.log('data', data.data);
+    authLogin(data?.data);
     navigate('/')
   };
   const handleLoginFailed = (err: any) => {
-    addNotification(err?.message, 'error');
+    const getMessage = err.response.data.error.message;
+    addNotification(getMessage ? getMessage : err?.message, 'error');
   };
 
   const { mutate, isLoading }: any = useMutation(AuthService.login<any>, {
@@ -27,7 +28,7 @@ function LoginForm() {
   });
 
   const onFinish = (values: any) => {
-    mutate({ username: values.username, password: values.password });
+    mutate({ email: values.email, password: values.password });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -46,9 +47,9 @@ function LoginForm() {
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Please input your email!' }]}
           >
             <Input />
           </Form.Item>

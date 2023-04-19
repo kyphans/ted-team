@@ -4,12 +4,12 @@ import fakeAPI from './api/fakeApi';
 import { useAuth } from '../context/AuthContext';
 
 interface User {
-  username: string;
+  email: string;
   password: string;
 }
 
 async function login<T>(data: User): Promise<AxiosResponse<T>> {
-  const response: AxiosResponse = await fakeAPI().post('/api/v1/login', data);
+  const response: AxiosResponse = await baseAPI().post('/api/v1/auth/login', data);
   return response;
 }
 

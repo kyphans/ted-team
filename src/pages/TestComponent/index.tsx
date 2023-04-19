@@ -14,12 +14,12 @@ function TestComponent() {
 
   function normalizeData(data: any) {
     return data?.map((item: any) => ({
-      key: item.id,
-      id: item.id,
-      name: `${item.name.firstname} ${item.name.lastname}`,
-      email: item.email,
-      phone: item.phone,
-      address: `${item.address.number}, ${item.address.street}, ${item.address.city}`,
+      key: item?.id,
+      id: item?.id,
+      name: `${item?.name}`,
+      email: item?.email,
+      phone: item?.phone,
+      address: `${item?.address?.number}, ${item?.address?.street}, ${item?.address?.city}`,
     }));
   }
 
