@@ -15,22 +15,15 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider: any = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useLocalStorage('user', '');
-  const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
-  const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
+  const [user, setUser] = useLocalStorage('user', null);
 
   const login = async (data: any) => {
-    const { accessToken, refreshToken, dataUser } = data;
-    console.log('token', { accessToken, refreshToken });
-    setUser(JSON.stringify(dataUser));
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
+    console.log('AuthProvider data',data);
+    setUser(data);
   };
 
   const logout = () => {
-    setUser('');
-    setAccessToken('');
-    setRefreshToken('');
+    setUser(null);
   };
 
   const value = useMemo<AuthContextType>(

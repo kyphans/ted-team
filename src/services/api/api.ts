@@ -9,15 +9,15 @@ interface BaseAPIOptions {
 
 function baseAPI(options?: BaseAPIOptions) {
   const token = {
-    'Authorization': 'Beaer KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+    'api-key': 'KkKKkkkkAAAMAMAMAMAMAMQQQQWWWWRRRRRR',
   };
   const getTokenAPI = () => {
-    const localStorageItem = localStorage.getItem('accessToken');
-    return localStorageItem ? { 'Authorization': 'Beaer ' + localStorageItem } : token;
+    const localStorageItem = localStorage.getItem('token');
+    return localStorageItem ? { 'api-key': localStorageItem } : token;
   };
   const axiosInstance: AxiosInstance = axios.create({
     ...options?.config,
-    baseURL: options?.baseURL || 'http://localhost:3333',
+    baseURL: options?.baseURL || 'http://example-api.com',
     headers: options?.headers || getTokenAPI(),
     timeout: options?.timeout || 10000,
   });
