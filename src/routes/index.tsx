@@ -4,6 +4,7 @@ import Login from '../pages/Login';
 import TestComponent from '../pages/TestComponent';
 import Home from '../pages/Home';
 import Members from '../pages/Members';
+import Event from '../pages/Event';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 
 const privateRouter = createBrowserRouter([
@@ -23,6 +24,7 @@ const privateRouter = createBrowserRouter([
       { path: 'test', element: <TestComponent /> },
       { path: 'home', element: <Home /> },
       { path: 'members', element: <Members /> },
+      { path: 'event', element: <Event />},
     ],
   },
   {
