@@ -17,6 +17,7 @@ function LoginForm() {
     authLogin(data?.data?.token);
     navigate('/')
   };
+
   const handleLoginFailed = (err: any) => {
     addNotification(err?.message, 'error');
   };
@@ -39,29 +40,26 @@ function LoginForm() {
       <Card type="inner" title="TED TEAM">
         <Form
           name="basic"
-          style={{ maxWidth: 600}}
+          wrapperCol={{ span: 24 }}
+          style={{ minWidth: 300 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
-            <Input />
+            <Input placeholder="Phone number" />
           </Form.Item>
-
           <Form.Item
-            label="Password"
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <Input.Password />
+            <Input.Password placeholder="Password" />
           </Form.Item>
-
-          <Form.Item >
+          <Form.Item wrapperCol={{ span: 24 }}>
             <Button className="w-full" type="primary" htmlType="submit" loading={isLoading}>
               Login
             </Button>
