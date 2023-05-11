@@ -16,16 +16,20 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider: any = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useLocalStorage('user', null);
+  const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+  const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
 
   const login = async (data: any) => {
     const { token, refreshToken, dataUser } = data;
-    setUser(JSON.stringify(token));
+    setUser(JSON.stringify(data));
     setAccessToken(token);
     setRefreshToken(refreshToken);
   };
 
   const logout = () => {
-    setUser(null);
+    setUser('');
+    setAccessToken('');
+    setRefreshToken('');
   };
 
   const value = useMemo<AuthContextType>(
