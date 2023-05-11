@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNotification } from '../../context/NotificationContext';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../context/AuthContext';
-import './styles.scss'
+import './styles.scss';
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -46,13 +46,10 @@ function LoginForm() {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Form.Item label="Phone" name="phone" rules={[{ required: true, message: 'Please input your phone!' }]}>
-            <Input />
+          <Form.Item name="phone" rules={[{ required: true, message: 'Please input your phone!' }]}>
+            <Input placeholder="Phone number" />
           </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
+          <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
             <Input.Password placeholder="Password" />
           </Form.Item>
 
