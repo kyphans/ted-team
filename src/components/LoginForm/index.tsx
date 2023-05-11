@@ -17,9 +17,9 @@ function LoginForm() {
     authLogin(data?.data);
     navigate('/');
   };
+
   const handleLoginFailed = (err: any) => {
-    const getMessage = err.response.data.error.message;
-    addNotification(getMessage ? getMessage : err?.message, 'error');
+    addNotification(err?.message, 'error');
   };
 
   const { mutate, isLoading }: any = useMutation(AuthService.login<any>, {
@@ -46,16 +46,11 @@ function LoginForm() {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Form.Item label="Phone" name="phone" rules={[{ required: true, message: 'Please input your phone!' }]}>
-            <Input />
+          <Form.Item name="phone" rules={[{ required: true, message: 'Please input your phone!' }]}>
+            <Input placeholder="Phone number" />
           </Form.Item>
-
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password />
+          <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
+            <Input.Password placeholder="Password" />
           </Form.Item>
 
           <Form.Item>
