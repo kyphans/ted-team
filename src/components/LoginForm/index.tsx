@@ -47,7 +47,7 @@ function LoginForm() {
           autoComplete="off"
         >
           <Form.Item name="phone" rules={[{ required: true, message: 'Please input your phone!' }]}>
-            <Input placeholder="Phone" />
+            <Input placeholder="Phone number" />
           </Form.Item>
           <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
             <Input.Password placeholder="Password" />
