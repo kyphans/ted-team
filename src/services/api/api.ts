@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Navigate } from "react-router-dom";
 
 interface BaseAPIOptions {
   config?: AxiosRequestConfig;
@@ -8,16 +9,13 @@ interface BaseAPIOptions {
 }
 
 function baseAPI(options?: BaseAPIOptions) {
-  const token = {
-    'api-key': 'KkKKkkkkAAAMAMAMAMAMAMQQQQWWWWRRRRRR',
-  };
   const getTokenAPI = () => {
-    const localStorageItem = localStorage.getItem('token');
-    return localStorageItem ? { 'api-key': localStorageItem } : token;
+    const localStorageItem = localStorage.getItem('accessToken');
+    return localStorageItem ? { Authorization: 'Bearer ' + localStorageItem } : null;
   };
   const axiosInstance: AxiosInstance = axios.create({
     ...options?.config,
-    baseURL: options?.baseURL || 'http://example-api.com',
+    baseURL: options?.baseURL || import.meta.env.VITE_API_URL,
     headers: options?.headers || getTokenAPI(),
     timeout: options?.timeout || 10000,
   });
@@ -73,4 +71,4 @@ function baseAPI(options?: BaseAPIOptions) {
   };
 }
 
-export default baseAPI;
+export default baseAPI();
