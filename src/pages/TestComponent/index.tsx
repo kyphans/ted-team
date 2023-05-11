@@ -13,16 +13,16 @@ function TestComponent() {
   });
 
   function normalizeData(data: any) {
-    return data?.map((item: any) => ({
-      key: item?.id,
-      id: item?.id,
-      name: `${item?.name}`,
+    return data?.map((item: any, index: number) => ({
+      key: index,
+      id: item?.mssv,
+      name: `${item?.firstName} ${item?.lastName}`,
       email: item?.email,
       phone: item?.phone,
-      address: `${item?.address?.number}, ${item?.address?.street}, ${item?.address?.city}`,
+      address: `${item?.address?.city || ''}`,
     }));
   }
-
+  console.log('data', data);
   const columns = [
     {
       title: 'ID',
@@ -54,7 +54,7 @@ function TestComponent() {
   return (
     <>
       <ButtonTest />
-      <Table loading={isLoading || isFetching} dataSource={normalizeData(data?.data)} columns={columns} />
+      <Table loading={isLoading || isFetching} dataSource={normalizeData(data?.data.results)} columns={columns} />
     </>
   );
 }

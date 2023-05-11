@@ -107,9 +107,9 @@ const DefaultLayout = () => {
           <div className="flex justify-end m-3 mr-5">
             <Avatar
               size={44}
-              icon={
-                <Image width={64} src="https://drive.google.com/uc?export=view&id=1Qy7R3YjqIwE3ZInTwYNCtL_Fc9CRRwfz" />
-              }
+              // icon={
+              //   <Image width={64} src="https://drive.google.com/uc?export=view&id=1Qy7R3YjqIwE3ZInTwYNCtL_Fc9CRRwfz" />
+              // }
             />
           </div>
           {

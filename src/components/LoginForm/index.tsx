@@ -11,11 +11,11 @@ function LoginForm() {
   const { addNotification } = useNotification();
   const { login: authLogin } = useAuth();
 
-  const handleLoginSuccess = (data:any) => {
+  const handleLoginSuccess = (data: any) => {
     addNotification('Đăng nhập thành công', 'success');
     console.log('data', data.data);
     authLogin(data?.data);
-    navigate('/')
+    navigate('/');
   };
   const handleLoginFailed = (err: any) => {
     const getMessage = err.response.data.error.message;
@@ -28,7 +28,7 @@ function LoginForm() {
   });
 
   const onFinish = (values: any) => {
-    mutate({ email: values.email, password: values.password });
+    mutate({ phone: values.phone, password: values.password });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -40,17 +40,13 @@ function LoginForm() {
       <Card type="inner" title="TED TEAM">
         <Form
           name="basic"
-          style={{ maxWidth: 600}}
+          style={{ maxWidth: 600 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
-          >
+          <Form.Item label="Phone" name="phone" rules={[{ required: true, message: 'Please input your phone!' }]}>
             <Input />
           </Form.Item>
 
@@ -62,7 +58,7 @@ function LoginForm() {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item >
+          <Form.Item>
             <Button className="w-full" type="primary" htmlType="submit" loading={isLoading}>
               Login
             </Button>

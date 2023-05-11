@@ -11,7 +11,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   login: () => {},
-  logout: () => {}
+  logout: () => {},
 });
 
 export const AuthProvider: any = ({ children }: { children: React.ReactNode }) => {
@@ -20,10 +20,9 @@ export const AuthProvider: any = ({ children }: { children: React.ReactNode }) =
   const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
 
   const login = async (data: any) => {
-    const { accessToken, refreshToken, dataUser } = data;
-    console.log('token', { accessToken, refreshToken });
-    setUser(JSON.stringify(dataUser));
-    setAccessToken(accessToken);
+    const { token, refreshToken, dataUser } = data;
+    setUser(JSON.stringify(token));
+    setAccessToken(token);
     setRefreshToken(refreshToken);
   };
 
@@ -41,7 +40,7 @@ export const AuthProvider: any = ({ children }: { children: React.ReactNode }) =
     }),
     [user],
   );
-  
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
