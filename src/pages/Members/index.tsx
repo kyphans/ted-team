@@ -2,6 +2,7 @@ import { Button, Divider, Space, Table, Tag, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import fakeData from '../../common/fakeData/user.json';
 import formatUsersData from '../../common/utils/formatUsersData';
+import PrimaryButton from '../../components/__common/custom/PrimaryButton';
 interface DataType {
   key: number;
   fullName: string;
@@ -18,7 +19,7 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
   {
-    title: 'MSSV',
+    title: 'ID',
     dataIndex: 'mssv',
     rowScope: 'row',
     width: 1,
@@ -68,8 +69,9 @@ const columns: ColumnsType<DataType> = [
 function Members() {
   return (
     <>
-      <Typography.Title className="text-base font-medium" level={5}>
-        DANH SÁCH TEDDY
+      <PrimaryButton variant="default">Add new Teddy</PrimaryButton>
+      <Typography.Title className="text-base font-medium mt-5" level={5}>
+        TEDDIES
       </Typography.Title>
       <Divider className="mb-4 mt-3" />
       <div className="w-full overflow-x-scroll scrollbar-hide">
