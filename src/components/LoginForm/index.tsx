@@ -4,19 +4,20 @@ import { useMutation } from '@tanstack/react-query';
 import { useNotification } from '../../context/NotificationContext';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../context/AuthContext';
-import './styles.scss'
+import './styles.scss';
 
 function LoginForm() {
   const navigate = useNavigate();
   const { addNotification } = useNotification();
   const { login: authLogin } = useAuth();
 
-  const handleLoginSuccess = (data:any) => {
-    console.log('handleLoginSuccess data', data);
+  const handleLoginSuccess = (data: any) => {
     addNotification('Đăng nhập thành công', 'success');
-    authLogin(data?.data?.token);
-    navigate('/')
+    console.log('data', data.data);
+    authLogin(data?.data);
+    navigate('/');
   };
+
   const handleLoginFailed = (err: any) => {
     addNotification(err?.message, 'error');
   };
@@ -27,7 +28,7 @@ function LoginForm() {
   });
 
   const onFinish = (values: any) => {
-    mutate({ username: values.username, password: values.password });
+    mutate({ phone: values.phone, password: values.password });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -35,35 +36,24 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
-      <Card>
+    <div className="w-full h-screen flex justify-center items-center">
+      <Card type="inner" title="TED TEAM">
         <Form
           name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600}}
+          style={{ maxWidth: 600 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <Input />
+          <Form.Item name="phone" rules={[{ required: true, message: 'Please input your phone!' }]}>
+            <Input placeholder="Phone number" />
+          </Form.Item>
+          <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
+            <Input.Password placeholder="Password" />
           </Form.Item>
 
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ span: 16 }}>
+          <Form.Item>
             <Button className="w-full" type="primary" htmlType="submit" loading={isLoading}>
               Login
             </Button>
