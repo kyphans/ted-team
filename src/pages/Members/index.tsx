@@ -1,48 +1,63 @@
-import { Button, Divider, Space, Table, Typography } from 'antd';
+import { Button, Divider, Space, Table, Tag, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import fakeData from '../../common/fakeData/user.json';
+import formatUsersData from '../../common/utils/formatUsersData';
 interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
+  key: number;
+  fullName: string;
+  mssv: string;
+  phone: string;
+  email: string;
+  generation: number;
+  joinedDate: Date;
+  leaveDate: Date;
+  isActive: boolean;
+  isDelete: boolean;
+  description: string;
 }
 
 const columns: ColumnsType<DataType> = [
   {
-    title: 'NO',
-    dataIndex: 'key',
+    title: 'MSSV',
+    dataIndex: 'mssv',
     rowScope: 'row',
     width: 1,
   },
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: 'Full Name',
+    dataIndex: 'fullName',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Email',
+    dataIndex: 'email',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Generation',
+    dataIndex: 'generation',
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
+    title: 'Joined Date',
+    render: (_, { joinedDate }) => {
+      return joinedDate.toLocaleDateString('en-US');
+    },
+  },
+  {
+    title: 'Leave Date',
+    render: (_, { leaveDate }) => {
+      return leaveDate.toLocaleDateString('en-US');
+    },
+  },
+  {
+    title: 'Status',
+    render: (_, { isActive }) => (isActive ? <Tag color="green">Active</Tag> : <Tag color="red">Deactivate</Tag>),
   },
   {
     title: 'Action',
-    key: 'action',
     width: 1,
     render: (_, record) => (
       <Space.Compact block>
-        <Button type="dashed">Edit</Button>
-        <Button type="dashed" danger>
+        <Button type="default">Edit</Button>
+        <Button type="default" danger>
           Delete
         </Button>
       </Space.Compact>
@@ -50,29 +65,6 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
 function Members() {
   return (
     <>
@@ -81,7 +73,7 @@ function Members() {
       </Typography.Title>
       <Divider className="mb-4 mt-3" />
       <div className="w-full overflow-x-scroll scrollbar-hide">
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={formatUsersData(fakeData)} rowKey={({ key }) => key} />
       </div>
     </>
   );
