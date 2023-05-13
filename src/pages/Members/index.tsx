@@ -1,9 +1,7 @@
+import MemberContent from '../../components/Members/MemberContent';
+
 function Members() {
-  return (
-    <>
-      <h1>Members Page</h1>
-    </>
-  );
+  return <MemberContent />;
 }
 
 export default Members;

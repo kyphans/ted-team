@@ -1,0 +1,44 @@
+.table {
+  & ::-webkit-scrollbar {
+    height: 20px;
+  }
+
+  & ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  & ::-webkit-scrollbar-thumb {
+    background-color: rgba(218, 212, 212, 0.745);
+    border-radius: 16px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+
+    &:hover {
+      background-color: rgb(153, 149, 149);
+    }
+  }
+}
+
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+
+  li {
+    border-radius: 6px;
+
+    button {
+      border-radius: 6px !important;
+    }
+  }
+}
+
+.editable-row:hover .editable-cell-value-wrap {
+  padding: 4px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+
+[data-theme='dark'] .editable-row:hover .editable-cell-value-wrap {
+  border: 1px solid #434343;
+}
