@@ -102,7 +102,7 @@ const DefaultLayout = () => {
         </div>
         <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} onClick={handleMenuItemClick} items={itemsMenu} />
       </Sider>
-      <Layout className="default-layout-site-layout">
+      <Layout className="default-layout-site-layout bg-[#eaeaea]">
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <div className="flex justify-end m-3 mr-5">
             <Avatar
@@ -121,7 +121,7 @@ const DefaultLayout = () => {
               })
           }
         </Header>
-        <Content className="default-layout-content bg-white">
+        <Content className="default-layout-content bg-[#eaeaea]">
           <Outlet />
         </Content>
       </Layout>

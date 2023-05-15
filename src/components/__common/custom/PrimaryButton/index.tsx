@@ -17,10 +17,7 @@ export interface PrimaryButtonProps extends ButtonProps {
   textClassName?: string;
 }
 
-export default function PrimaryButton(
-  props: PrimaryButtonProps,
-  ref: React.Ref<HTMLButtonElement> | null,
-) {
+export default function PrimaryButton(props: PrimaryButtonProps, ref: React.Ref<HTMLButtonElement> | null) {
   const { variant, className, typographyClassName, textClassName, children, ...restProps } = props;
 
   switch (variant) {
@@ -56,10 +53,7 @@ export default function PrimaryButton(
       return (
         <Button
           ref={ref}
-          className={tw(
-            'flex w-full items-center justify-center border-none bg-gray-light-12 hover:opacity-60',
-            className,
-          )}
+          className={tw('flex w-full items-center justify-center border-none bg-black hover:opacity-60', className)}
           {...restProps}
         >
           <Typography className={tw('text-center text-base font-medium', typographyClassName)}>{children}</Typography>
@@ -86,4 +80,4 @@ export default function PrimaryButton(
       {children}
     </Button>
   );
-};
+}

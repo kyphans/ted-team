@@ -57,7 +57,9 @@ const columns: ColumnsType<DataType> = [
     width: 1,
     render: (_, record) => (
       <Space.Compact block>
-        <Button type="default">Edit</Button>
+        <Button type="default" className="text-[#d46b08] border-[#d46b08]">
+          Edit
+        </Button>
         <Button type="default" danger>
           Delete
         </Button>
@@ -69,8 +71,10 @@ const columns: ColumnsType<DataType> = [
 function Members() {
   return (
     <>
-      <PrimaryButton variant="default">Add new Teddy</PrimaryButton>
-      <Typography.Title className="text-base font-medium mt-5" level={5}>
+      <PrimaryButton variant="default" className="">
+        Add new Teddy
+      </PrimaryButton>
+      <Typography.Title className="mt-5" level={4}>
         TEDDIES
       </Typography.Title>
       <Divider className="mb-4 mt-3" />

@@ -5,21 +5,25 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Notification from './components/Notification';
 import { AuthProvider } from './context/AuthContext';
+import { ConfigProvider } from 'antd';
+import theme from './libs/antd/theme';
 
 function App() {
   const queryClient = new QueryClient();
   return (
     <div className="App">
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <NotificationProvider>
-            <Notification />
-            <RouterProvider router={privateRouter} />
-            {/* Dev tool of React Query*/}
-            <ReactQueryDevtools initialIsOpen={false} />
-          </NotificationProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+      <ConfigProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <NotificationProvider>
+              <Notification />
+              <RouterProvider router={privateRouter} />
+              {/* Dev tool of React Query*/}
+              <ReactQueryDevtools initialIsOpen={false} />
+            </NotificationProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </ConfigProvider>
     </div>
   );
 }
