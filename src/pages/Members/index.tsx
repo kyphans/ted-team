@@ -103,8 +103,11 @@ function Members() {
   const [isPending, startTransition] = useTransition();
   const handleOnChangeSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      const valeSearch = e.target.value.trim().toLowerCase();
       const filteredData = initialData.filter((entry) =>
-        entry.fullName.toLowerCase().includes(e.target.value.toLowerCase()),
+        entry.mssv.toLowerCase().includes(valeSearch) ||
+        entry.fullName.toLowerCase().includes(valeSearch) ||
+        entry.email.toLowerCase().includes(valeSearch)
       );
       setDataSource(filteredData);
     }, [initialData]
