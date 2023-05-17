@@ -5,6 +5,8 @@ import formatUsersData from '../../common/utils/formatUsersData';
 import PrimaryButton from '../../components/__common/custom/PrimaryButton';
 import moment from 'moment';
 import { useCallback, useState, useTransition, memo, useMemo, useEffect } from 'react';
+import PrimaryModal from '../../components/__common/custom/PrimaryModal';
+import MemberForm from '../../components/MemberForm';
 interface DataType {
   key: number;
   fullName: string;
@@ -34,7 +36,6 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'ID',
     dataIndex: 'mssv',
-    rowScope: 'row',
     width: 1,
   },
   {
@@ -100,19 +101,30 @@ const columns: ColumnsType<DataType> = [
 function Members() {
   const initialData = useMemo(() => formatUsersData(fakeData), []); // Assuming fakeData is static
   const [dataSource, setDataSource] = useState(initialData);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
   const [isPending, startTransition] = useTransition();
   const handleOnChangeSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const valeSearch = e.target.value.trim().toLowerCase();
-      const filteredData = initialData.filter((entry) =>
-        entry.mssv.toLowerCase().includes(valeSearch) ||
-        entry.fullName.toLowerCase().includes(valeSearch) ||
-        entry.email.toLowerCase().includes(valeSearch)
+      const filteredData = initialData.filter(
+        (entry) =>
+          entry.mssv.toLowerCase().includes(valeSearch) ||
+          entry.fullName.toLowerCase().includes(valeSearch) ||
+          entry.email.toLowerCase().includes(valeSearch),
       );
       setDataSource(filteredData);
-    }, [initialData]
+    },
+    [initialData],
   );
 
+  const handleEditMemberForm = (value: any) => {
+    setIsOpenModal(true);
+    const { name, dayOfBirth, phoneNumber, email, nickname } = value ?? {};
+    // form.setFieldsValue({ fullName: name, dayOfBirth: dayjs(dayOfBirth), phoneNumber, email, nickname });
+    // setOpenMemberFormModal(true);
+  };
   return (
     <>
       <Typography.Title className="mt-5" level={4}>
@@ -123,7 +135,7 @@ function Members() {
           <Input.Search placeholder="Search by Teddy..." allowClear size="large" onChange={handleOnChangeSearch} />
         </div>
         <div className="flex-1">
-          <PrimaryButton variant="default" className="h-full" typographyClassName="font-medium">
+          <PrimaryButton variant="default" className="h-full" typographyClassName="font-medium" onClick={handleEditMemberForm}>
             Add new Teddy
           </PrimaryButton>
         </div>
@@ -133,6 +145,22 @@ function Members() {
       <div className="w-full overflow-x-scroll scrollbar-hide">
         <Table columns={columns} dataSource={dataSource} rowKey={({ key }) => key} />
       </div>
+
+      <PrimaryModal
+        title={<Typography className="text-blue-2">Add new Teddy</Typography>}
+        centered
+        destroyOnClose
+        noBodySpacing
+        width={800}
+        open={isOpenModal}
+        onCancel={() => {
+          setIsOpenModal(false);
+        }}
+        footer={null}
+      >
+        <Divider />
+        <MemberForm/>
+      </PrimaryModal>
     </>
   );
 }
