@@ -1,4 +1,4 @@
-import { Button, Divider, Space, Table, Tag, Typography, Input } from 'antd';
+import { Button, Divider, Space, Table, Tag, Typography, Input, Form } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import fakeData from '../../common/fakeData/user.json';
 import formatUsersData from '../../common/utils/formatUsersData';
@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useCallback, useState, useTransition, memo, useMemo, useEffect } from 'react';
 import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 import MemberForm from '../../components/MemberForm';
+import PrimaryForm from '../../components/__common/custom/PrimaryForm';
 interface DataType {
   key: number;
   fullName: string;
@@ -21,84 +22,88 @@ interface DataType {
   description: string;
 }
 
-const generationFilter = () => {
-  let array = [];
-  for (let index = 1; index < 10; index++) {
-    array.push({
-      text: `${index}`,
-      value: `${index}`,
-    });
-  }
-  return array;
-};
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'ID',
-    dataIndex: 'mssv',
-    width: 1,
-  },
-  {
-    title: 'Full Name',
-    dataIndex: 'fullName',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-  },
-  {
-    title: 'Generation',
-    dataIndex: 'generation',
-    filters: generationFilter(),
-    onFilter: (value: any, record) => record.generation.toString().includes(value),
-    sorter: (a, b) => a.generation - b.generation,
-  },
-  {
-    title: 'Joined Date',
-    sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
-    render: (_, { joinedDate }) => {
-      return joinedDate.toLocaleDateString('en-US');
-    },
-  },
-  {
-    title: 'Leave Date',
-    sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
-    render: (_, { leaveDate }) => {
-      return leaveDate.toLocaleDateString('en-US');
-    },
-  },
-  {
-    title: 'Status',
-    filters: [
-      {
-        text: 'Active',
-        value: true,
-      },
-      {
-        text: 'Deactivate',
-        value: false,
-      },
-    ],
-    onFilter: (value: any, record) => record.isActive === value,
-    render: (_, { isActive }) => (isActive ? <Tag color="green">Active</Tag> : <Tag color="red">Deactivate</Tag>),
-  },
-  {
-    title: 'Action',
-    width: 1,
-    render: (_, record) => (
-      <Space.Compact block>
-        <Button type="default" className="text-[#d46b08] border-[#d46b08]">
-          Edit
-        </Button>
-        <Button type="default" danger>
-          Delete
-        </Button>
-      </Space.Compact>
-    ),
-  },
-];
-
 function Members() {
+  const generationFilter = () => {
+    let array = [];
+    for (let index = 1; index < 10; index++) {
+      array.push({
+        text: `${index}`,
+        value: `${index}`,
+      });
+    }
+    return array;
+  };
+  const columns: ColumnsType<DataType> = [
+    {
+      title: 'ID',
+      dataIndex: 'mssv',
+      width: 1,
+    },
+    {
+      title: 'Full Name',
+      dataIndex: 'fullName',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+    },
+    {
+      title: 'Generation',
+      dataIndex: 'generation',
+      filters: generationFilter(),
+      onFilter: (value: any, record) => record.generation.toString().includes(value),
+      sorter: (a, b) => a.generation - b.generation,
+    },
+    {
+      title: 'Joined Date',
+      sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
+      render: (_, { joinedDate }) => {
+        return joinedDate.toLocaleDateString('en-US');
+      },
+    },
+    {
+      title: 'Leave Date',
+      sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
+      render: (_, { leaveDate }) => {
+        return leaveDate.toLocaleDateString('en-US');
+      },
+    },
+    {
+      title: 'Status',
+      filters: [
+        {
+          text: 'Active',
+          value: true,
+        },
+        {
+          text: 'Deactivate',
+          value: false,
+        },
+      ],
+      onFilter: (value: any, record) => record.isActive === value,
+      render: (_, { isActive }) => (isActive ? <Tag color="green">Active</Tag> : <Tag color="red">Deactivate</Tag>),
+    },
+    {
+      title: 'Action',
+      width: 1,
+      render: (_, record) => (
+        <Space.Compact block>
+          <Button
+            type="default"
+            className="text-[#d46b08] border-[#d46b08]"
+            onClick={() => handleEditMemberForm(record)}
+          >
+            Edit
+          </Button>
+          <Button type="default" danger>
+            Delete
+          </Button>
+        </Space.Compact>
+      ),
+    },
+  ];
+
+  const [form] = Form.useForm();
   const initialData = useMemo(() => formatUsersData(fakeData), []); // Assuming fakeData is static
   const [dataSource, setDataSource] = useState(initialData);
   const [isEdit, setIsEdit] = useState(false);
@@ -121,9 +126,13 @@ function Members() {
 
   const handleEditMemberForm = (value: any) => {
     setIsOpenModal(true);
+    console.log('value', value);
     const { name, dayOfBirth, phoneNumber, email, nickname } = value ?? {};
-    // form.setFieldsValue({ fullName: name, dayOfBirth: dayjs(dayOfBirth), phoneNumber, email, nickname });
+    form.setFieldsValue({ email });
     // setOpenMemberFormModal(true);
+  };
+  const handleAddMemberForm = (value: any) => {
+    setIsOpenModal(true);
   };
   return (
     <>
@@ -135,7 +144,12 @@ function Members() {
           <Input.Search placeholder="Search by Teddy..." allowClear size="large" onChange={handleOnChangeSearch} />
         </div>
         <div className="flex-1">
-          <PrimaryButton variant="default" className="h-full" typographyClassName="font-medium" onClick={handleEditMemberForm}>
+          <PrimaryButton
+            variant="default"
+            className="h-full"
+            typographyClassName="font-medium"
+            onClick={handleAddMemberForm}
+          >
             Add new Teddy
           </PrimaryButton>
         </div>
@@ -159,7 +173,11 @@ function Members() {
         footer={null}
       >
         <Divider />
-        <MemberForm/>
+        <PrimaryForm form={form}>
+          <MemberForm
+            onSaveMemberForm={() => setIsOpenModal(false)}
+            onCancelMemberForm={() => setIsOpenModal(false)} />
+        </PrimaryForm>
       </PrimaryModal>
     </>
   );
