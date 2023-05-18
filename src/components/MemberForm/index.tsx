@@ -10,7 +10,7 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
   const form = Form.useFormInstance();
   return (
     <Row className="p-8" gutter={[24, 16]}>
-      <Col span={12}>
+      <Col xs={24} lg={12}>
         <Form.Item label="ID" name="mssv">
           <Input placeholder="enter MSSV" />
         </Form.Item>
@@ -34,7 +34,7 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
           <Input placeholder="enter phone number" />
         </Form.Item>
       </Col>
-      <Col span={12}>
+      <Col xs={24} lg={12}>
         <Form.Item label="Generation" name="generation" initialValue="9">
           <InputNumber className="w-full" min={1} max={10} />
         </Form.Item>
