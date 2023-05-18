@@ -8,6 +8,7 @@ import { useCallback, useState, useTransition, memo, useMemo, useEffect } from '
 import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 import MemberForm from '../../components/MemberForm';
 import PrimaryForm from '../../components/__common/custom/PrimaryForm';
+import dayjs from 'dayjs';
 interface DataType {
   key: number;
   fullName: string;
@@ -23,6 +24,16 @@ interface DataType {
 }
 
 function Members() {
+  const parseFullName = (fullName: string) => {
+    const names = fullName.split(' ');
+    const firstName = names[0];
+    const lastName = names[names.length - 1];
+    return {
+      firstName: firstName,
+      lastName: lastName,
+    };
+  };
+
   const generationFilter = () => {
     let array = [];
     for (let index = 1; index < 10; index++) {
@@ -126,12 +137,23 @@ function Members() {
 
   const handleEditMemberForm = (value: any) => {
     setIsOpenModal(true);
-    console.log('value', value);
-    const { name, dayOfBirth, phoneNumber, email, nickname } = value ?? {};
-    form.setFieldsValue({ email });
+    const { mssv, fullName, generation, joinedDate, leaveDate, email, isActive } = value ?? {};
+    const { firstName, lastName } = parseFullName(fullName);
+    form.setFieldsValue({
+      mssv,
+      firstName,
+      lastName,
+      generation,
+      email,
+      isActive,
+      joinDate: dayjs(joinedDate),
+      leaveDate: dayjs(leaveDate),
+    });
+
     // setOpenMemberFormModal(true);
   };
   const handleAddMemberForm = (value: any) => {
+    form.resetFields();
     setIsOpenModal(true);
   };
   return (
@@ -175,8 +197,15 @@ function Members() {
         <Divider />
         <PrimaryForm form={form}>
           <MemberForm
-            onSaveMemberForm={() => setIsOpenModal(false)}
-            onCancelMemberForm={() => setIsOpenModal(false)} />
+            onSaveMemberForm={() => {
+              setIsOpenModal(false);
+              form.resetFields();
+            }}
+            onCancelMemberForm={() => {
+              setIsOpenModal(false);
+              form.resetFields();
+            }}
+          />
         </PrimaryForm>
       </PrimaryModal>
     </>

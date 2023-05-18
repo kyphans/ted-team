@@ -14,10 +14,10 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
         <Form.Item label="ID" name="mssv">
           <Input placeholder="enter MSSV" />
         </Form.Item>
-        <Form.Item label="First name">
+        <Form.Item label="First name" name="firstName">
           <Input placeholder="enter first name" />
         </Form.Item>
-        <Form.Item label="Last name">
+        <Form.Item label="Last name" name="lastName">
           <Input placeholder="enter last name" />
         </Form.Item>
         <Form.Item label="Gender" name="gender" initialValue="male">
@@ -39,15 +39,15 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
           <InputNumber className="w-full" min={1} max={10} />
         </Form.Item>
         <Form.Item label="Join date" name="joinDate">
-          <DatePicker className="w-full" />
+          <DatePicker className="w-full" onChange={(e)=>console.log('e', e)}/>
         </Form.Item>
         <Form.Item label="Leave date" name="leaveDate">
           <DatePicker className="w-full" />
         </Form.Item>
-        <Form.Item label="Status" name="status" initialValue="active">
+        <Form.Item label="Status" name="isActive" initialValue="active">
           <Select placeholder="select status" className="w-full">
-            <Select.Option value="active">Active</Select.Option>
-            <Select.Option value="deactivate">Deactivate</Select.Option>
+            <Select.Option value={true}>Active</Select.Option>
+            <Select.Option value={false}>Deactivate</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item label="Avatar" name="img">
@@ -61,10 +61,10 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
         <Row gutter={[12, 0]}>
           <Space className="w-full justify-end">
             <PrimaryButton className='bg-slate-200' variant="cancel" onClick={onCancelMemberForm}>
-              Hủy
+              Cancel
             </PrimaryButton>
             <PrimaryButton className='bg-blue-600' variant="primary" onClick={onSaveMemberForm}>
-              Xác nhận
+              Add
             </PrimaryButton>
           </Space>
         </Row>
