@@ -39,7 +39,7 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
           <InputNumber className="w-full" min={1} max={10} />
         </Form.Item>
         <Form.Item label="Join date" name="joinDate">
-          <DatePicker className="w-full" onChange={(e)=>console.log('e', e)}/>
+          <DatePicker className="w-full"/>
         </Form.Item>
         <Form.Item label="Leave date" name="leaveDate">
           <DatePicker className="w-full" />
