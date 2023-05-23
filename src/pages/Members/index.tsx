@@ -9,6 +9,7 @@ import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 import MemberForm from '../../components/MemberForm';
 import PrimaryForm from '../../components/__common/custom/PrimaryForm';
 import dayjs from 'dayjs';
+import { tw } from '../../common/utils/classUtil';
 interface DataType {
   key: number;
   fullName: string;
@@ -163,7 +164,7 @@ function Members() {
       </Typography.Title>
       <div className="flex space-x-2">
         <div className="flex-1">
-          <Input.Search placeholder="Search by Teddy..." allowClear size="large" onChange={handleOnChangeSearch} />
+          <Input.Search className={tw('[&_.ant-btn]:leading-none')} placeholder="Search by Teddy..." allowClear size="large" onChange={handleOnChangeSearch} />
         </div>
         <div className="flex-1">
           <PrimaryButton

@@ -194,6 +194,7 @@ export default function PrimaryModal(props: PrimaryModalProps) {
     <Modal
       className={tw(
         `
+        mmd:my-3
         [&_.ant-modal-body]:px-6 
         [&_.ant-modal-content]:p-0 
         [&_.ant-modal-footer]:m-0 [&_.ant-modal-footer]:px-6 [&_.ant-modal-footer]:py-4
