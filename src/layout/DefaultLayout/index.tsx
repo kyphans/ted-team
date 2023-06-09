@@ -100,7 +100,7 @@ const DefaultLayout = () => {
         [&_.ant-layout-sider-zero-width-trigger]:bg-white
           [&_.ant-layout-sider-zero-width-trigger]:w-[80px]
           [&_.ant-layout-sider-zero-width-trigger]:h-[60px]
-          [&_.ant-layout-sider-zero-width-trigger]:end-[-80px]
+          [&_.ant-layout-sider-zero-width-trigger]:end-[-85px]
           [&_.ant-layout-sider-zero-width-trigger]:top-[2px]
           [&_.ant-layout-sider-zero-width-trigger]:cursor-none
           [&_.ant-layout-sider-zero-width-trigger]:after:relative
