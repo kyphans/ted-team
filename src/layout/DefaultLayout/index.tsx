@@ -72,7 +72,7 @@ const DefaultLayout = () => {
   const styleSider = lg ? 'unset' : 'fixed';
   const isScreenLg = lg ?? true; // check nullish for lg
   const triggerBtnSider = isScreenLg ? null : (
-    <img src="/favicon.ico" alt="SVG Image" />
+    <img style={{width: '60px'}} src="/favicon.ico" alt="SVG Image" />
   );
   const onBreakpoint = (broken: boolean) => {
     setCollapsed(broken);
@@ -97,8 +97,8 @@ const DefaultLayout = () => {
     <Layout className="default-layout">
       <Sider
         className={tw(`
-          [&_.ant-layout-sider-zero-width-trigger]:bg-transparent
-          [&_.ant-layout-sider-zero-width-trigger]:w-[60px]
+        [&_.ant-layout-sider-zero-width-trigger]:bg-white
+          [&_.ant-layout-sider-zero-width-trigger]:w-[80px]
           [&_.ant-layout-sider-zero-width-trigger]:h-[60px]
           [&_.ant-layout-sider-zero-width-trigger]:end-[-80px]
           [&_.ant-layout-sider-zero-width-trigger]:top-[2px]
