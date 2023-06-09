@@ -97,13 +97,14 @@ const DefaultLayout = () => {
     <Layout className="default-layout">
       <Sider
         className={tw(`
-        [&_.ant-layout-sider-zero-width-trigger]:bg-transparent
-        [&_.ant-layout-sider-zero-width-trigger]:w-[60px]
-        [&_.ant-layout-sider-zero-width-trigger]:h-[60px]
-        [&_.ant-layout-sider-zero-width-trigger]:end-[-80px]
-        [&_.ant-layout-sider-zero-width-trigger]:top-[2px]
-        [&_.ant-layout-sider-zero-width-trigger]:cursor-none
-        default-layout-sider h-screen`)}
+          [&_.ant-layout-sider-zero-width-trigger]:bg-transparent
+          [&_.ant-layout-sider-zero-width-trigger]:w-[60px]
+          [&_.ant-layout-sider-zero-width-trigger]:h-[60px]
+          [&_.ant-layout-sider-zero-width-trigger]:end-[-80px]
+          [&_.ant-layout-sider-zero-width-trigger]:top-[2px]
+          [&_.ant-layout-sider-zero-width-trigger]:cursor-none
+          [&_.ant-layout-sider-zero-width-trigger]:after:relative
+          default-layout-sider h-screen`)}
         style={{ position: styleSider }}
         trigger={triggerBtnSider}
         collapsible
