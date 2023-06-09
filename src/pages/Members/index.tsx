@@ -11,7 +11,7 @@ import PrimaryForm from '../../components/__common/custom/PrimaryForm';
 import dayjs from 'dayjs';
 import { tw } from '../../common/utils/classUtil';
 
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, BulbOutlined } from '@ant-design/icons';
 
 interface DataType {
   key: number;
@@ -105,6 +105,12 @@ function Members() {
         <Space.Compact block>
           <Button
             type="default"
+            className="leading-[0] text-[#1677ff] border-[#1677ff]"
+            onClick={() => handleViewMemberForm(record)}>
+            <BulbOutlined />
+          </Button>
+          <Button
+            type="default"
             className="leading-[0] text-[#d46b08] border-[#d46b08]"
             onClick={() => handleEditMemberForm(record)}
           >
@@ -141,6 +147,7 @@ function Members() {
 
   const handleEditMemberForm = (value: any) => {
     setIsOpenModal(true);
+    setIsEdit(true);
     const { mssv, fullName, generation, joinedDate, leaveDate, email, isActive } = value ?? {};
     const { firstName, lastName } = parseFullName(fullName);
     form.setFieldsValue({
@@ -153,13 +160,29 @@ function Members() {
       joinDate: dayjs(joinedDate),
       leaveDate: dayjs(leaveDate),
     });
-
-    // setOpenMemberFormModal(true);
   };
+
+  const handleViewMemberForm = (value: any) => {
+    setIsOpenModal(true);
+    const { mssv, fullName, generation, joinedDate, leaveDate, email, isActive } = value ?? {};
+    const { firstName, lastName } = parseFullName(fullName);
+    form.setFieldsValue({
+      mssv,
+      firstName,
+      lastName,
+      generation,
+      email,
+      isActive,
+      joinDate: dayjs(joinedDate),
+      leaveDate: dayjs(leaveDate),
+    });
+  };
+
   const handleAddMemberForm = (value: any) => {
     form.resetFields();
     setIsOpenModal(true);
   };
+
   return (
     <>
       <Typography.Title className="mt-5" level={4}>
@@ -205,12 +228,13 @@ function Members() {
         width={800}
         open={isOpenModal}
         onCancel={() => {
+          setIsEdit(false);
           setIsOpenModal(false);
         }}
         footer={null}
       >
         <Divider />
-        <PrimaryForm form={form}>
+        <PrimaryForm disabled={!isEdit} form={form}>
           <MemberForm
             onSaveMemberForm={() => {
               setIsOpenModal(false);

@@ -70,10 +70,10 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
       <Col span={24}>
         <Row gutter={[12, 0]}>
           <Space className="w-full justify-end">
-            <PrimaryButton className="bg-slate-200" variant="cancel" onClick={onCancelMemberForm}>
+            <PrimaryButton disabled={false} className="bg-slate-200" variant="cancel" onClick={onCancelMemberForm}>
               Cancel
             </PrimaryButton>
-            <PrimaryButton className="bg-blue-600" variant="primary" onClick={onSaveMemberForm}>
+            <PrimaryButton disabled={false} className="bg-blue-600" variant="primary" onClick={onSaveMemberForm}>
               Add
             </PrimaryButton>
           </Space>
