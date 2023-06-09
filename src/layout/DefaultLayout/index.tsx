@@ -11,6 +11,7 @@ import { Layout, Menu, Grid, theme, Avatar, Image } from 'antd';
 import './styles.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { tw } from '../../common/utils/classUtil';
 
 interface MenuItem {
   key: string;
@@ -70,7 +71,9 @@ const DefaultLayout = () => {
   const { lg } = Grid.useBreakpoint();
   const styleSider = lg ? 'unset' : 'fixed';
   const isScreenLg = lg ?? true; // check nullish for lg
-  const triggerBtnSider = isScreenLg ? null : false;
+  const triggerBtnSider = isScreenLg ? null : (
+    <img src="/favicon.ico" alt="SVG Image" />
+  );
   const onBreakpoint = (broken: boolean) => {
     setCollapsed(broken);
   };
@@ -93,7 +96,14 @@ const DefaultLayout = () => {
   return (
     <Layout className="default-layout">
       <Sider
-        className="default-layout-sider h-screen"
+        className={tw(`
+        [&_.ant-layout-sider-zero-width-trigger]:bg-transparent
+        [&_.ant-layout-sider-zero-width-trigger]:w-[60px]
+        [&_.ant-layout-sider-zero-width-trigger]:h-[60px]
+        [&_.ant-layout-sider-zero-width-trigger]:end-[-80px]
+        [&_.ant-layout-sider-zero-width-trigger]:top-[2px]
+        [&_.ant-layout-sider-zero-width-trigger]:cursor-none
+        default-layout-sider h-screen`)}
         style={{ position: styleSider }}
         trigger={triggerBtnSider}
         collapsible
