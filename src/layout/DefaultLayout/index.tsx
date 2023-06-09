@@ -41,6 +41,12 @@ const DefaultLayout = () => {
       path: '/members',
     },
     {
+      key: 'collaborators',
+      icon: <UsergroupAddOutlined />,
+      label: 'Collaborators',
+      path: '/collaborators',
+    },
+    {
       key: 'test',
       icon: <QuestionCircleOutlined />,
       label: 'test',

@@ -7,7 +7,7 @@ const contentStyle: React.CSSProperties = {
   lineHeight: '260px',
   textAlign: 'center',
   background: '#364d79',
-  height: '300px'
+  height: '400px'
 };
 
 function CarouselSilder(): JSX.Element {
