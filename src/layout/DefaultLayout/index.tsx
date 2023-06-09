@@ -72,7 +72,7 @@ const DefaultLayout = () => {
   const styleSider = lg ? 'unset' : 'fixed';
   const isScreenLg = lg ?? true; // check nullish for lg
   const triggerBtnSider = isScreenLg ? null : (
-    <img style={{width: '60px'}} src="/favicon.ico" alt="SVG Image" />
+    <img className="animate-ring" style={{width: '50px'}} src="/favicon.ico" alt="SVG Image" />
   );
   const onBreakpoint = (broken: boolean) => {
     setCollapsed(broken);
