@@ -27,7 +27,7 @@ interface DataType {
   description: string;
 }
 
-function Members() {
+function Collaborators() {
   const parseFullName = (fullName: string) => {
     const names = fullName.split(' ');
     const firstName = names[0];
@@ -163,13 +163,13 @@ function Members() {
   return (
     <>
       <Typography.Title className="mt-5" level={4}>
-        TEDDIES
+        COLLABORATORS
       </Typography.Title>
       <div className="flex space-x-2">
         <div className="flex-1">
           <Input.Search
             className={tw('[&_.ant-btn]:leading-none')}
-            placeholder="Search by Teddy..."
+            placeholder="Search collaborator..."
             allowClear
             size="large"
             onChange={handleOnChangeSearch}
@@ -182,7 +182,7 @@ function Members() {
             typographyClassName="font-medium"
             onClick={handleAddMemberForm}
           >
-            Add new Teddy
+            Add new collaborator
           </PrimaryButton>
         </div>
       </div>
@@ -198,7 +198,7 @@ function Members() {
       </div>
 
       <PrimaryModal
-        title={<Typography className="text-blue-2">Add new Teddy</Typography>}
+        title={<Typography className="text-blue-2">Add new collaborator</Typography>}
         centered
         destroyOnClose
         noBodySpacing
@@ -227,4 +227,4 @@ function Members() {
   );
 }
 
-export default Members;
+export default Collaborators;

@@ -1,6 +1,7 @@
-import { Row, Col, List, Tag, Card, Calendar, Statistic } from 'antd';
+import { Row, Col, List, Tag, Card, Calendar, Statistic, Avatar } from 'antd';
 import CarouselSilder from '../../components/Carousel';
 import OrgChart from '../../components/OrgChart';
+import { tw } from '../../common/utils/classUtil';
 
 const data = [
   'Man charged over missing wedding girl.',
@@ -19,6 +20,24 @@ const data = [
 const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
 
 function Home() {
+  const CardTitleFacebook = (
+    <div className='flex items-center'>
+      <Avatar className='m-2 flex items-center bg-[#eaeaea]' size={40}>
+        <img src="https://admin.pixelstrap.com/tivo/assets/images/general-widget/svg-icon/2.svg" alt="SVG Image" />
+      </Avatar>
+      <span style={{ fontSize: '18px' }}>Facebook</span>
+    </div>
+  );
+
+  const CardTitleInstagram = (
+    <div className='flex items-center'>
+      <Avatar className='m-2 flex items-center bg-[#eaeaea]' size={40}>
+        <img src="https://admin.pixelstrap.com/tivo/assets/images/general-widget/svg-icon/4.svg" alt="SVG Image" />
+      </Avatar>
+      <span style={{ fontSize: '18px' }}>Facebook</span>
+    </div>
+  );
+
   return (
     <>
       <Row>
@@ -28,29 +47,30 @@ function Home() {
       </Row>
 
       <Row gutter={8} style={{ margin: '0' }}>
-        <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card size="small" title="Countdown" bordered={false} style={{ fontSize: '24px' }}>
+      <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
+          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleFacebook} bordered={false} style={{ fontSize: '24px' }}>
             <Statistic.Countdown value={deadline} />
           </Card>
         </Col>
         <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card size="small" title="Card title" bordered={false} style={{ fontSize: '24px' }}>
-            Card content
+          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleFacebook} bordered={false} style={{ fontSize: '24px' }}>
+            Posts 1249 - Likes 239
           </Card>
         </Col>
         <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card size="small" title="Card title" bordered={false} style={{ fontSize: '24px' }}>
-            Card content
+          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleInstagram} bordered={false} style={{ fontSize: '24px' }}>
+          Posts 346 - Likes 144
           </Card>
         </Col>
         <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card size="small" title="Card title" bordered={false} style={{ fontSize: '24px' }}>
-            Card content
+          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleInstagram} bordered={false} style={{ fontSize: '24px' }}>
+          Posts 346 - Likes 144
           </Card>
         </Col>
       </Row>
 
       <Row gutter={8} style={{ margin: '0' }}>
+        {/* Left column */}
         <Col xs={24} lg={16}>
           <Card bordered={false}>
             <CarouselSilder />
@@ -63,6 +83,8 @@ function Home() {
             <OrgChart />
           </Card>
         </Col>
+
+        {/* Right column */}
         <Col xs={24} lg={8}>
           <Card size="small" bordered={false} style={{ margin: '0 0 8px 0' }}>
             <List
