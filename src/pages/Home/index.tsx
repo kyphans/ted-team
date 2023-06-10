@@ -2,6 +2,10 @@ import { Row, Col, List, Tag, Card, Calendar, Statistic, Avatar } from 'antd';
 import CarouselSilder from '../../components/Carousel';
 import OrgChart from '../../components/OrgChart';
 import { tw } from '../../common/utils/classUtil';
+import Title from 'antd/es/typography/Title';
+
+import { ClockCircleTwoTone, SmileTwoTone } from '@ant-design/icons';
+
 
 const data = [
   'Man charged over missing wedding girl.',
@@ -20,9 +24,29 @@ const data = [
 const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
 
 function Home() {
+
+  const CardTitleCountUsers = (
+    <div className="flex items-center">
+      <Avatar className="m-2 flex items-center bg-[#eaecf1]" size={40}>
+        <SmileTwoTone />
+      </Avatar>
+      <span style={{ fontSize: '18px' }}>Users</span>
+    </div>
+  );
+
+    const CardTitleCountdown = (
+      <div className="flex items-center">
+        <Avatar className="m-2 flex items-center bg-[#eaecf1]" size={40}>
+          <ClockCircleTwoTone />
+        </Avatar>
+        <span style={{ fontSize: '18px' }}>Countdown</span>
+      </div>
+    );
+
+
   const CardTitleFacebook = (
-    <div className='flex items-center'>
-      <Avatar className='m-2 flex items-center bg-[#eaeaea]' size={40}>
+    <div className="flex items-center">
+      <Avatar className="m-2 flex items-center bg-[#eaecf1]" size={40}>
         <img src="https://admin.pixelstrap.com/tivo/assets/images/general-widget/svg-icon/2.svg" alt="SVG Image" />
       </Avatar>
       <span style={{ fontSize: '18px' }}>Facebook</span>
@@ -30,11 +54,11 @@ function Home() {
   );
 
   const CardTitleInstagram = (
-    <div className='flex items-center'>
-      <Avatar className='m-2 flex items-center bg-[#eaeaea]' size={40}>
+    <div className="flex items-center">
+      <Avatar className="m-2 flex items-center bg-[#eaecf1]" size={40}>
         <img src="https://admin.pixelstrap.com/tivo/assets/images/general-widget/svg-icon/4.svg" alt="SVG Image" />
       </Avatar>
-      <span style={{ fontSize: '18px' }}>Facebook</span>
+      <span style={{ fontSize: '18px' }}>Instagram</span>
     </div>
   );
 
@@ -42,29 +66,49 @@ function Home() {
     <>
       <Row>
         <Col span={24} style={{ paddingBottom: '10px', margin: '8px ' }}>
-          <h2>Hi User, Welcome Back!</h2>
+          <Title level={3}>Hi User, Welcome Back!</Title>
         </Col>
       </Row>
 
       <Row gutter={8} style={{ margin: '0' }}>
-      <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleFacebook} bordered={false} style={{ fontSize: '24px' }}>
-            <Statistic.Countdown value={deadline} />
+        <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
+          <Card
+            className={tw('[&_.ant-card-head]:p-1 [&_.ant-card-body]:h-[65px] text-lg')}
+            size="small"
+            title={CardTitleCountUsers}
+            bordered={false}
+          >
+            Teddies 657 | Collaborators 123
           </Card>
         </Col>
         <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleFacebook} bordered={false} style={{ fontSize: '24px' }}>
+          <Card
+            className={tw('[&_.ant-card-head]:p-1 [&_.ant-card-body]:h-[65px] text-lg')}
+            size="small"
+            title={CardTitleCountdown}
+            bordered={false}
+          >
+            <Statistic.Countdown className={tw('text-lg [&_.ant-statistic-content-value]:text-lg')} value={deadline} />
+          </Card>
+        </Col>
+        <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
+          <Card
+            className={tw('[&_.ant-card-head]:p-1 [&_.ant-card-body]:h-[65px] text-lg')}
+            size="small"
+            title={CardTitleFacebook}
+            bordered={false}
+          >
             Posts 1249 - Likes 239
           </Card>
         </Col>
         <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleInstagram} bordered={false} style={{ fontSize: '24px' }}>
-          Posts 346 - Likes 144
-          </Card>
-        </Col>
-        <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleInstagram} bordered={false} style={{ fontSize: '24px' }}>
-          Posts 346 - Likes 144
+          <Card
+            className={tw('[&_.ant-card-head]:p-1 [&_.ant-card-body]:h-[65px] text-lg')}
+            size="small"
+            title={CardTitleInstagram}
+            bordered={false}
+          >
+            1508
           </Card>
         </Col>
       </Row>

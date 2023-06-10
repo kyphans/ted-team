@@ -106,7 +106,8 @@ function Members() {
           <Button
             type="default"
             className="leading-[0] text-[#1677ff] border-[#1677ff]"
-            onClick={() => handleViewMemberForm(record)}>
+            onClick={() => handleViewMemberForm(record)}
+          >
             <BulbOutlined />
           </Button>
           <Button
@@ -180,6 +181,7 @@ function Members() {
 
   const handleAddMemberForm = (value: any) => {
     form.resetFields();
+    setIsEdit(true);
     setIsOpenModal(true);
   };
 
