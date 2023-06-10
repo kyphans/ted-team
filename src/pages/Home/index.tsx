@@ -21,8 +21,8 @@ const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
 
 function Home() {
   const CardTitleFacebook = (
-    <div className='flex items-center'>
-      <Avatar className='m-2 flex items-center bg-[#eaeaea]' size={40}>
+    <div className="flex items-center">
+      <Avatar className="m-2 flex items-center bg-[#eaeaea]" size={40}>
         <img src="https://admin.pixelstrap.com/tivo/assets/images/general-widget/svg-icon/2.svg" alt="SVG Image" />
       </Avatar>
       <span style={{ fontSize: '18px' }}>Facebook</span>
@@ -30,11 +30,11 @@ function Home() {
   );
 
   const CardTitleInstagram = (
-    <div className='flex items-center'>
-      <Avatar className='m-2 flex items-center bg-[#eaeaea]' size={40}>
+    <div className="flex items-center">
+      <Avatar className="m-2 flex items-center bg-[#eaeaea]" size={40}>
         <img src="https://admin.pixelstrap.com/tivo/assets/images/general-widget/svg-icon/4.svg" alt="SVG Image" />
       </Avatar>
-      <span style={{ fontSize: '18px' }}>Facebook</span>
+      <span style={{ fontSize: '18px' }}>Instagram</span>
     </div>
   );
 
@@ -47,24 +47,48 @@ function Home() {
       </Row>
 
       <Row gutter={8} style={{ margin: '0' }}>
-      <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleFacebook} bordered={false} style={{ fontSize: '24px' }}>
+        <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
+          <Card
+            className={tw('[&_.ant-card-head]:p-1')}
+            size="small"
+            title={CardTitleFacebook}
+            bordered={false}
+            style={{ fontSize: '24px' }}
+          >
             <Statistic.Countdown value={deadline} />
           </Card>
         </Col>
         <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleFacebook} bordered={false} style={{ fontSize: '24px' }}>
+          <Card
+            className={tw('[&_.ant-card-head]:p-1')}
+            size="small"
+            title={CardTitleFacebook}
+            bordered={false}
+            style={{ fontSize: '24px' }}
+          >
             Posts 1249 - Likes 239
           </Card>
         </Col>
         <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleInstagram} bordered={false} style={{ fontSize: '24px' }}>
-          Posts 346 - Likes 144
+          <Card
+            className={tw('[&_.ant-card-head]:p-1')}
+            size="small"
+            title={CardTitleInstagram}
+            bordered={false}
+            style={{ fontSize: '24px' }}
+          >
+            Posts 346 - Likes 144
           </Card>
         </Col>
         <Col xs={24} lg={6} style={{ margin: '0 0 8px 0' }}>
-          <Card className={tw('[&_.ant-card-head]:p-1')} size="small" title={CardTitleInstagram} bordered={false} style={{ fontSize: '24px' }}>
-          Posts 346 - Likes 144
+          <Card
+            className={tw('[&_.ant-card-head]:p-1')}
+            size="small"
+            title={CardTitleInstagram}
+            bordered={false}
+            style={{ fontSize: '24px' }}
+          >
+            1508
           </Card>
         </Col>
       </Row>
