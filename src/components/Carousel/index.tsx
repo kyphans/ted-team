@@ -24,6 +24,7 @@ const contentAfterStyle: React.CSSProperties = {
   width: '100%',
   height: '100%',
   zIndex: -1,
+  // backgroundColor: 'rgba(255, 255, 255, 0.5)',
   backgroundImage: 'none',
   backgroundSize: 'cover',
   objectFit: 'cover',
@@ -48,7 +49,7 @@ function CarouselSilder(): JSX.Element {
           return (
             <div key={index}>
               <div style={contentStyle}>
-                <div style={{ ...contentAfterStyle, backgroundImage }} />
+                <div style={{ ...contentAfterStyle }} />
                 <Image className="object-cover h-[300px]" src={bg} />
               </div>
             </div>
