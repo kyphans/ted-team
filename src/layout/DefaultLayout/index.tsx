@@ -97,7 +97,7 @@ const DefaultLayout = () => {
     <Layout className="default-layout">
       <Sider
         className={tw(`
-        [&_.ant-layout-sider-zero-width-trigger]:bg-white
+          [&_.ant-layout-sider-zero-width-trigger]:bg-white
           [&_.ant-layout-sider-zero-width-trigger]:w-[85px]
           [&_.ant-layout-sider-zero-width-trigger]:h-[60px]
           [&_.ant-layout-sider-zero-width-trigger]:end-[-85px]
@@ -119,7 +119,7 @@ const DefaultLayout = () => {
         </div>
         <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} onClick={handleMenuItemClick} items={itemsMenu} />
       </Sider>
-      <Layout className="default-layout-site-layout bg-[#eaeaea]">
+      <Layout className="default-layout-site-layout bg-[#eaecf1]">
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <div className="flex justify-end m-3 mr-5">
             <Avatar
@@ -138,7 +138,7 @@ const DefaultLayout = () => {
               })
           }
         </Header>
-        <Content className="default-layout-content bg-[#eaeaea]">
+        <Content className="default-layout-content bg-[#eaecf1]">
           <Outlet />
         </Content>
       </Layout>
