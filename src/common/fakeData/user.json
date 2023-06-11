@@ -5,6 +5,7 @@
     "mssv": "1234567",
     "phone": "0123456789",
     "email": "johndoe@gmail.com",
+    "department": [1, 2, 3],
     "generation": 1,
     "joinedDate": "2022-05-12",
     "leaveDate": "2026-05-12",
