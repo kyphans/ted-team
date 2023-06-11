@@ -7,13 +7,9 @@ import Bg3 from '../../assets/images/03.jpg';
 import Bg4 from '../../assets/images/04.jpg';
 
 const contentStyle: React.CSSProperties = {
-  color: '#fff',
   textAlign: 'center',
-  backgroundImage: 'none',
-  backgroundSize: 'cover',
   lineHeight: '260px',
   height: '300px',
-  objectFit: 'cover',
 };
 
 const contentAfterStyle: React.CSSProperties = {
@@ -24,11 +20,13 @@ const contentAfterStyle: React.CSSProperties = {
   width: '100%',
   height: '100%',
   zIndex: -1,
-  // backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  color: '#fff',
+  textAlign: 'center',
   backgroundImage: 'none',
   backgroundSize: 'cover',
+  lineHeight: '260px',
   objectFit: 'cover',
-  filter: 'blur(8px)'
+  filter: 'blur(30px)',
 };
 
 function CarouselSilder(): JSX.Element {
@@ -44,12 +42,12 @@ function CarouselSilder(): JSX.Element {
   };
   return (
     <div>
-      <Carousel autoplay beforeChange={handleBackgroundChange}>
+      <Carousel autoplay effect="fade" beforeChange={handleBackgroundChange}>
         {arrBackground.map((bg, index) => {
           return (
             <div key={index}>
-              <div style={contentStyle}>
-                <div style={{ ...contentAfterStyle }} />
+              <div style={{ ...contentAfterStyle, backgroundImage }} />
+              <div style={{ ...contentStyle }}>
                 <Image className="object-cover h-[300px]" src={bg} />
               </div>
             </div>
