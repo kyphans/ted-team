@@ -5,6 +5,7 @@ import { tw } from '../../common/utils/classUtil';
 
 import { BulbOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import PrimaryTable, { PrimaryTableProps } from '../__common/custom/PrimaryTable';
+import PrimaryTag from '../PrimaryTag';
 
 interface DataType {
   key: number;
@@ -50,6 +51,11 @@ export default function MemberTable(props: MemberTableProps) {
     {
       title: 'Email',
       dataIndex: 'email',
+    },
+    {
+      title: 'Department',
+      dataIndex: '',
+      render: () => <PrimaryTag variant="Collaborator" />,
     },
     {
       title: 'Generation',

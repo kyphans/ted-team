@@ -24,4 +24,4 @@ export default function PrimaryTable(props: PrimaryTableProps) {
       {...resProps}
     />
   );
-};
+}

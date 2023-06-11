@@ -22,31 +22,39 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
     >
       <Col xs={24} lg={12}>
         <Form.Item label="ID" name="mssv">
-          <Input placeholder="enter MSSV" />
+          <Input placeholder="Enter MSSV" />
         </Form.Item>
         <Form.Item label="First name" name="firstName">
-          <Input placeholder="enter first name" />
+          <Input placeholder="Enter first name" />
         </Form.Item>
         <Form.Item label="Last name" name="lastName">
-          <Input placeholder="enter last name" />
+          <Input placeholder="Enter last name" />
         </Form.Item>
         <Form.Item label="Gender" name="gender" initialValue="male">
-          <Select placeholder="select gender">
+          <Select placeholder="Select gender">
             <Select.Option value="male">Male</Select.Option>
             <Select.Option value="female">Female</Select.Option>
             <Select.Option value="other">Other</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item label="Email" name="email">
-          <Input placeholder="enter email" />
+          <Input placeholder="Enter email" />
         </Form.Item>
         <Form.Item label="Phone number" name="phone">
-          <Input placeholder="enter phone number" />
+          <Input placeholder="Enter phone number" />
         </Form.Item>
       </Col>
       <Col xs={24} lg={12}>
         <Form.Item label="Generation" name="generation" initialValue="9">
           <InputNumber className="w-full" min={1} max={10} />
+        </Form.Item>
+        <Form.Item label="Department" name="department">
+          <Select placeholder="Select department" className="w-full">
+            <Select.Option value={'PD'}>PD</Select.Option>
+            <Select.Option value={'PRD'}>PRD</Select.Option>
+            <Select.Option value={'DD'}>DD</Select.Option>
+            <Select.Option value={''}>Free</Select.Option>
+          </Select>
         </Form.Item>
         <Form.Item label="Join date" name="joinDate">
           <DatePicker className="w-full" />
@@ -54,14 +62,14 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
         <Form.Item label="Leave date" name="leaveDate">
           <DatePicker className="w-full" />
         </Form.Item>
-        <Form.Item label="Status" name="isActive" initialValue="active">
-          <Select placeholder="select status" className="w-full">
+        <Form.Item label="Status" name="isActive" initialValue="Active">
+          <Select placeholder="Select status" className="w-full">
             <Select.Option value={true}>Active</Select.Option>
             <Select.Option value={false}>Deactivate</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item label="Avatar" name="img">
-          <Input addonBefore="URL" placeholder="enter URL avatar" />
+          <Input addonBefore="URL" placeholder="Enter URL avatar" />
         </Form.Item>
         <div className="flex justify-center">
           <Image width={200} src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />

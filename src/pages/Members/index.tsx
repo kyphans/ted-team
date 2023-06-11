@@ -1,4 +1,5 @@
 import { Divider, Form, Input, Typography } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useCallback, useMemo, useState, useTransition } from 'react';
 import fakeData from '../../common/fakeData/user.json';
@@ -104,7 +105,7 @@ function Members() {
             typographyClassName="font-medium"
             onClick={handleAddMemberForm}
           >
-            Add new Teddy
+            <PlusCircleOutlined /> Add new Teddy
           </PrimaryButton>
         </div>
       </div>
