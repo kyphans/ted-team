@@ -6,14 +6,16 @@ export interface PrimaryTableProps extends TableProps<any> {
   columns: any[];
   rows: any[];
   rowClassName?: string;
-  rowKey?: string;
+  className?: string;
+  rowKey?: any;
   loading?: boolean;
 }
 
 export default function PrimaryTable(props: PrimaryTableProps) {
-  const { rows, columns, rowClassName, rowKey, loading, ...resProps } = props;
+  const { rows, columns, rowClassName, rowKey, loading, className, ...resProps } = props;
   return (
     <Table
+      className={tw(className)}
       rowClassName={tw(rowClassName)}
       columns={columns}
       dataSource={rows}
