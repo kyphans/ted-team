@@ -4,7 +4,7 @@ import { tw } from '../../../../common/utils/classUtil';
 
 export interface PrimaryTableProps extends TableProps<any> {
   columns: any[];
-  rows: any[];
+  dataSource: any[];
   rowClassName?: string;
   className?: string;
   rowKey?: any;
@@ -12,13 +12,14 @@ export interface PrimaryTableProps extends TableProps<any> {
 }
 
 export default function PrimaryTable(props: PrimaryTableProps) {
-  const { rows, columns, rowClassName, rowKey, loading, className, ...resProps } = props;
+  const { dataSource, columns, rowClassName, rowKey, loading, className, ...resProps } = props;
   return (
     <Table
+      pagination={false}
       className={tw(className)}
       rowClassName={tw(rowClassName)}
       columns={columns}
-      dataSource={rows}
+      dataSource={dataSource}
       rowKey={rowKey}
       loading={loading}
       {...resProps}

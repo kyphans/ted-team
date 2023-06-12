@@ -37,8 +37,15 @@ const generationFilter = () => {
 };
 
 export default function MemberTable(props: MemberTableProps) {
-  const { rows, rowClassName, rowKey, loading, className } = props;
+  const { dataSource, rowClassName, rowKey, loading, className } = props;
   const columns: ColumnsType<DataType> = [
+    {
+      title: 'N.O',
+      dataIndex: 'key',
+      render: (_, { key }) => {
+        return key + 1;
+      },
+    },
     {
       title: 'ID',
       dataIndex: 'mssv',
@@ -122,11 +129,10 @@ export default function MemberTable(props: MemberTableProps) {
 
   return (
     <PrimaryTable
-      rows={rows}
       className={tw(className)}
       rowClassName={tw(rowClassName)}
       columns={columns}
-      dataSource={rows}
+      dataSource={dataSource}
       rowKey={rowKey}
       loading={loading}
     />

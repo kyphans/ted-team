@@ -64,7 +64,7 @@ export default function PrimaryButton(props: PrimaryButtonProps, ref: React.Ref<
       break;
     case 'primary': {
       return (
-        <Button ref={ref} className={tw('w-full border-none bg-blue-2 hover:opacity-80', className)} {...restProps}>
+        <Button ref={ref} type='primary' className={tw('w-full border-none hover:opacity-80', className)} {...restProps}>
           <Typography className={tw('flex h-full items-center justify-center', typographyClassName)}>
             <Text className={tw('text-base font-medium text-white', textClassName)}>{children}</Text>
           </Typography>
