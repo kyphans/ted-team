@@ -1,4 +1,5 @@
-import { Divider, Form, Input, Typography } from 'antd';
+import { Col, Divider, Form, Input, Row, Typography } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useCallback, useMemo, useState, useTransition } from 'react';
 import fakeData from '../../common/fakeData/user.json';
@@ -10,6 +11,8 @@ import PrimaryForm from '../../components/__common/custom/PrimaryForm';
 import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 
 import MemberTable from '../../components/MemberTable';
+import PaginationCustom from '../../components/__common/custom/PaginationCustom';
+import { usePagination } from '../../hooks/usePagination';
 
 function Collaborators() {
   const parseFullName = (fullName: string) => {
@@ -25,6 +28,7 @@ function Collaborators() {
   const [form] = Form.useForm();
   const initialData = useMemo(() => formatUsersData(fakeData), []); // Assuming fakeData is static
   const [dataSource, setDataSource] = useState(initialData);
+  const [ currentPage, pageSize, getDataPage, dataPage] = usePagination(dataSource);
   const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -79,39 +83,48 @@ function Collaborators() {
     setIsEdit(true);
     setIsOpenModal(true);
   };
+
   return (
     <>
       <Typography.Title className="mt-5" level={3}>
         COLLABORATORS
       </Typography.Title>
-      <div className="flex space-x-2">
-        <div className="flex-1">
-          <Input.Search
-            className={tw('[&_.ant-btn]:leading-none')}
-            placeholder="Search collaborator..."
-            allowClear
-            size="large"
-            onChange={handleOnChangeSearch}
+      <Row justify="end" align="bottom">
+        <Col className='mb-2' span={24} md={12}>
+          <PaginationCustom
+            totalItems={dataSource.length}
+            handleOnChange={getDataPage}
           />
-        </div>
-        <div className="flex-1">
-          <PrimaryButton
-            variant="default"
-            className="h-full"
-            typographyClassName="font-medium"
-            onClick={handleAddMemberForm}
-          >
-            Add new collaborator
-          </PrimaryButton>
-        </div>
-      </div>
-
+        </Col>
+        <Col span={24} md={12}>
+          <div className="flex space-x-2">
+            <div className="flex-1">
+              <Input
+                className={tw('[&_.ant-btn]:leading-none')}
+                placeholder="Search by Teddy..."
+                allowClear
+                size="large"
+                onChange={handleOnChangeSearch}
+              />
+            </div>
+            <div className="flex-1">
+              <PrimaryButton
+                variant="primary"
+                className="h-full"
+                typographyClassName="font-medium"
+                onClick={handleAddMemberForm}
+              >
+                <PlusCircleOutlined /> Add new Teddy
+              </PrimaryButton>
+            </div>
+          </div>
+        </Col>
+      </Row>
       <Divider className="mb-4 mt-3" />
       <div className="w-full overflow-x-scroll scrollbar-hide">
         <MemberTable
           className={tw('[&_.ant-table-tbody]:bg-white')}
-          rows={dataSource}
-          dataSource={dataSource}
+          dataSource={dataPage}
           handleEditMemberForm={handleEditMemberForm}
           handleViewMemberForm={handleViewMemberForm}
           rowKey={({ key }: any) => key}
