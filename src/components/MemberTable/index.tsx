@@ -97,6 +97,7 @@ export default function MemberTable(props: MemberTableProps) {
           value: false,
         },
       ],
+      dataIndex: 'isActive',
       onFilter: (value: any, record) => record.isActive === value,
       render: (_, { isActive }) => (isActive ? <Tag color="green">Active</Tag> : <Tag color="red">Deactivate</Tag>),
     },
@@ -127,6 +128,23 @@ export default function MemberTable(props: MemberTableProps) {
     },
   ];
 
+  const handleOnChange = (pagination: any, filters: any, sorter: any) => {
+    const newData = dataSource.filter((item) => {
+      for (const key in filters) {
+        if (Array.isArray(filters[key])) {
+          if (!filters[key].includes(String(item[key]))) {
+            return false;
+          }
+        } else {
+          if (filters[key] !== null && item[key] !== filters[key]) {
+            return false;
+          }
+        }
+      }
+      return true;
+    });
+    console.table({pagination, filters, sorter});
+  };
   return (
     <PrimaryTable
       className={tw(className)}
@@ -134,6 +152,7 @@ export default function MemberTable(props: MemberTableProps) {
       columns={columns}
       dataSource={dataSource}
       rowKey={rowKey}
+      onChange={handleOnChange}
       loading={loading}
     />
   );

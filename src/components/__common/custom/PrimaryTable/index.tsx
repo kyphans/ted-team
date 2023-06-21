@@ -15,7 +15,6 @@ export default function PrimaryTable(props: PrimaryTableProps) {
   const { dataSource, columns, rowClassName, rowKey, loading, className, ...resProps } = props;
   return (
     <Table
-      pagination={false}
       className={tw(className)}
       rowClassName={tw(rowClassName)}
       columns={columns}
