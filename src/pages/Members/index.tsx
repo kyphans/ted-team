@@ -13,6 +13,7 @@ import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 import MemberTable from '../../components/MemberTable';
 import PaginationCustom from '../../components/__common/custom/PaginationCustom';
 import { usePagination } from '../../hooks/usePagination';
+import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
 
 function Members() {
   const parseFullName = (fullName: string) => {
@@ -42,7 +43,6 @@ function Members() {
           entry.email.toLowerCase().includes(valeSearch),
       );
       setDataSource(filteredData);
-      // getDataPage();
     },
     [initialData],
   );
@@ -85,61 +85,38 @@ function Members() {
     setIsEdit(true);
     setIsOpenModal(true);
   };
-  
 
-  // useEffect(() =>{
-  //   console.log('useEffect getDataPage');
-  //   getDataPage();
-  // }, [initialData]);
-  // console.log('dataSource',dataSource);
-  console.log('dataPage',dataPage);
-  console.log('currentPage',currentPage);
-  console.log('pageSize',pageSize);
-
-
+  const filters = {
+    generation: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    isActive: ['true', 'false'],
+    department: ['PD', 'PDR', 'DD'],
+  };
+  const handelOnChange = (value: any) => {
+    console.log('handelOnChangeFilters', value);
+  };
   return (
     <>
-      <Typography.Title className="mt-5" level={3}>
-        TEDDIES
-      </Typography.Title>
-
-      <Row align="bottom">
-        <Col className='mb-2' span={24} md={12}>
-          <PaginationCustom
-            totalItems={dataSource.length}
-            handleOnChange={getDataPage}
-          />
-        </Col>
-        <Col span={24} md={12}>
-          <div className="flex space-x-2">
-            <div className="flex-1">
-              <Input
-                className={tw('[&_.ant-btn]:leading-none')}
-                placeholder="Search by Teddy..."
-                allowClear
-                size="large"
-                onChange={handleOnChangeSearch}
-              />
-            </div>
-            <div className="flex-1">
-              <PrimaryButton
-                variant="primary"
-                className="h-full"
-                typographyClassName="font-medium"
-                onClick={handleAddMemberForm}
-              >
-                <PlusCircleOutlined /> Add new Teddy
-              </PrimaryButton>
-            </div>
-          </div>
-        </Col>
-      </Row>
-
-      <Divider className="mb-4 mt-3" />
+      <div className="flex justify-between mb-3">
+        <Typography.Title className="m-0" level={3}>
+          TEDDIES
+        </Typography.Title>
+        <PrimaryButton
+          variant="primary"
+          className="h-full w-50"
+          typographyClassName="font-medium"
+          onClick={handleAddMemberForm}
+        >
+          <PlusCircleOutlined /> Add new Teddy
+        </PrimaryButton>
+      </div>
+      <div className="">
+        <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChange} filters={filters} />
+      </div>
+      <Divider className="mb-4 mt-2" />
       <div className="w-full overflow-x-scroll scrollbar-hide">
         <MemberTable
           className={tw('[&_.ant-table-tbody]:bg-white')}
-          dataSource={dataPage}
+          dataSource={dataSource}
           handleEditMemberForm={handleEditMemberForm}
           handleViewMemberForm={handleViewMemberForm}
           rowKey={({ key }: any) => key}

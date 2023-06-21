@@ -21,7 +21,7 @@ interface MenuItem {
   onClick?: () => void;
 }
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content, Footer } = Layout;
 
 const DefaultLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -72,7 +72,7 @@ const DefaultLayout = () => {
   const styleSider = lg ? 'unset' : 'fixed';
   const isScreenLg = lg ?? true; // check nullish for lg
   const triggerBtnSider = isScreenLg ? null : (
-    <img className="animate-ring" style={{width: '50px'}} src="/favicon.ico" alt="SVG Image" />
+    <img className="animate-ring" style={{ width: '50px' }} src="/favicon.ico" alt="SVG Image" />
   );
   const onBreakpoint = (broken: boolean) => {
     setCollapsed(broken);
@@ -121,13 +121,16 @@ const DefaultLayout = () => {
       </Sider>
       <Layout className="default-layout-site-layout bg-[#eaecf1]">
         <Header style={{ padding: 0, background: colorBgContainer }}>
-          <div className="flex justify-end m-3 mr-5">
-            <Avatar
-              size={44}
-              // icon={
-              //   <Image width={64} src="https://drive.google.com/uc?export=view&id=1Qy7R3YjqIwE3ZInTwYNCtL_Fc9CRRwfz" />
-              // }
-            />
+          <div className="flex justify-end  align-middle mr-5">
+            <div>
+              <Avatar
+                size={44}
+                // icon={
+                //   <Image width={64} src="https://drive.google.com/uc?export=view&id=1Qy7R3YjqIwE3ZInTwYNCtL_Fc9CRRwfz" />
+                // }
+              />
+            </div>
+            {isScreenLg && <div className="px-2 font-medium">Username</div>}
           </div>
           {
             // Only Show trigger Menu button for large screens
@@ -140,6 +143,9 @@ const DefaultLayout = () => {
         </Header>
         <Content className="default-layout-content bg-[#eaecf1]">
           <Outlet />
+          <Footer style={{ padding: '20px 0 0 0', background: '#eaecf1', textAlign: 'center', color: '#777' }}>
+            Copyright©tedteam.com. All Rights Reserved
+          </Footer>
         </Content>
       </Layout>
     </Layout>

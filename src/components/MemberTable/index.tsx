@@ -25,16 +25,6 @@ interface MemberTableProps extends Omit<PrimaryTableProps, 'columns'> {
   handleEditMemberForm: (record: DataType) => void;
   handleViewMemberForm: (record: DataType) => void;
 }
-const generationFilter = () => {
-  let array = [];
-  for (let index = 1; index < 10; index++) {
-    array.push({
-      text: `${index}`,
-      value: `${index}`,
-    });
-  }
-  return array;
-};
 
 export default function MemberTable(props: MemberTableProps) {
   const { dataSource, rowClassName, rowKey, loading, className } = props;
@@ -67,8 +57,6 @@ export default function MemberTable(props: MemberTableProps) {
     {
       title: 'Generation',
       dataIndex: 'generation',
-      filters: generationFilter(),
-      onFilter: (value: any, record) => record.generation.toString().includes(value),
       sorter: (a, b) => a.generation - b.generation,
     },
     {
@@ -87,17 +75,7 @@ export default function MemberTable(props: MemberTableProps) {
     },
     {
       title: 'Status',
-      filters: [
-        {
-          text: 'Active',
-          value: true,
-        },
-        {
-          text: 'Deactivate',
-          value: false,
-        },
-      ],
-      onFilter: (value: any, record) => record.isActive === value,
+      dataIndex: 'isActive',
       render: (_, { isActive }) => (isActive ? <Tag color="green">Active</Tag> : <Tag color="red">Deactivate</Tag>),
     },
     {
@@ -127,6 +105,23 @@ export default function MemberTable(props: MemberTableProps) {
     },
   ];
 
+  const handleOnChange = (pagination: any, filters: any, sorter: any) => {
+    const newData = dataSource.filter((item) => {
+      for (const key in filters) {
+        if (Array.isArray(filters[key])) {
+          if (!filters[key].includes(String(item[key]))) {
+            return false;
+          }
+        } else {
+          if (filters[key] !== null && item[key] !== filters[key]) {
+            return false;
+          }
+        }
+      }
+      return true;
+    });
+    console.table({ pagination, filters, sorter });
+  };
   return (
     <PrimaryTable
       className={tw(className)}
@@ -134,6 +129,7 @@ export default function MemberTable(props: MemberTableProps) {
       columns={columns}
       dataSource={dataSource}
       rowKey={rowKey}
+      onChange={handleOnChange}
       loading={loading}
     />
   );

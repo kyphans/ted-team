@@ -30,7 +30,7 @@ export default function PrimaryButton(props: PrimaryButtonProps, ref: React.Ref<
     }
     case 'no-style': {
       return (
-        <Button ref={ref} className={tw('w-full border-none shadow-none', className)} {...restProps}>
+        <Button ref={ref} className={tw('w-full shadow-none', className)} {...restProps}>
           <Typography className={tw('text-center text-purple-2', typographyClassName)}>{children}</Typography>
         </Button>
       );
@@ -40,12 +40,14 @@ export default function PrimaryButton(props: PrimaryButtonProps, ref: React.Ref<
         <Button
           ref={ref}
           className={tw(
-            'flex w-full items-center justify-center border-none bg-gray-light-11 hover:opacity-60',
+            'flex w-full items-center justify-center bg-gray-light-11 hover:opacity-60',
             className,
           )}
           {...restProps}
         >
-          <Typography className={tw('text-center text-base font-medium', typographyClassName)}>{children}</Typography>
+          <Typography className={tw('text-center text-base', typographyClassName)}>
+            <Text className={tw('text-base', textClassName)}>{children}</Text>
+          </Typography>
         </Button>
       );
     }
@@ -53,10 +55,10 @@ export default function PrimaryButton(props: PrimaryButtonProps, ref: React.Ref<
       return (
         <Button
           ref={ref}
-          className={tw('flex w-full items-center justify-center border-none bg-black hover:opacity-60', className)}
+          className={tw('flex w-full items-center justify-center bg-black hover:opacity-60', className)}
           {...restProps}
         >
-          <Typography className={tw('text-center text-base font-medium', typographyClassName)}>{children}</Typography>
+          <Typography className={tw('text-center text-base', typographyClassName)}>{children}</Typography>
         </Button>
       );
     }
@@ -64,9 +66,9 @@ export default function PrimaryButton(props: PrimaryButtonProps, ref: React.Ref<
       break;
     case 'primary': {
       return (
-        <Button ref={ref} type='primary' className={tw('w-full border-none hover:opacity-80', className)} {...restProps}>
+        <Button ref={ref} type='primary' className={tw('w-full hover:opacity-80', className)} {...restProps}>
           <Typography className={tw('flex h-full items-center justify-center', typographyClassName)}>
-            <Text className={tw('text-base font-medium text-white', textClassName)}>{children}</Text>
+            <Text className={tw('text-base text-white', textClassName)}>{children}</Text>
           </Typography>
         </Button>
       );
