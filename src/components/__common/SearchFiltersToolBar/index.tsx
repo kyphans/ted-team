@@ -3,8 +3,8 @@ import { Col, Row, Select, Space } from 'antd';
 import Search from 'antd/es/input/Search';
 import Title from 'antd/es/typography/Title';
 import { useState } from 'react';
-import { tw } from '../../../../common/utils/classUtil';
-import PrimaryButton from '../PrimaryButton';
+import { tw } from '../../../common/utils/classUtil';
+import PrimaryButton from '../custom/PrimaryButton';
 
 type FiltersType = {
   [key: string]: string[];
@@ -19,6 +19,7 @@ interface SearchFiltersToolBarProps {
   handelOnChange: (filtersSelected: any) => void;
   isFilter?: boolean;
   isSearch?: boolean;
+  placeholderSearch?: string;
 }
 interface ItemProps {
   label: string;
@@ -26,7 +27,7 @@ interface ItemProps {
 }
 
 export default function SearchFiltersToolBar(props: SearchFiltersToolBarProps) {
-  const { handelOnChange, filters, isFilter = true, isSearch = true } = props;
+  const { handelOnChange, filters, isFilter = true, isSearch = true, placeholderSearch } = props;
 
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [searchValue, setSearchValue] = useState<SearchType>({});
@@ -55,21 +56,19 @@ export default function SearchFiltersToolBar(props: SearchFiltersToolBarProps) {
 
         // Render filter container with label and values
         const filterSelect = (
-          <div key={key}>
-            <div className="filter w-60">
-              <Title level={5}>Filter {key}</Title>
-              <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                options={options}
-                value={filtersSelected[key]}
-                onChange={(newValue: string[]) => {
-                  handleFilterChange(key, newValue);
-                }}
-                placeholder="Select Item..."
-                maxTagCount="responsive"
-              />
-            </div>
+          <div className="filter-item w-full mb-3 md:mb-0 md:w-60 md:mr-3" key={key}>
+            <Title level={5}>Filter {key}</Title>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              options={options}
+              value={filtersSelected[key]}
+              onChange={(newValue: string[]) => {
+                handleFilterChange(key, newValue);
+              }}
+              placeholder="Select Item..."
+              maxTagCount="responsive"
+            />
           </div>
         );
         listFilter.push(filterSelect);
@@ -90,14 +89,14 @@ export default function SearchFiltersToolBar(props: SearchFiltersToolBarProps) {
         <Col span={24} md={12}>
           <div className="flex space-x-2">
             <PrimaryButton
-              className="h-10 w-30"
+              className="h-10 w-1/2 md:w-40"
               typographyClassName="text-[#00a815] text-base font-medium"
               variant="default"
             >
               <FileExcelOutlined /> Export file
             </PrimaryButton>
             <PrimaryButton
-              className="h-10 w-30"
+              className="h-10 w-1/2 md:w-40"
               typographyClassName="text-[#00a815] text-base font-medium"
               variant="default"
             >
@@ -111,7 +110,7 @@ export default function SearchFiltersToolBar(props: SearchFiltersToolBarProps) {
               <div className="flex-1">
                 <Search
                   className={tw('[&_.ant-btn]:leading-none')}
-                  placeholder="Search by Teddy..."
+                  placeholder={placeholderSearch ? placeholderSearch : 'Search...'}
                   allowClear
                   size="large"
                   onSearch={(value: string) => {
@@ -145,11 +144,9 @@ export default function SearchFiltersToolBar(props: SearchFiltersToolBarProps) {
       {/* FILTER AREA */}
       {isFilter && isOpenFilter && (
         <div className="mb-5 p-5 w-full border border-slate-300 rounded">
-          <div className="flex">
-            <div className="flex filter-area">
-              <Space>{renderFilter(filters)}</Space>
-            </div>
-            <div className="flex items-end ml-5">
+          <div className="flex flex-wrap flex-col md:flex-row">
+            <div className="flex flex-wrap filter-area">{renderFilter(filters)}</div>
+            <div className="flex items-end mt-3">
               <Space>
                 <PrimaryButton className="w-20" variant="cancel" onClick={() => setFiltersSelected({})}>
                   Reset

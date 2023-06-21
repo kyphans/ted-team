@@ -13,6 +13,7 @@ import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 import MemberTable from '../../components/MemberTable';
 import PaginationCustom from '../../components/__common/custom/PaginationCustom';
 import { usePagination } from '../../hooks/usePagination';
+import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
 
 function Collaborators() {
   const parseFullName = (fullName: string) => {
@@ -24,11 +25,10 @@ function Collaborators() {
       lastName: lastName,
     };
   };
-
   const [form] = Form.useForm();
   const initialData = useMemo(() => formatUsersData(fakeData), []); // Assuming fakeData is static
   const [dataSource, setDataSource] = useState(initialData);
-  const [ currentPage, pageSize, getDataPage, dataPage] = usePagination(dataSource);
+  const [currentPage, pageSize, getDataPage, dataPage] = usePagination(dataSource);
   const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -47,21 +47,6 @@ function Collaborators() {
     [initialData],
   );
 
-  const handleViewMemberForm = (value: any) => {
-    setIsOpenModal(true);
-    const { mssv, fullName, generation, joinedDate, leaveDate, email, isActive } = value ?? {};
-    const { firstName, lastName } = parseFullName(fullName);
-    form.setFieldsValue({
-      mssv,
-      firstName,
-      lastName,
-      generation,
-      email,
-      isActive,
-      joinDate: dayjs(joinedDate),
-      leaveDate: dayjs(leaveDate),
-    });
-  };
   const handleEditMemberForm = (value: any) => {
     setIsOpenModal(true);
     setIsEdit(true);
@@ -78,53 +63,60 @@ function Collaborators() {
       leaveDate: dayjs(leaveDate),
     });
   };
+
+  const handleViewMemberForm = (value: any) => {
+    setIsOpenModal(true);
+    const { mssv, fullName, generation, joinedDate, leaveDate, email, isActive } = value ?? {};
+    const { firstName, lastName } = parseFullName(fullName);
+    form.setFieldsValue({
+      mssv,
+      firstName,
+      lastName,
+      generation,
+      email,
+      isActive,
+      joinDate: dayjs(joinedDate),
+      leaveDate: dayjs(leaveDate),
+    });
+  };
+
   const handleAddMemberForm = (value: any) => {
     form.resetFields();
     setIsEdit(true);
     setIsOpenModal(true);
   };
 
+  const filters = {
+    generation: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    isActive: ['true', 'false'],
+    department: ['PD', 'PDR', 'DD'],
+  };
+  const handelOnChange = (value: any) => {
+    console.log('handelOnChangeFilters', value);
+  };
   return (
     <>
-      <Typography.Title className="mt-5" level={3}>
-        COLLABORATORS
-      </Typography.Title>
-      <Row justify="end" align="bottom">
-        <Col className='mb-2' span={24} md={12}>
-          <PaginationCustom
-            totalItems={dataSource.length}
-            handleOnChange={getDataPage}
-          />
-        </Col>
-        <Col span={24} md={12}>
-          <div className="flex space-x-2">
-            <div className="flex-1">
-              <Input
-                className={tw('[&_.ant-btn]:leading-none')}
-                placeholder="Search by Teddy..."
-                allowClear
-                size="large"
-                onChange={handleOnChangeSearch}
-              />
-            </div>
-            <div className="flex-1">
-              <PrimaryButton
-                variant="primary"
-                className="h-full"
-                typographyClassName="font-medium"
-                onClick={handleAddMemberForm}
-              >
-                <PlusCircleOutlined /> Add new Teddy
-              </PrimaryButton>
-            </div>
-          </div>
-        </Col>
-      </Row>
-      <Divider className="mb-4 mt-3" />
+      <div className="flex justify-between mb-3">
+        <Typography.Title className="m-0" level={3}>
+          COLLABORATORS
+        </Typography.Title>
+        <PrimaryButton
+          variant="primary"
+          className="h-full w-50"
+          typographyClassName="font-medium"
+          onClick={handleAddMemberForm}
+        >
+          <PlusCircleOutlined /> Add new
+        </PrimaryButton>
+      </div>
+      <div className="">
+        <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChange} filters={filters} />
+      </div>
+      <Divider className="mb-4 mt-2" />
       <div className="w-full overflow-x-scroll scrollbar-hide">
         <MemberTable
           className={tw('[&_.ant-table-tbody]:bg-white')}
-          dataSource={dataPage}
+          dataSource={dataSource}
           handleEditMemberForm={handleEditMemberForm}
           handleViewMemberForm={handleViewMemberForm}
           rowKey={({ key }: any) => key}

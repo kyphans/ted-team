@@ -13,7 +13,7 @@ import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 import MemberTable from '../../components/MemberTable';
 import PaginationCustom from '../../components/__common/custom/PaginationCustom';
 import { usePagination } from '../../hooks/usePagination';
-import SearchFiltersToolBar from '../../components/__common/custom/SearchFiltersToolBar';
+import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
 
 function Members() {
   const parseFullName = (fullName: string) => {
@@ -96,21 +96,21 @@ function Members() {
   };
   return (
     <>
-    <div className='flex justify-between mb-2'>
-      <Typography.Title className="m-0 w-40" level={3}>
-        TEDDIES
-      </Typography.Title>
-      <PrimaryButton
-        variant="primary"
-        className="h-full w-60"
-        typographyClassName="font-medium"
-        onClick={handleAddMemberForm}
-      >
-        <PlusCircleOutlined /> Add new Teddy
-      </PrimaryButton>
+      <div className="flex justify-between mb-3">
+        <Typography.Title className="m-0" level={3}>
+          TEDDIES
+        </Typography.Title>
+        <PrimaryButton
+          variant="primary"
+          className="h-full w-50"
+          typographyClassName="font-medium"
+          onClick={handleAddMemberForm}
+        >
+          <PlusCircleOutlined /> Add new Teddy
+        </PrimaryButton>
       </div>
       <div className="">
-        <SearchFiltersToolBar handelOnChange={handelOnChange} filters={filters} />
+        <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChange} filters={filters} />
       </div>
       <Divider className="mb-4 mt-2" />
       <div className="w-full overflow-x-scroll scrollbar-hide">
