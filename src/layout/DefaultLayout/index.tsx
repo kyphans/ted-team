@@ -72,7 +72,7 @@ const DefaultLayout = () => {
   const styleSider = lg ? 'unset' : 'fixed';
   const isScreenLg = lg ?? true; // check nullish for lg
   const triggerBtnSider = isScreenLg ? null : (
-    <img className="animate-ring" style={{width: '50px'}} src="/favicon.ico" alt="SVG Image" />
+    <img className="animate-ring" style={{ width: '50px' }} src="/favicon.ico" alt="SVG Image" />
   );
   const onBreakpoint = (broken: boolean) => {
     setCollapsed(broken);
@@ -130,9 +130,7 @@ const DefaultLayout = () => {
                 // }
               />
             </div>
-            <div className='px-2 font-medium'>
-              Username
-            </div>
+            {isScreenLg && <div className="px-2 font-medium">Username</div>}
           </div>
           {
             // Only Show trigger Menu button for large screens
@@ -145,7 +143,9 @@ const DefaultLayout = () => {
         </Header>
         <Content className="default-layout-content bg-[#eaecf1]">
           <Outlet />
-          <Footer style={{ padding: "20px 0 0 0", background: '#eaecf1', textAlign: 'center', color: '#777' }}>Copyright©tedteam.com. All Rights Reserved</Footer>
+          <Footer style={{ padding: '20px 0 0 0', background: '#eaecf1', textAlign: 'center', color: '#777' }}>
+            Copyright©tedteam.com. All Rights Reserved
+          </Footer>
         </Content>
       </Layout>
     </Layout>
