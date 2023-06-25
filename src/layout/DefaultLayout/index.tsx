@@ -6,6 +6,7 @@ import {
   HomeOutlined,
   UsergroupAddOutlined,
   LogoutOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Grid, theme, Avatar, Image } from 'antd';
 import './styles.scss';
@@ -52,6 +53,12 @@ const DefaultLayout = () => {
       icon: <QuestionCircleOutlined />,
       label: 'test',
       path: '/test',
+    },
+    {
+      key: 'setting',
+      icon: <SettingOutlined />,
+      label: 'Setting',
+      path: '/setting',
     },
     {
       key: 'logout',

@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 import Members from '../pages/Members';
 import Collaborators from '../pages/Collaborators';
 import { ProtectedRoute } from './ProtectedRoute';
+import Setting from '../pages/Setting';
 
 const privateRouter = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const privateRouter = createBrowserRouter([
       { path: 'home', element: <Home /> },
       { path: 'members', element: <Members /> },
       { path: 'collaborators', element: <Collaborators /> },
+      { path: 'setting', element: <Setting /> },
     ],
   },
   {
