@@ -3,6 +3,7 @@ import CarouselSilder from '../../components/Carousel';
 import OrgChart from '../../components/OrgChart';
 import { tw } from '../../common/utils/classUtil';
 import Title from 'antd/es/typography/Title';
+import { initialEdges, initialNodes } from '../../components/OrgChart/nodes-edges';
 
 import { ClockCircleTwoTone, SmileTwoTone } from '@ant-design/icons';
 
@@ -124,21 +125,20 @@ function Home() {
             bordered={false}
             style={{ backgroundColor: 'white', borderRadius: '8px', margin: '8px 0' }}
           >
-            <OrgChart />
+            <OrgChart initialNodes={initialNodes} initialEdges={initialEdges} />
           </Card>
         </Col>
 
         {/* Right column */}
         <Col xs={24} lg={8}>
-          <Card size="small" bordered={false} style={{ margin: '0 0 8px 0' }}>
+          <Card
+            className="[&_.ant-card-body]:p-[10px]"
+            title="Notification"
+            bordered={false}
+            style={{ margin: '0 0 8px 0' }}
+          >
             <List
               size="small"
-              header={
-                <div>
-                  <b>Notification </b>
-                </div>
-              }
-              bordered
               dataSource={data}
               renderItem={(item) => (
                 <List.Item>

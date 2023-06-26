@@ -7,6 +7,7 @@ import {
   UsergroupAddOutlined,
   LogoutOutlined,
   SettingOutlined,
+  IdcardOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Grid, theme, Avatar, Image } from 'antd';
 import './styles.scss';
@@ -47,6 +48,12 @@ const DefaultLayout = () => {
       icon: <UsergroupAddOutlined />,
       label: 'Collaborators',
       path: '/collaborators',
+    },
+    {
+      key: 'orgchart',
+      icon: <IdcardOutlined />,
+      label: 'Org Chart',
+      path: '/orgchart',
     },
     {
       key: 'test',
