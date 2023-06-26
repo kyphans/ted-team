@@ -8,6 +8,7 @@ import {
   LogoutOutlined,
   SettingOutlined,
   IdcardOutlined,
+  LinkOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Grid, theme, Avatar, Image } from 'antd';
 import './styles.scss';
@@ -54,6 +55,12 @@ const DefaultLayout = () => {
       icon: <IdcardOutlined />,
       label: 'Org Chart',
       path: '/orgchart',
+    },
+    {
+      key: 'url-shortener',
+      icon: <LinkOutlined />,
+      label: 'URL Shortener',
+      path: '/url-shortener',
     },
     {
       key: 'test',
