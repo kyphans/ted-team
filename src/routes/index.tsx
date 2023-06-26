@@ -8,6 +8,7 @@ import Collaborators from '../pages/Collaborators';
 import { ProtectedRoute } from './ProtectedRoute';
 import Setting from '../pages/Setting';
 import OrgChart from '../pages/OrgChart';
+import URLShortener from '../pages/URLShortener';
 
 const privateRouter = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const privateRouter = createBrowserRouter([
       { path: 'collaborators', element: <Collaborators /> },
       { path: 'setting', element: <Setting /> },
       { path: 'orgchart', element: <OrgChart /> },
+      { path: 'url-shortener', element: <URLShortener /> },
     ],
   },
   {
