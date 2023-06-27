@@ -9,6 +9,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import Setting from '../pages/Setting';
 import OrgChart from '../pages/OrgChart';
 import URLShortener from '../pages/URLShortener';
+import Redirect from '../pages/Redirect';
 
 const privateRouter = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const privateRouter = createBrowserRouter([
       { path: 'setting', element: <Setting /> },
       { path: 'orgchart', element: <OrgChart /> },
       { path: 'url-shortener', element: <URLShortener /> },
+      { path: 'link/:slug', element: <Redirect /> },
     ],
   },
   {
