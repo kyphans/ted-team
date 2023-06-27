@@ -3,7 +3,6 @@ import { Handle, Position } from 'reactflow';
 
 function CustomNode({ data } :any) {
   // console.log('data', data);
-  
   return (
     <div className="px-4 py-2 shadow-md rounded-md bg-white border-2 border-stone-400 w-[200px]">
       <div className="flex flex-col items-center">
