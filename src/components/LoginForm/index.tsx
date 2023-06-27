@@ -37,7 +37,7 @@ function LoginForm() {
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <Card type="inner" title="TED TEAM">
+      <Card type="inner" title={import.meta.env.VITE_APP_TITLE || "MyApp"}>
         <Form
           name="basic"
           style={{ maxWidth: 600 }}

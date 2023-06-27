@@ -136,7 +136,7 @@ const DefaultLayout = () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="logo">
-          <span>TED TEAM</span>
+          <span>{import.meta.env.VITE_APP_TITLE || "MyApp"}</span>
         </div>
         <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} onClick={handleMenuItemClick} items={itemsMenu} />
       </Sider>
