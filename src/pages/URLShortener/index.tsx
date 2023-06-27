@@ -10,8 +10,6 @@ function URLShortener(props: URLShortenerProps) {
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleSubmit = async () => {
-    console.log('db', db);
-
     try {
       await addDoc(collection(db, 'url-shortener'), {
         url: inputValue,
