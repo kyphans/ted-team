@@ -37,8 +37,6 @@ function convertData(data:any[]) {
   return result
 };
 
-console.log('initialNodesA', initialNodes);
-
 let initialEdges: Edge[] = [];
 
 function addNodeChild(initialNodes:Node[], initialEdges:Edge[], data:any[], department:string) {
@@ -66,8 +64,6 @@ addNodeChild(initialNodes, initialEdges, data, "PRD");
 addNodeChild(initialNodes, initialEdges, data, "PD");
 addNodeChild(initialNodes, initialEdges, data, "DD");
 
-console.log('initialNodesA', initialNodes);
-console.log('initialEdgesA', initialEdges);
 
 initialEdges.push({
   id: `e10000-10001`,
