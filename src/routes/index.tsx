@@ -10,11 +10,7 @@ import Setting from '../pages/Setting';
 import OrgChart from '../pages/OrgChart';
 import URLShortener from '../pages/URLShortener';
 
-const privateRouter = createBrowserRouter([
-  {
-    path: '/login',
-    element: <Login />,
-  },
+const privateRouter = [
   {
     path: '/',
     element: (
@@ -37,13 +33,18 @@ const privateRouter = createBrowserRouter([
     path: '*',
     element: <Navigate to="/" replace />,
   },
-]);
+];
 
-const privateRouter1 = createBrowserRouter([
+const publicRouter = [
   {
-    path: '/',
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/link',
     element: <div>Private Hello world!</div>,
   },
-]);
+];
 
-export { privateRouter };
+const routers = createBrowserRouter([...privateRouter, ...publicRouter]);
+export { routers };

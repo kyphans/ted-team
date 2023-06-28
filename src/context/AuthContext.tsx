@@ -20,7 +20,7 @@ export const AuthProvider: any = ({ children }: { children: React.ReactNode }) =
   const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
 
   const login = async (data: any) => {
-    const { token, refreshToken, dataUser } = data;
+    const { token, refreshToken, info } = data;
     setUser(JSON.stringify(data));
     setAccessToken(token);
     setRefreshToken(refreshToken);
