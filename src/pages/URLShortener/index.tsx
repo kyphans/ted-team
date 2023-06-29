@@ -24,12 +24,12 @@ function URLShortener(props: URLShortenerProps) {
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 150,
+      width: 200,
     },
     {
       title: 'Custom Link',
       dataIndex: 'customSlug',
-      width: 400,
+      width: 300,
       render: (_, { customSlug }) => {
         return <a href={'/link/' + customSlug}>{location.protocol + '//' + location.host + '/link/' + customSlug}</a>;
       },
@@ -77,7 +77,7 @@ function URLShortener(props: URLShortenerProps) {
       const documents = querySnapshot.docs.map((doc) => doc.data());
       if (documents.length === 0 && customSlug && inputValue) {
         await addDoc(collection(db, 'url-shortener'), {
-          id: 'abc-tad-va4fa-ac',
+          id: Date.now(),
           userId: '123331',
           author: 'Phan Quốc Kỳ',
           url: inputValue,
@@ -129,7 +129,7 @@ function URLShortener(props: URLShortenerProps) {
           placeholder="URL link"
           onChange={(e) => setInputValue(e.target.value)}
         />
-        <div className="flex space-x-3">
+        <div className="flex flex-col space-y-3 md:flex-row md:space-x-3 md:space-y-0">
           <div className="flex-1">
             <Input addonBefore="Custom link" placeholder="test.com/" onChange={(e) => setCustomSlug(e.target.value)} />
           </div>
@@ -143,7 +143,14 @@ function URLShortener(props: URLShortenerProps) {
       </div>
       <PrimaryButton onClick={handleSubmit}>Submit</PrimaryButton>
       <div className="my-5">
-        <PrimaryTable columns={columns} dataSource={data ?? []} rowKey="id" />
+        <div className="w-full overflow-x-scroll scrollbar-hide">
+          <PrimaryTable
+            className={'[&_.ant-table-tbody]:bg-white'}
+            columns={columns}
+            dataSource={data ?? []}
+            rowKey="id"
+          />
+        </div>
       </div>
     </div>
   );

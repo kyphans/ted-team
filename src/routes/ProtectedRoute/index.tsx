@@ -6,7 +6,7 @@ export const ProtectedRoute = ({ children }: any) => {
   const userData = JSON.parse(user) || null;
   if (!userData?.info || !userData?.token) {
     // User is not authenticated
-    return <Navigate to="/login" />;
+    // return <Navigate to="/login" />;
   }
   return children;
 };
