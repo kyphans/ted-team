@@ -1,13 +1,16 @@
 import { Input, Typography, DatePicker } from 'antd';
 import type { DatePickerProps } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PrimaryButton from '../../components/__common/custom/PrimaryButton';
 import { doc, setDoc, addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import db from '../../common/firebase/firebase';
 import { useNotification } from '../../context/NotificationContext';
+import PrimaryTable from '../../components/__common/custom/PrimaryTable';
+import type { ColumnsType } from 'antd/es/table';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 interface URLShortenerProps {}
-type data = {
+type DataType = {
   userId: string;
   url: string;
   slug?: string;
@@ -16,6 +19,36 @@ type data = {
   description?: string;
 };
 
+const columns: ColumnsType<DataType> = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 150,
+  },
+  {
+    title: 'Custom Link',
+    dataIndex: 'customSlug',
+    width: 400,
+  },
+  {
+    title: 'URL',
+    dataIndex: 'url',
+    width: 400,
+  },
+  {
+    title: 'Date Expiry',
+    dataIndex: 'dateExpiry',
+  },
+  {
+    title: 'Description',
+    dataIndex: 'description',
+  },
+  {
+    title: 'Author',
+    dataIndex: 'author',
+  },
+];
+
 function URLShortener(props: URLShortenerProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [customSlug, setCustomSlug] = useState<string>('');
@@ -23,27 +56,43 @@ function URLShortener(props: URLShortenerProps) {
 
   const { addNotification } = useNotification();
 
-  const handleSubmit = async () => {
+  const fetchData = async (db: any, customSlug: any) => {
+    const querySnapshot = await getDocs(query(collection(db, 'url-shortener'), where('author', '==', 'Phan Quốc Kỳ')));
+    const documents = querySnapshot.docs.map((doc) => doc.data());
+    return documents;
+  };
+
+  const { data, isLoading, isFetching, refetch } = useQuery(['listURL'], () => fetchData(db, customSlug), {
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  
+  const mutation = useMutation(async () => {
     try {
-      const querySnapshot = await getDocs(
-        query(collection(db, 'url-shortener'), where('customSlug', '==', customSlug)),
-      );
+      const querySnapshot = await getDocs(query(collection(db, 'url-shortener'), where('customSlug', '==', customSlug)));
       const documents = querySnapshot.docs.map((doc) => doc.data());
       if (documents.length === 0 && customSlug && inputValue) {
         await addDoc(collection(db, 'url-shortener'), {
+          id: 'abc-tad-va4fa-ac',
           userId: '123331',
+          author: 'Phan Quốc Kỳ',
           url: inputValue,
           customSlug: customSlug,
           description: description,
         });
         addNotification('Successfully!', 'success');
+        refetch(); // Trigger re-fetching the data after adding a new URL
       } else {
-        addNotification('Cannot create URL Shortener! Custom link already exist', 'warning');
+        addNotification('Cannot create URL Shortener! Custom link already exists', 'warning');
       }
     } catch (error) {
       console.error('Error saving data to Cloud Firestore:', error);
       addNotification('Error saving data to Cloud Firestore', 'error');
     }
+  });
+
+  const handleSubmit = async () => {
+    mutation.mutate();
   };
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -78,6 +127,9 @@ function URLShortener(props: URLShortenerProps) {
         </div>
       </div>
       <PrimaryButton onClick={handleSubmit}>Submit</PrimaryButton>
+      <div className="my-5">
+        <PrimaryTable columns={columns} dataSource={data ?? []} rowKey="id" />
+      </div>
     </div>
   );
 }

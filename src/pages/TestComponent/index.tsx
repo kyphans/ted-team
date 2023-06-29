@@ -22,7 +22,6 @@ function TestComponent() {
       address: `${item?.address?.city || ''}`,
     }));
   }
-  console.log('data', data);
   const columns = [
     {
       title: 'ID',
