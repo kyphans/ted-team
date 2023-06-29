@@ -11,11 +11,7 @@ import OrgChart from '../pages/OrgChart';
 import URLShortener from '../pages/URLShortener';
 import Redirect from '../pages/Redirect';
 
-const privateRouter = createBrowserRouter([
-  {
-    path: '/login',
-    element: <Login />,
-  },
+const privateRouter = [
   {
     path: '/',
     element: (
@@ -32,20 +28,24 @@ const privateRouter = createBrowserRouter([
       { path: 'setting', element: <Setting /> },
       { path: 'orgchart', element: <OrgChart /> },
       { path: 'url-shortener', element: <URLShortener /> },
-      { path: 'link/:slug', element: <Redirect /> },
     ],
   },
   {
     path: '*',
     element: <Navigate to="/" replace />,
   },
-]);
+];
 
-const privateRouter1 = createBrowserRouter([
+const publicRouter = [
   {
-    path: '/',
-    element: <div>Private Hello world!</div>,
+    path: '/login',
+    element: <Login />,
   },
-]);
+  {
+    path: '/link/:slug',
+    element: <Redirect />,
+  },
+];
 
-export { privateRouter };
+const routers = createBrowserRouter([...privateRouter, ...publicRouter]);
+export { routers };

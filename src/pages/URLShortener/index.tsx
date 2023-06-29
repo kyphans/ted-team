@@ -19,38 +19,41 @@ type DataType = {
   description?: string;
 };
 
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    width: 150,
-  },
-  {
-    title: 'Custom Link',
-    dataIndex: 'customSlug',
-    width: 400,
-  },
-  {
-    title: 'URL',
-    dataIndex: 'url',
-    width: 400,
-  },
-  {
-    title: 'Date Expiry',
-    dataIndex: 'dateExpiry',
-  },
-  {
-    title: 'Description',
-    dataIndex: 'description',
-  },
-  {
-    title: 'Author',
-    dataIndex: 'author',
-  },
-];
-
 function URLShortener(props: URLShortenerProps) {
+  const columns: ColumnsType<DataType> = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      width: 150,
+    },
+    {
+      title: 'Custom Link',
+      dataIndex: 'customSlug',
+      width: 400,
+      render: (_, { customSlug }) => {
+        return <a href={'/link/' + customSlug}>{location.protocol + '//' + location.host + '/link/' + customSlug}</a>;
+      },
+    },
+    {
+      title: 'URL',
+      dataIndex: 'url',
+      width: 400,
+    },
+    {
+      title: 'Date Expiry',
+      dataIndex: 'dateExpiry',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+    },
+    {
+      title: 'Author',
+      dataIndex: 'author',
+    },
+  ];
   const [inputValue, setInputValue] = useState<string>('');
+  const [inputValueCreated, setInputValueCreated] = useState<string>('');
   const [customSlug, setCustomSlug] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
@@ -66,10 +69,11 @@ function URLShortener(props: URLShortenerProps) {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  
   const mutation = useMutation(async () => {
     try {
-      const querySnapshot = await getDocs(query(collection(db, 'url-shortener'), where('customSlug', '==', customSlug)));
+      const querySnapshot = await getDocs(
+        query(collection(db, 'url-shortener'), where('customSlug', '==', customSlug)),
+      );
       const documents = querySnapshot.docs.map((doc) => doc.data());
       if (documents.length === 0 && customSlug && inputValue) {
         await addDoc(collection(db, 'url-shortener'), {
@@ -81,6 +85,10 @@ function URLShortener(props: URLShortenerProps) {
           description: description,
         });
         addNotification('Successfully!', 'success');
+        if (typeof window !== 'undefined') {
+          setInputValueCreated(location.protocol + '//' + location.host + '/link/' + customSlug);
+        }
+
         refetch(); // Trigger re-fetching the data after adding a new URL
       } else {
         addNotification('Cannot create URL Shortener! Custom link already exists', 'warning');
@@ -107,7 +115,14 @@ function URLShortener(props: URLShortenerProps) {
         </Typography.Title>
       </div>
       <div className="mb-3 [&_.ant-input]:h-[35px] [&_.ant-picker]:h-[35px] [&_.ant-picker]:w-full">
-        <Input className="mb-3" disabled />
+        {inputValueCreated && (
+          <Input
+            addonBefore="Shortened link"
+            value={inputValueCreated}
+            className="[&_.ant-input]:rounded-none [&_.ant-input-group-addon]:rounded-none [&_.ant-input]:bg-green-200 mb-3 border-2 border-green-600 bg-green-300"
+            readOnly
+          />
+        )}
         <Input
           className="mb-3"
           addonBefore="http://"
