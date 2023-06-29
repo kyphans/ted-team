@@ -24,17 +24,14 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
         <Form.Item label="ID" name="mssv">
           <Input placeholder="Enter MSSV" />
         </Form.Item>
-        <Form.Item label="First name" name="firstName">
-          <Input placeholder="Enter first name" />
-        </Form.Item>
-        <Form.Item label="Last name" name="lastName">
-          <Input placeholder="Enter last name" />
+        <Form.Item label="Full name" name="fullName">
+          <Input placeholder="Enter full name" />
         </Form.Item>
         <Form.Item label="Gender" name="gender" initialValue="male">
           <Select placeholder="Select gender">
-            <Select.Option value="male">Male</Select.Option>
-            <Select.Option value="female">Female</Select.Option>
-            <Select.Option value="other">Other</Select.Option>
+            <Select.Option value="M">Male</Select.Option>
+            <Select.Option value="F">Female</Select.Option>
+            <Select.Option value="N">Other</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item label="Email" name="email">
