@@ -16,12 +16,15 @@ function baseAPI(options?: BaseAPIOptions) {
   const axiosInstance: AxiosInstance = axios.create({
     ...options?.config,
     baseURL: options?.baseURL || import.meta.env.VITE_API_URL,
-    headers: options?.headers || getTokenAPI(),
+    headers: {
+      ...options?.headers,
+      ...getTokenAPI(),
+    },
     timeout: options?.timeout || 10000,
   });
 
   function handleResponseData<T>(data?: any): Promise<AxiosResponse<T>> {
-    if (!!data && data.status === 200) {
+    if (!!data || data.status === 200) {
       return Promise.resolve(data);
     }
     return Promise.reject(data);

@@ -1,5 +1,5 @@
 import { RouterProvider } from 'react-router-dom';
-import { privateRouter } from './routes';
+import { routers } from './routes';
 import { NotificationProvider } from './context/NotificationContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -17,7 +17,7 @@ function App() {
           <AuthProvider>
             <NotificationProvider>
               <Notification />
-              <RouterProvider router={privateRouter} />
+              <RouterProvider router={routers} />
               {/* Dev tool of React Query*/}
               <ReactQueryDevtools initialIsOpen={false} />
             </NotificationProvider>

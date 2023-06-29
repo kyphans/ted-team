@@ -14,6 +14,8 @@ import MemberTable from '../../components/MemberTable';
 import PaginationCustom from '../../components/__common/custom/PaginationCustom';
 import { usePagination } from '../../hooks/usePagination';
 import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
+import { useMutation } from '@tanstack/react-query';
+import UserServices from '../../services/user.service';
 
 function Members() {
   const parseFullName = (fullName: string) => {
@@ -31,8 +33,6 @@ function Members() {
   const [currentPage, pageSize, getDataPage, dataPage] = usePagination(dataSource);
   const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-
-  const [isPending, startTransition] = useTransition();
   const handleOnChangeSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const valeSearch = e.target.value.trim().toLowerCase();
@@ -46,6 +46,10 @@ function Members() {
     },
     [initialData],
   );
+
+  const mutation = useMutation({
+    mutationFn: (newTodo) => UserServices.createUser<any>(newTodo),
+  });
 
   const handleEditMemberForm = (value: any) => {
     setIsOpenModal(true);
@@ -94,6 +98,19 @@ function Members() {
   const handelOnChange = (value: any) => {
     console.log('handelOnChangeFilters', value);
   };
+
+  const handleSubmitForm = () => {
+    const formValues = form.getFieldsValue(true);
+    const payload = {
+      ...formValues,
+      joinDate: formValues.joinDate ? dayjs(formValues.joinDate).format('YYYY-MM-DD') : undefined,
+      leaveDate: formValues.joinDate ? dayjs(formValues.leaveDate).format('YYYY-MM-DD') : undefined,
+    };
+    console.log('payload', payload);
+    mutation.mutate(payload);
+    setIsOpenModal(false);
+    form.resetFields();
+  };
   return (
     <>
       <div className="flex justify-between mb-3">
@@ -139,10 +156,7 @@ function Members() {
         <Divider />
         <PrimaryForm disabled={!isEdit} form={form}>
           <MemberForm
-            onSaveMemberForm={() => {
-              setIsOpenModal(false);
-              form.resetFields();
-            }}
+            onSaveMemberForm={handleSubmitForm}
             onCancelMemberForm={() => {
               setIsOpenModal(false);
               form.resetFields();
