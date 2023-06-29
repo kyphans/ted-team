@@ -9,6 +9,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import Setting from '../pages/Setting';
 import OrgChart from '../pages/OrgChart';
 import URLShortener from '../pages/URLShortener';
+import Redirect from '../pages/Redirect';
 
 const privateRouter = [
   {
@@ -41,8 +42,8 @@ const publicRouter = [
     element: <Login />,
   },
   {
-    path: '/link',
-    element: <div>Private Hello world!</div>,
+    path: '/link/:slug',
+    element: <Redirect />,
   },
 ];
 
