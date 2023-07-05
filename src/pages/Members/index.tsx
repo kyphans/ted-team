@@ -1,68 +1,67 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Col, Divider, Form, Input, Row, Typography } from 'antd';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Divider, Form, Typography } from 'antd';
 import dayjs from 'dayjs';
-import { useCallback, useEffect, useMemo, useState, useTransition } from 'react';
-import fakeData from '../../common/fakeData/user.json';
+import { useState } from 'react';
+
 import { tw } from '../../common/utils/classUtil';
-import formatUsersData from '../../common/utils/formatUsersData';
+import { useNotification } from '../../context/NotificationContext';
+import UserServices from '../../services/user.service';
+
 import MemberForm from '../../components/MemberForm';
+import MemberTable from '../../components/MemberTable';
+import PaginationCustom from '../../components/__common/PaginationCustom';
+import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
 import PrimaryButton from '../../components/__common/custom/PrimaryButton';
 import PrimaryForm from '../../components/__common/custom/PrimaryForm';
 import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 
-import MemberTable from '../../components/MemberTable';
-import PaginationCustom from '../../components/__common/custom/PaginationCustom';
-import { usePagination } from '../../hooks/usePagination';
-import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
-import { useMutation } from '@tanstack/react-query';
-import UserServices from '../../services/user.service';
-
 function Members() {
-  const parseFullName = (fullName: string) => {
-    const names = fullName.split(' ');
-    const firstName = names[0];
-    const lastName = names[names.length - 1];
-    return {
-      firstName: firstName,
-      lastName: lastName,
-    };
-  };
   const [form] = Form.useForm();
-  const initialData = useMemo(() => formatUsersData(fakeData), []); // Assuming fakeData is static
-  const [dataSource, setDataSource] = useState(initialData);
-  const [currentPage, pageSize, getDataPage, dataPage] = usePagination(dataSource);
+  const { addNotification } = useNotification();
+  const { data, isLoading, isFetching, refetch } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => UserServices.getAllUsers<any>(),
+    staleTime: 5 * 60 * 1000, // 5 minute,
+  });
   const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const handleOnChangeSearch = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const valeSearch = e.target.value.trim().toLowerCase();
-      const filteredData = initialData.filter(
-        (entry) =>
-          entry.mssv.toLowerCase().includes(valeSearch) ||
-          entry.fullName.toLowerCase().includes(valeSearch) ||
-          entry.email.toLowerCase().includes(valeSearch),
-      );
-      setDataSource(filteredData);
-    },
-    [initialData],
-  );
+
+  const filters = {
+    generation: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    isActive: ['true', 'false'],
+    department: ['PD', 'PDR', 'DD'],
+  };
+
+  const handleLoginSuccess = (data: any) => {
+    setIsOpenModal(false);
+    form.resetFields();
+    addNotification('Thêm thành viên thành công', 'success');
+    refetch();
+  };
+
+  const handleLoginFailed = (err: any) => {
+    const errMessage = err.response.data;
+    for (var key in errMessage) {
+      if (errMessage.hasOwnProperty(key)) {
+        var messageArray = errMessage[key];
+        addNotification(`${key} ${messageArray[0]}`, 'error');
+      }
+    }
+  };
 
   const mutation = useMutation({
-    mutationFn: (newTodo) => UserServices.createUser<any>(newTodo),
+    mutationFn: (payload) => UserServices.createUser<any>(payload),
+    onSuccess: handleLoginSuccess,
+    onError: handleLoginFailed,
   });
 
   const handleEditMemberForm = (value: any) => {
     setIsOpenModal(true);
     setIsEdit(true);
-    const { mssv, fullName, generation, joinedDate, leaveDate, email, isActive } = value ?? {};
-    const { firstName, lastName } = parseFullName(fullName);
+    const { joinedDate, leaveDate,...rest } = value ?? {};
     form.setFieldsValue({
-      mssv,
-      firstName,
-      lastName,
-      generation,
-      email,
-      isActive,
+      ...rest,
       joinDate: dayjs(joinedDate),
       leaveDate: dayjs(leaveDate),
     });
@@ -70,32 +69,21 @@ function Members() {
 
   const handleViewMemberForm = (value: any) => {
     setIsOpenModal(true);
-    const { mssv, fullName, generation, joinedDate, leaveDate, email, isActive } = value ?? {};
-    const { firstName, lastName } = parseFullName(fullName);
+    const { joinedDate, leaveDate,...rest } = value ?? {};
     form.setFieldsValue({
-      mssv,
-      firstName,
-      lastName,
-      generation,
-      email,
-      isActive,
+      ...rest,
       joinDate: dayjs(joinedDate),
       leaveDate: dayjs(leaveDate),
     });
   };
 
-  const handleAddMemberForm = (value: any) => {
+  const handleAddMemberForm = () => {
     form.resetFields();
     setIsEdit(true);
     setIsOpenModal(true);
   };
 
-  const filters = {
-    generation: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-    isActive: ['true', 'false'],
-    department: ['PD', 'PDR', 'DD'],
-  };
-  const handelOnChange = (value: any) => {
+  const handelOnChangeFilters = (value: any) => {
     console.log('handelOnChangeFilters', value);
   };
 
@@ -103,14 +91,20 @@ function Members() {
     const formValues = form.getFieldsValue(true);
     const payload = {
       ...formValues,
-      joinDate: formValues.joinDate ? dayjs(formValues.joinDate).format('YYYY-MM-DD') : undefined,
-      leaveDate: formValues.joinDate ? dayjs(formValues.leaveDate).format('YYYY-MM-DD') : undefined,
+      department_ID: formValues.department,
+      joinDate: formValues.joinDate ? dayjs(formValues.joinDate).format('DD/MM/YYYY') : undefined,
+      leaveDate: formValues.joinDate ? dayjs(formValues.leaveDate).format('DD/MM/YYYY') : undefined,
     };
     console.log('payload', payload);
+    
     mutation.mutate(payload);
-    setIsOpenModal(false);
-    form.resetFields();
   };
+
+  const handelOnChangePagination = (currentPage: number, pageSize: number) => {
+    console.log('handelOnChangePagination ', {currentPage, pageSize});
+    
+  };
+
   return (
     <>
       <div className="flex justify-between mb-3">
@@ -127,17 +121,18 @@ function Members() {
         </PrimaryButton>
       </div>
       <div className="">
-        <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChange} filters={filters} />
+        <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChangeFilters} filters={filters} />
       </div>
       <Divider className="mb-4 mt-2" />
       <div className="w-full overflow-x-scroll scrollbar-hide">
         <MemberTable
           className={tw('[&_.ant-table-tbody]:bg-white')}
-          dataSource={dataSource}
+          loading={isFetching}
+          dataSource={data?.data?.results}
           handleEditMemberForm={handleEditMemberForm}
           handleViewMemberForm={handleViewMemberForm}
-          rowKey={({ key }: any) => key}
         />
+        <PaginationCustom totalItems={data?.data?.count} handleOnChange={handelOnChangePagination}/>
       </div>
 
       <PrimaryModal

@@ -11,7 +11,7 @@ import PrimaryForm from '../../components/__common/custom/PrimaryForm';
 import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 
 import MemberTable from '../../components/MemberTable';
-import PaginationCustom from '../../components/__common/custom/PaginationCustom';
+import PaginationCustom from '../../components/__common/PaginationCustom';
 import { usePagination } from '../../hooks/usePagination';
 import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
 

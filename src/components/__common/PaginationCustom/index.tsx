@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 
 export interface PaginationCustomProps {
   totalItems: number;
-  handleOnChange:(current?: number, pageSize?: number) => void;
+  handleOnChange:(current: number, pageSize: number) => void;
 }
 
 export default function PaginationCustom(props: PaginationCustomProps) {

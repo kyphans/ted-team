@@ -136,7 +136,7 @@ function URLShortener(props: URLShortenerProps) {
         />
         <div className="flex flex-col space-y-3 md:flex-row md:space-x-3 md:space-y-0">
           <div className="flex-1">
-            <Input addonBefore="Custom link" placeholder="test.com/" onChange={(e) => setCustomSlug(e.target.value)} />
+            <Input addonBefore="Custom link" placeholder="Ex: form-soc-2024" onChange={(e) => setCustomSlug(e.target.value)} />
           </div>
           <div className="flex-1">
             <DatePicker className="" onChange={(date, dateString) => setExpiredDate(dateString)} />
@@ -150,6 +150,7 @@ function URLShortener(props: URLShortenerProps) {
       <div className="my-5">
         <div className="w-full overflow-x-scroll scrollbar-hide">
           <PrimaryTable
+            loading={isLoading}
             className={'[&_.ant-table-tbody]:bg-white'}
             columns={columns}
             dataSource={data ?? []}

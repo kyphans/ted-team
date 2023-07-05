@@ -4,10 +4,10 @@ import { useAuth } from '../../context/AuthContext';
 
 function LoginPage() {
   const { user } = useAuth();
-  const userData = JSON.parse(user) || null;
-  // if (userData?.info && userData?.token) {
-  //   return <Navigate to="/home" />;
-  // }
+  const userData = JSON.parse(user ?? null);
+  if (userData?.info && userData?.token) {
+    return <Navigate to="/home" />;
+  }
   return (
     <>
       <LoginForm />

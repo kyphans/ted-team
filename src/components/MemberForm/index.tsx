@@ -1,6 +1,10 @@
 import { Col, DatePicker, Divider, Form, Input, InputNumber, Row, Select, Space, Typography, Image } from 'antd';
 import PrimaryButton from '../__common/custom/PrimaryButton';
 import { tw } from '../../common/utils/classUtil';
+import { useQuery } from '@tanstack/react-query';
+
+import DepartmentServices from '../../services/department.service';
+import { useState } from 'react';
 
 interface MemberFormProps {
   onSaveMemberForm?: () => void;
@@ -9,6 +13,13 @@ interface MemberFormProps {
 
 export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: MemberFormProps) {
   const form = Form.useFormInstance();
+  const avt = form.getFieldValue('avatar');
+
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['department'],
+    queryFn: () => DepartmentServices.getAllDepartment<any>(),
+  });
+  
   return (
     <Row
       className={tw(`
@@ -27,7 +38,7 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
         <Form.Item label="Full name" name="fullName">
           <Input placeholder="Enter full name" />
         </Form.Item>
-        <Form.Item label="Gender" name="gender" initialValue="male">
+        <Form.Item label="Gender" name="gender" initialValue="M">
           <Select placeholder="Select gender">
             <Select.Option value="M">Male</Select.Option>
             <Select.Option value="F">Female</Select.Option>
@@ -46,11 +57,10 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
           <InputNumber className="w-full" min={1} max={10} />
         </Form.Item>
         <Form.Item label="Department" name="department">
-          <Select placeholder="Select department" className="w-full">
-            <Select.Option value={'PD'}>PD</Select.Option>
-            <Select.Option value={'PRD'}>PRD</Select.Option>
-            <Select.Option value={'DD'}>DD</Select.Option>
-            <Select.Option value={''}>Free</Select.Option>
+          <Select placeholder="Select department" className="w-full" loading={isFetching}>
+            {data?.data?.results.map((department: any)=>{
+              return <Select.Option key={department.id} value={department.id}>{department.name}</Select.Option>
+            })}
           </Select>
         </Form.Item>
         <Form.Item label="Join date" name="joinDate">
@@ -69,7 +79,7 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
           <Input addonBefore="URL" placeholder="Enter URL avatar" />
         </Form.Item>
         <div className="flex justify-center">
-          <Image width={200} src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
+          <Image width={200} src={avt ?? "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"} />
         </div>
       </Col>
       <Col span={24}>

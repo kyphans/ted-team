@@ -27,15 +27,8 @@ interface MemberTableProps extends Omit<PrimaryTableProps, 'columns'> {
 }
 
 export default function MemberTable(props: MemberTableProps) {
-  const { dataSource, rowClassName, rowKey, loading, className } = props;
+  const { dataSource, rowClassName, rowKey, loading, className } = props;  
   const columns: ColumnsType<DataType> = [
-    {
-      title: 'N.O',
-      dataIndex: 'key',
-      render: (_, { key }) => {
-        return key + 1;
-      },
-    },
     {
       title: 'ID',
       dataIndex: 'mssv',
@@ -44,6 +37,10 @@ export default function MemberTable(props: MemberTableProps) {
     {
       title: 'Full Name',
       dataIndex: 'fullName',
+    },
+    {
+      title: 'Phone',
+      dataIndex: 'phone',
     },
     {
       title: 'Email',
@@ -63,14 +60,14 @@ export default function MemberTable(props: MemberTableProps) {
       title: 'Joined Date',
       sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
       render: (_, { joinedDate }) => {
-        return joinedDate.toLocaleDateString('en-US');
+        return joinedDate ? moment(joinedDate, "DD/MM/YYYY").format("DD/MM/YYYY") : null;
       },
     },
     {
       title: 'Leave Date',
       sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
       render: (_, { leaveDate }) => {
-        return leaveDate.toLocaleDateString('en-US');
+        return leaveDate ? moment(leaveDate, "DD/MM/YYYY").format("DD/MM/YYYY") : null;
       },
     },
     {
@@ -128,7 +125,7 @@ export default function MemberTable(props: MemberTableProps) {
       rowClassName={tw(rowClassName)}
       columns={columns}
       dataSource={dataSource}
-      rowKey={rowKey}
+      rowKey="id"
       onChange={handleOnChange}
       loading={loading}
     />
