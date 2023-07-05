@@ -2,12 +2,13 @@ import { Input, Typography, DatePicker } from 'antd';
 import type { DatePickerProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import PrimaryButton from '../../components/__common/custom/PrimaryButton';
-import { doc, setDoc, addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { doc, setDoc, addDoc, collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 import db from '../../common/firebase/firebase';
 import { useNotification } from '../../context/NotificationContext';
 import PrimaryTable from '../../components/__common/custom/PrimaryTable';
 import type { ColumnsType } from 'antd/es/table';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface URLShortenerProps {}
 type DataType = {
@@ -40,8 +41,8 @@ function URLShortener(props: URLShortenerProps) {
       width: 400,
     },
     {
-      title: 'Date Expiry',
-      dataIndex: 'dateExpiry',
+      title: 'Expired Date',
+      dataIndex: 'expiredDate',
     },
     {
       title: 'Description',
@@ -55,12 +56,15 @@ function URLShortener(props: URLShortenerProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [inputValueCreated, setInputValueCreated] = useState<string>('');
   const [customSlug, setCustomSlug] = useState<string>('');
+  const [expiredDate, setExpiredDate] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
   const { addNotification } = useNotification();
+  const [user, setUser] = useLocalStorage('user');
+  const userInfo = JSON.parse(user).info;
 
   const fetchData = async (db: any, customSlug: any) => {
-    const querySnapshot = await getDocs(query(collection(db, 'url-shortener'), where('author', '==', 'Phan Quốc Kỳ')));
+    const querySnapshot = await getDocs(query(collection(db, 'url-shortener'), orderBy('id', 'desc')));
     const documents = querySnapshot.docs.map((doc) => doc.data());
     return documents;
   };
@@ -68,7 +72,7 @@ function URLShortener(props: URLShortenerProps) {
   const { data, isLoading, isFetching, refetch } = useQuery(['listURL'], () => fetchData(db, customSlug), {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
-
+  
   const mutation = useMutation(async () => {
     try {
       const querySnapshot = await getDocs(
@@ -78,10 +82,11 @@ function URLShortener(props: URLShortenerProps) {
       if (documents.length === 0 && customSlug && inputValue) {
         await addDoc(collection(db, 'url-shortener'), {
           id: Date.now(),
-          userId: '123331',
-          author: 'Phan Quốc Kỳ',
+          userId: userInfo.id,
+          author: userInfo.fullName,
           url: inputValue,
           customSlug: customSlug,
+          expiredDate: expiredDate,
           description: description,
         });
         addNotification('Successfully!', 'success');
@@ -104,7 +109,7 @@ function URLShortener(props: URLShortenerProps) {
   };
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
+    console.log(dateString);
   };
 
   return (
@@ -134,7 +139,7 @@ function URLShortener(props: URLShortenerProps) {
             <Input addonBefore="Custom link" placeholder="test.com/" onChange={(e) => setCustomSlug(e.target.value)} />
           </div>
           <div className="flex-1">
-            <DatePicker className="" onChange={onChange} />
+            <DatePicker className="" onChange={(date, dateString) => setExpiredDate(dateString)} />
           </div>
           <div className="flex-1">
             <Input addonBefore="Description" placeholder="" onChange={(e) => setDescription(e.target.value)} />
