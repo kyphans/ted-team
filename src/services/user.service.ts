@@ -2,7 +2,10 @@ import baseAPI from './api/api';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 function getAllUsers<T>(): Promise<AxiosResponse<T>> {
-  return baseAPI.get('api/v1/user/list/');
+  const customConfig: AxiosRequestConfig = {
+    // params: params
+  };
+  return baseAPI.get('api/v1/user/list/', customConfig);
 }
 
 function createUser<T>(payload: any): Promise<AxiosResponse<T>> {

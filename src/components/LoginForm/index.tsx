@@ -13,7 +13,6 @@ function LoginForm() {
 
   const handleLoginSuccess = (data: any) => {
     addNotification('Đăng nhập thành công', 'success');
-    console.log('data', data.data);
     authLogin(data?.data);
     navigate('/');
   };

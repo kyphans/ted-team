@@ -1,3 +1,5 @@
+import { UserData } from '../../types/user.types';
+
 interface OriginalData {
   firstName: string;
   lastName: string;
@@ -26,10 +28,9 @@ interface ConvertedData {
   description: string;
 }
 
-export default function convertData(originalData: OriginalData[]): ConvertedData[] {
+export default function convertData(originalData: UserData[]): ConvertedData[] {
   return originalData.map((data, index) => {
-    const { firstName, lastName, joinedDate, leaveDate, ...rest } = data;
-    const fullName = `${firstName} ${lastName}`;
+    const { fullName, joinedDate, leaveDate, ...rest } = data;
     const convertedJoinedDate = new Date(joinedDate);
     const convertedLeaveDate = new Date(leaveDate);
 

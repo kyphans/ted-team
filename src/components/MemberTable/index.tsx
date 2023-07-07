@@ -6,36 +6,18 @@ import { tw } from '../../common/utils/classUtil';
 import { BulbOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import PrimaryTable, { PrimaryTableProps } from '../__common/custom/PrimaryTable';
 import PrimaryTag from '../PrimaryTag';
+import { MembersResponseType } from '../../types/member.types';
+import { UserData } from '../../types/user.types';
 
-interface DataType {
-  key: number;
-  fullName: string;
-  mssv: string;
-  phone: string;
-  email: string;
-  generation: number;
-  joinedDate: Date;
-  leaveDate: Date;
-  isActive: boolean;
-  isDelete: boolean;
-  description: string;
-}
-
-interface MemberTableProps extends Omit<PrimaryTableProps, 'columns'> {
-  handleEditMemberForm: (record: DataType) => void;
-  handleViewMemberForm: (record: DataType) => void;
+interface MemberTableProps extends Omit<PrimaryTableProps, 'columns' | 'dataSource'> {
+  handleEditMemberForm: (record: UserData) => void;
+  handleViewMemberForm: (record: UserData) => void;
+  dataSource: MembersResponseType['results'] | undefined
 }
 
 export default function MemberTable(props: MemberTableProps) {
-  const { dataSource, rowClassName, rowKey, loading, className } = props;
-  const columns: ColumnsType<DataType> = [
-    {
-      title: 'N.O',
-      dataIndex: 'key',
-      render: (_, { key }) => {
-        return key + 1;
-      },
-    },
+  const { dataSource, rowClassName, loading, className, ...rest} = props;  
+  const columns: ColumnsType<UserData> = [
     {
       title: 'ID',
       dataIndex: 'mssv',
@@ -44,6 +26,10 @@ export default function MemberTable(props: MemberTableProps) {
     {
       title: 'Full Name',
       dataIndex: 'fullName',
+    },
+    {
+      title: 'Phone',
+      dataIndex: 'phone',
     },
     {
       title: 'Email',
@@ -63,14 +49,14 @@ export default function MemberTable(props: MemberTableProps) {
       title: 'Joined Date',
       sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
       render: (_, { joinedDate }) => {
-        return joinedDate.toLocaleDateString('en-US');
+        return joinedDate ? moment(joinedDate, "DD/MM/YYYY").format("DD/MM/YYYY") : null;
       },
     },
     {
       title: 'Leave Date',
       sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
       render: (_, { leaveDate }) => {
-        return leaveDate.toLocaleDateString('en-US');
+        return leaveDate ? moment(leaveDate, "DD/MM/YYYY").format("DD/MM/YYYY") : null;
       },
     },
     {
@@ -105,31 +91,33 @@ export default function MemberTable(props: MemberTableProps) {
     },
   ];
 
-  const handleOnChange = (pagination: any, filters: any, sorter: any) => {
-    const newData = dataSource.filter((item) => {
-      for (const key in filters) {
-        if (Array.isArray(filters[key])) {
-          if (!filters[key].includes(String(item[key]))) {
-            return false;
-          }
-        } else {
-          if (filters[key] !== null && item[key] !== filters[key]) {
-            return false;
-          }
-        }
-      }
-      return true;
-    });
-    console.table({ pagination, filters, sorter });
-  };
+  // ----------------- handleOnChange for antd table -----------------------------
+  // const handleOnChange = (pagination: any, filters: any, sorter: any) => {
+  //   const newData = !!dataSource && dataSource.filter((item) => {
+  //     for (const key in filters) {
+  //       if (Array.isArray(filters[key])) {
+  //         if (!filters[key].includes(item[key])) {
+  //           return false;
+  //         }
+  //       } else {
+  //         if (filters[key] !== null && item[key] !== filters[key]) {
+  //           return false;
+  //         }
+  //       }
+  //     }
+  //     return true;
+  //   });
+  //   console.table({ pagination, filters, sorter });
+  // };
+
   return (
     <PrimaryTable
+      {...rest}
       className={tw(className)}
       rowClassName={tw(rowClassName)}
       columns={columns}
-      dataSource={dataSource}
-      rowKey={rowKey}
-      onChange={handleOnChange}
+      dataSource={dataSource ?? []}
+      rowKey="id"
       loading={loading}
     />
   );

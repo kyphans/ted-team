@@ -11,7 +11,7 @@ import PrimaryForm from '../../components/__common/custom/PrimaryForm';
 import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 
 import MemberTable from '../../components/MemberTable';
-import PaginationCustom from '../../components/__common/custom/PaginationCustom';
+import PaginationCustom from '../../components/__common/PaginationCustom';
 import { usePagination } from '../../hooks/usePagination';
 import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
 
@@ -26,7 +26,7 @@ function Collaborators() {
     };
   };
   const [form] = Form.useForm();
-  const initialData = useMemo(() => formatUsersData(fakeData), []); // Assuming fakeData is static
+  const initialData = useMemo(() => formatUsersData([]), []); // Assuming fakeData is static
   const [dataSource, setDataSource] = useState(initialData);
   const [currentPage, pageSize, getDataPage, dataPage] = usePagination(dataSource);
   const [isEdit, setIsEdit] = useState(false);
@@ -113,10 +113,10 @@ function Collaborators() {
         <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChange} filters={filters} />
       </div>
       <Divider className="mb-4 mt-2" />
-      <div className="w-full overflow-x-scroll scrollbar-hide">
+      <div className="w-full overflow-x-scroll overflow-y-hidden scrollbar-hide">
         <MemberTable
           className={tw('[&_.ant-table-tbody]:bg-white')}
-          dataSource={dataSource}
+          dataSource={[]}
           handleEditMemberForm={handleEditMemberForm}
           handleViewMemberForm={handleViewMemberForm}
           rowKey={({ key }: any) => key}
