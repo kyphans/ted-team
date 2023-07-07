@@ -26,7 +26,7 @@ function Collaborators() {
     };
   };
   const [form] = Form.useForm();
-  const initialData = useMemo(() => formatUsersData(fakeData), []); // Assuming fakeData is static
+  const initialData = useMemo(() => formatUsersData([]), []); // Assuming fakeData is static
   const [dataSource, setDataSource] = useState(initialData);
   const [currentPage, pageSize, getDataPage, dataPage] = usePagination(dataSource);
   const [isEdit, setIsEdit] = useState(false);
@@ -116,7 +116,7 @@ function Collaborators() {
       <div className="w-full overflow-x-scroll overflow-y-hidden scrollbar-hide">
         <MemberTable
           className={tw('[&_.ant-table-tbody]:bg-white')}
-          dataSource={dataSource}
+          dataSource={[]}
           handleEditMemberForm={handleEditMemberForm}
           handleViewMemberForm={handleViewMemberForm}
           rowKey={({ key }: any) => key}
