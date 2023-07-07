@@ -62,7 +62,7 @@ function URLShortener(props: URLShortenerProps) {
 
   const { addNotification } = useNotification();
   const [user] = useLocalStorage('user');
-  const userInfo: UserData = JSON.parse(user).info;
+  const userInfo: UserData = !!user && JSON.parse(user).info;
 
   const fetchData = async (db: any, customSlug: string) => {
     const querySnapshot = await getDocs(query(collection(db, 'url-shortener'), orderBy('id', 'desc')));
@@ -73,7 +73,7 @@ function URLShortener(props: URLShortenerProps) {
   const { data, isLoading, isFetching, refetch } = useQuery(['listURL'], () => fetchData(db, customSlug), {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
-  
+
   const mutation = useMutation(async () => {
     try {
       const querySnapshot = await getDocs(
@@ -83,8 +83,8 @@ function URLShortener(props: URLShortenerProps) {
       if (documents.length === 0 && customSlug && inputValue) {
         await addDoc(collection(db, 'url-shortener'), {
           id: Date.now(),
-          userId: userInfo.id,
-          author: userInfo.fullName,
+          userId: userInfo?.id,
+          author: userInfo?.fullName,
           url: inputValue,
           customSlug: customSlug,
           expiredDate: expiredDate,
@@ -136,7 +136,11 @@ function URLShortener(props: URLShortenerProps) {
         />
         <div className="flex flex-col space-y-3 md:flex-row md:space-x-3 md:space-y-0">
           <div className="flex-1">
-            <Input addonBefore="Custom link" placeholder="Ex: form-soc-2024" onChange={(e) => setCustomSlug(e.target.value)} />
+            <Input
+              addonBefore="Custom link"
+              placeholder="Ex: form-soc-2024"
+              onChange={(e) => setCustomSlug(e.target.value)}
+            />
           </div>
           <div className="flex-1">
             <DatePicker className="" onChange={(date, dateString) => setExpiredDate(dateString)} />

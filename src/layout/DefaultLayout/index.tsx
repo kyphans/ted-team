@@ -31,8 +31,8 @@ const DefaultLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const { logout: authLogout, user } = useAuth();
-  const userData: UserLocalStorageDataType = JSON.parse(user);
-  
+  const userData: UserLocalStorageDataType = !!user && JSON.parse(user);
+
   const itemsMenu: MenuItem[] = [
     {
       key: 'home',
@@ -115,7 +115,7 @@ const DefaultLayout = () => {
       setSelectedKey(key);
     }
   };
-  
+
   return (
     <Layout className="default-layout">
       <Sider
@@ -138,7 +138,7 @@ const DefaultLayout = () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="logo">
-          <span>{import.meta.env.VITE_APP_TITLE || "MyApp"}</span>
+          <span>{import.meta.env.VITE_APP_TITLE || 'MyApp'}</span>
         </div>
         <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} onClick={handleMenuItemClick} items={itemsMenu} />
       </Sider>
@@ -147,14 +147,12 @@ const DefaultLayout = () => {
           <div className="flex justify-end  align-middle mr-5">
             <div>
               <Avatar
-                className='[&_.ant-image-mask-info]:hidden'
+                className="[&_.ant-image-mask-info]:hidden"
                 size={44}
-                icon={
-                  <Image width={44} src={`${import.meta.env.VITE_API_URL}${userData.info.avatar}`}/>
-                }
+                icon={<Image width={44} src={`${import.meta.env.VITE_API_URL}${userData?.info?.avatar}`} />}
               />
             </div>
-            {isScreenLg && <div className="px-2 font-medium">{userData.info.fullName}</div>}
+            {isScreenLg && <div className="px-2 font-medium">{userData?.info?.fullName}</div>}
           </div>
           {
             // Only Show trigger Menu button for large screens
