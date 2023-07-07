@@ -113,7 +113,7 @@ function Collaborators() {
         <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChange} filters={filters} />
       </div>
       <Divider className="mb-4 mt-2" />
-      <div className="w-full overflow-x-scroll scrollbar-hide">
+      <div className="w-full overflow-x-scroll overflow-y-hidden scrollbar-hide">
         <MemberTable
           className={tw('[&_.ant-table-tbody]:bg-white')}
           dataSource={dataSource}

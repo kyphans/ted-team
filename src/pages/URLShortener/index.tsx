@@ -9,6 +9,7 @@ import PrimaryTable from '../../components/__common/custom/PrimaryTable';
 import type { ColumnsType } from 'antd/es/table';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { UserData } from '../../types/user.types';
 
 interface URLShortenerProps {}
 type DataType = {
@@ -60,10 +61,10 @@ function URLShortener(props: URLShortenerProps) {
   const [description, setDescription] = useState<string>('');
 
   const { addNotification } = useNotification();
-  const [user, setUser] = useLocalStorage('user');
-  const userInfo = JSON.parse(user).info;
+  const [user] = useLocalStorage('user');
+  const userInfo: UserData = JSON.parse(user).info;
 
-  const fetchData = async (db: any, customSlug: any) => {
+  const fetchData = async (db: any, customSlug: string) => {
     const querySnapshot = await getDocs(query(collection(db, 'url-shortener'), orderBy('id', 'desc')));
     const documents = querySnapshot.docs.map((doc) => doc.data());
     return documents;
@@ -93,7 +94,6 @@ function URLShortener(props: URLShortenerProps) {
         if (typeof window !== 'undefined') {
           setInputValueCreated(location.protocol + '//' + location.host + '/link/' + customSlug);
         }
-
         refetch(); // Trigger re-fetching the data after adding a new URL
       } else {
         addNotification('Cannot create URL Shortener! Custom link already exists', 'warning');
@@ -148,7 +148,7 @@ function URLShortener(props: URLShortenerProps) {
       </div>
       <PrimaryButton onClick={handleSubmit}>Submit</PrimaryButton>
       <div className="my-5">
-        <div className="w-full overflow-x-scroll scrollbar-hide">
+        <div className="w-full overflow-x-scroll overflow-y-hidden scrollbar-hide">
           <PrimaryTable
             loading={isLoading}
             className={'[&_.ant-table-tbody]:bg-white'}

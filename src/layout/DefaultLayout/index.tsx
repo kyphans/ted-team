@@ -15,6 +15,7 @@ import './styles.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { tw } from '../../common/utils/classUtil';
+import { UserLocalStorageDataType } from '../../types/user.types';
 
 interface MenuItem {
   key: string;
@@ -29,8 +30,9 @@ const { Header, Sider, Content, Footer } = Layout;
 const DefaultLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
-  const { logout: authLogout } = useAuth();
-
+  const { logout: authLogout, user } = useAuth();
+  const userData: UserLocalStorageDataType = JSON.parse(user);
+  
   const itemsMenu: MenuItem[] = [
     {
       key: 'home',
@@ -113,7 +115,7 @@ const DefaultLayout = () => {
       setSelectedKey(key);
     }
   };
-
+  
   return (
     <Layout className="default-layout">
       <Sider
@@ -145,13 +147,14 @@ const DefaultLayout = () => {
           <div className="flex justify-end  align-middle mr-5">
             <div>
               <Avatar
+                className='[&_.ant-image-mask-info]:hidden'
                 size={44}
-                // icon={
-                //   <Image width={64} src="https://drive.google.com/uc?export=view&id=1Qy7R3YjqIwE3ZInTwYNCtL_Fc9CRRwfz" />
-                // }
+                icon={
+                  <Image width={44} src={`${import.meta.env.VITE_API_URL}${userData.info.avatar}`}/>
+                }
               />
             </div>
-            {isScreenLg && <div className="px-2 font-medium">Username</div>}
+            {isScreenLg && <div className="px-2 font-medium">{userData.info.fullName}</div>}
           </div>
           {
             // Only Show trigger Menu button for large screens

@@ -11,29 +11,33 @@ import UserServices from '../../services/user.service';
 import MemberForm from '../../components/MemberForm';
 import MemberTable from '../../components/MemberTable';
 import PaginationCustom from '../../components/__common/PaginationCustom';
-import SearchFiltersToolBar from '../../components/__common/SearchFiltersToolBar';
+import SearchFiltersToolBar, { FiltersSelectedType } from '../../components/__common/SearchFiltersToolBar';
 import PrimaryButton from '../../components/__common/custom/PrimaryButton';
 import PrimaryForm from '../../components/__common/custom/PrimaryForm';
 import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 
+import { MembersResponseType } from '../../types/member.types';
+import { UserData } from '../../types/user.types';
+
 function Members() {
   const [form] = Form.useForm();
   const { addNotification } = useNotification();
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data: dataResponse, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['users'],
-    queryFn: () => UserServices.getAllUsers<any>(),
+    queryFn: () => UserServices.getAllUsers<MembersResponseType>(),
     staleTime: 5 * 60 * 1000, // 5 minute,
   });
   const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-
+  console.log('dataResponse',dataResponse);
+  
   const filters = {
     generation: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
     isActive: ['true', 'false'],
     department: ['PD', 'PDR', 'DD'],
   };
 
-  const handleLoginSuccess = (data: any) => {
+  const handleLoginSuccess = () => {
     setIsOpenModal(false);
     form.resetFields();
     addNotification('Thêm thành viên thành công', 'success');
@@ -56,7 +60,7 @@ function Members() {
     onError: handleLoginFailed,
   });
 
-  const handleEditMemberForm = (value: any) => {
+  const handleEditMemberForm = (value: UserData) => {
     setIsOpenModal(true);
     setIsEdit(true);
     const { joinedDate, leaveDate,...rest } = value ?? {};
@@ -67,7 +71,7 @@ function Members() {
     });
   };
 
-  const handleViewMemberForm = (value: any) => {
+  const handleViewMemberForm = (value: UserData) => {
     setIsOpenModal(true);
     const { joinedDate, leaveDate,...rest } = value ?? {};
     form.setFieldsValue({
@@ -83,7 +87,7 @@ function Members() {
     setIsOpenModal(true);
   };
 
-  const handelOnChangeFilters = (value: any) => {
+  const handelOnChangeFilters = (value: FiltersSelectedType) => {
     console.log('handelOnChangeFilters', value);
   };
 
@@ -124,15 +128,17 @@ function Members() {
         <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChangeFilters} filters={filters} />
       </div>
       <Divider className="mb-4 mt-2" />
-      <div className="w-full overflow-x-scroll scrollbar-hide">
+      <div className="w-full overflow-x-scroll overflow-y-hidden scrollbar-hide">
         <MemberTable
+          rowKey={'id'}
+          pagination={false}
           className={tw('[&_.ant-table-tbody]:bg-white')}
           loading={isFetching}
-          dataSource={data?.data?.results}
+          dataSource={dataResponse?.data?.results}
           handleEditMemberForm={handleEditMemberForm}
           handleViewMemberForm={handleViewMemberForm}
         />
-        <PaginationCustom totalItems={data?.data?.count} handleOnChange={handelOnChangePagination}/>
+        <PaginationCustom totalItems={dataResponse ? dataResponse.data.count : 0} handleOnChange={handelOnChangePagination}/>
       </div>
 
       <PrimaryModal

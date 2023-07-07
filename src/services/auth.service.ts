@@ -1,7 +1,5 @@
 import { AxiosResponse } from 'axios';
 import baseAPI from './api/api';
-import fakeAPI from './api/fakeApi';
-import { useAuth } from '../context/AuthContext';
 
 interface User {
   phone: string;

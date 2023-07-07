@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Navigate } from 'react-router-dom';
 
 interface BaseAPIOptions {
   config?: AxiosRequestConfig;

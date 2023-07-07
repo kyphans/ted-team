@@ -7,16 +7,20 @@ import { tw } from '../../../common/utils/classUtil';
 import PrimaryButton from '../custom/PrimaryButton';
 
 type FiltersType = {
-  [key: string]: string[];
+  department?: string[];
+  generation?: string[];
+  isActive?: string[];
 };
 
 type SearchType = {
-  [key: string]: string;
+  search?: string;
 };
+
+export type FiltersSelectedType = FiltersType & SearchType;
 
 interface SearchFiltersToolBarProps {
   filters: FiltersType;
-  handelOnChange: (filtersSelected: any) => void;
+  handelOnChange: (filtersSelected: FiltersSelectedType) => void;
   isFilter?: boolean;
   isSearch?: boolean;
   placeholderSearch?: string;
@@ -36,7 +40,7 @@ export default function SearchFiltersToolBar(props: SearchFiltersToolBarProps) {
   const renderFilter = (filters: FiltersType) => {
     const listFilter: JSX.Element[] = [];
 
-    const handleFilterChange = (key: string, newValue: string[]) => {
+    const handleFilterChange = (key: keyof FiltersType, newValue: string[]) => {
       setFiltersSelected((prevFiltersSelected) => ({
         ...prevFiltersSelected,
         [key]: newValue,
@@ -45,9 +49,9 @@ export default function SearchFiltersToolBar(props: SearchFiltersToolBarProps) {
 
     for (const key in filters) {
       if (filters.hasOwnProperty(key)) {
-        const filterValues = filters[key];
+        const filterValues = filters[key as keyof FiltersType];
         const options: ItemProps[] = [];
-        filterValues.map((filterValue) => {
+        !!filterValues && filterValues.map((filterValue) => {
           options.push({
             label: `${filterValue}`,
             value: filterValue,
@@ -62,9 +66,9 @@ export default function SearchFiltersToolBar(props: SearchFiltersToolBarProps) {
               mode="multiple"
               style={{ width: '100%' }}
               options={options}
-              value={filtersSelected[key]}
+              value={filtersSelected[key as keyof FiltersType]}
               onChange={(newValue: string[]) => {
-                handleFilterChange(key, newValue);
+                handleFilterChange(key as keyof FiltersType, newValue);
               }}
               placeholder="Select Item..."
               maxTagCount="responsive"
