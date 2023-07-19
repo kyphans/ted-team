@@ -25,7 +25,7 @@ export const NotificationProvider: any = ({ children }: any) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addNotification = (message: string, type: 'success' | 'error' | 'warning' | 'info') => {
-    const id = uuidv4(); 
+    const id = uuidv4();
     const notification = { id, message, type };
     setNotifications((prevState) => [notification, ...prevState]);
     setTimeout(() => removeNotification(id), 5000);

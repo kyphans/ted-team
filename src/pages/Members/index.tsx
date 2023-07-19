@@ -18,19 +18,24 @@ import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 
 import { MembersResponseType } from '../../types/member.types';
 import { UserData } from '../../types/user.types';
+import useDepartmentStore from '../../store/department';
 
 function Members() {
   const [form] = Form.useForm();
   const { addNotification } = useNotification();
-  const { data: dataResponse, isLoading, isFetching, refetch } = useQuery({
+  const {
+    data: dataResponse,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: ['users'],
     queryFn: () => UserServices.getAllUsers<MembersResponseType>(),
     staleTime: 5 * 60 * 1000, // 5 minute,
   });
   const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  console.log('dataResponse',dataResponse);
-  
+
   const filters = {
     generation: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
     isActive: ['true', 'false'],
@@ -63,9 +68,10 @@ function Members() {
   const handleEditMemberForm = (value: UserData) => {
     setIsOpenModal(true);
     setIsEdit(true);
-    const { joinedDate, leaveDate,...rest } = value ?? {};
+    const { joinedDate, leaveDate, ...rest } = value ?? {};
     form.setFieldsValue({
       ...rest,
+      department: value.info[0]?.departmentName,
       joinDate: dayjs(joinedDate),
       leaveDate: dayjs(leaveDate),
     });
@@ -73,9 +79,10 @@ function Members() {
 
   const handleViewMemberForm = (value: UserData) => {
     setIsOpenModal(true);
-    const { joinedDate, leaveDate,...rest } = value ?? {};
+    const { joinedDate, leaveDate, ...rest } = value ?? {};
     form.setFieldsValue({
       ...rest,
+      department: value.info[0]?.departmentName,
       joinDate: dayjs(joinedDate),
       leaveDate: dayjs(leaveDate),
     });
@@ -96,17 +103,17 @@ function Members() {
     const payload = {
       ...formValues,
       department_ID: formValues.department,
+      role_ID: 5, //default is Member
       joinDate: formValues.joinDate ? dayjs(formValues.joinDate).format('DD/MM/YYYY') : undefined,
       leaveDate: formValues.joinDate ? dayjs(formValues.leaveDate).format('DD/MM/YYYY') : undefined,
     };
     console.log('payload', payload);
-    
+
     mutation.mutate(payload);
   };
 
   const handelOnChangePagination = (currentPage: number, pageSize: number) => {
-    console.log('handelOnChangePagination ', {currentPage, pageSize});
-    
+    console.log('handelOnChangePagination ', { currentPage, pageSize });
   };
 
   return (
@@ -125,7 +132,11 @@ function Members() {
         </PrimaryButton>
       </div>
       <div className="">
-        <SearchFiltersToolBar placeholderSearch="Search Teddy" handelOnChange={handelOnChangeFilters} filters={filters} />
+        <SearchFiltersToolBar
+          placeholderSearch="Search Teddy"
+          handelOnChange={handelOnChangeFilters}
+          filters={filters}
+        />
       </div>
       <Divider className="mb-4 mt-2" />
       <div className="w-full overflow-x-scroll overflow-y-hidden scrollbar-hide">
@@ -138,7 +149,10 @@ function Members() {
           handleEditMemberForm={handleEditMemberForm}
           handleViewMemberForm={handleViewMemberForm}
         />
-        <PaginationCustom totalItems={dataResponse ? dataResponse.data.count : 0} handleOnChange={handelOnChangePagination}/>
+        <PaginationCustom
+          totalItems={dataResponse ? dataResponse.data.count : 0}
+          handleOnChange={handelOnChangePagination}
+        />
       </div>
 
       <PrimaryModal

@@ -13,10 +13,17 @@ export interface UserData {
   description: string;
   gender: string;
   avatar: string;
-  info: any[];
+  info: InfoUser[] | [];
 }
 
 export type UserLocalStorageDataType = {
   token?: string;
   info: UserData;
+};
+
+interface InfoUser {
+  departmentName: string;
+  departmentDisplayName: string;
+  roleTitle: string;
+  rolePriority: number;
 }
