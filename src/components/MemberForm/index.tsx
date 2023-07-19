@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import DepartmentServices from '../../services/department.service';
 import { useState } from 'react';
+import useDepartmentStore from '../../store/department';
 
 interface MemberFormProps {
   onSaveMemberForm?: () => void;
@@ -14,12 +15,17 @@ interface MemberFormProps {
 export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: MemberFormProps) {
   const form = Form.useFormInstance();
   const avt = form.getFieldValue('avatar');
+  const setDepartments = useDepartmentStore((state) => state.setDepartments);
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['department'],
     queryFn: () => DepartmentServices.getAllDepartment<any>(),
+    staleTime: 60 * 60 * 1000, // 60 minute,
+    onSuccess: (data) => {
+      setDepartments(data?.data?.results);
+    },
   });
-  
+
   return (
     <Row
       className={tw(`
@@ -58,8 +64,12 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
         </Form.Item>
         <Form.Item label="Department" name="department">
           <Select placeholder="Select department" className="w-full" loading={isFetching}>
-            {data?.data?.results.map((department: any)=>{
-              return <Select.Option key={department.id} value={department.id}>{department.name}</Select.Option>
+            {data?.data?.results.map((department: any) => {
+              return (
+                <Select.Option key={department.id} value={department.id}>
+                  {department.name}
+                </Select.Option>
+              );
             })}
           </Select>
         </Form.Item>
@@ -79,7 +89,10 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
           <Input addonBefore="URL" placeholder="Enter URL avatar" />
         </Form.Item>
         <div className="flex justify-center">
-          <Image width={200} src={avt ?? "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"} />
+          <Image
+            width={200}
+            src={avt ?? 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'}
+          />
         </div>
       </Col>
       <Col span={24}>

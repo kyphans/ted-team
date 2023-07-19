@@ -12,11 +12,12 @@ import { UserData } from '../../types/user.types';
 interface MemberTableProps extends Omit<PrimaryTableProps, 'columns' | 'dataSource'> {
   handleEditMemberForm: (record: UserData) => void;
   handleViewMemberForm: (record: UserData) => void;
-  dataSource: MembersResponseType['results'] | undefined
+  dataSource: MembersResponseType['results'] | undefined;
 }
 
 export default function MemberTable(props: MemberTableProps) {
-  const { dataSource, rowClassName, loading, className, ...rest} = props;  
+  const { dataSource, rowClassName, loading, className, ...rest } = props;
+
   const columns: ColumnsType<UserData> = [
     {
       title: 'ID',
@@ -37,8 +38,8 @@ export default function MemberTable(props: MemberTableProps) {
     },
     {
       title: 'Department',
-      dataIndex: '',
-      render: () => <PrimaryTag variant="Collaborator" />,
+      dataIndex: 'info',
+      render: (_, { info }) => info[0]?.departmentName && <PrimaryTag variant={info[0]?.departmentName} />,
     },
     {
       title: 'Generation',
@@ -49,14 +50,14 @@ export default function MemberTable(props: MemberTableProps) {
       title: 'Joined Date',
       sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
       render: (_, { joinedDate }) => {
-        return joinedDate ? moment(joinedDate, "DD/MM/YYYY").format("DD/MM/YYYY") : null;
+        return joinedDate ? moment(joinedDate, 'DD/MM/YYYY').format('DD/MM/YYYY') : null;
       },
     },
     {
       title: 'Leave Date',
       sorter: (a, b) => moment(a.joinedDate).unix() - moment(b.joinedDate).unix(),
       render: (_, { leaveDate }) => {
-        return leaveDate ? moment(leaveDate, "DD/MM/YYYY").format("DD/MM/YYYY") : null;
+        return leaveDate ? moment(leaveDate, 'DD/MM/YYYY').format('DD/MM/YYYY') : null;
       },
     },
     {

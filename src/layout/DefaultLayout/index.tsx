@@ -115,7 +115,7 @@ const DefaultLayout = () => {
       setSelectedKey(key);
     }
   };
-
+  const linkAvt = userData?.info?.avatar ? `${import.meta.env.VITE_API_URL}${userData.info.avatar}` : '';
   return (
     <Layout className="default-layout">
       <Sider
@@ -146,11 +146,7 @@ const DefaultLayout = () => {
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <div className="flex justify-end  align-middle mr-5">
             <div>
-              <Avatar
-                className="[&_.ant-image-mask-info]:hidden"
-                size={44}
-                icon={<Image width={44} src={`${import.meta.env.VITE_API_URL}${userData?.info?.avatar}`} />}
-              />
+              <Avatar className="[&_.ant-image-mask-info]:hidden" size={44} icon={<Image width={44} src={linkAvt} />} />
             </div>
             {isScreenLg && <div className="px-2 font-medium">{userData?.info?.fullName}</div>}
           </div>
