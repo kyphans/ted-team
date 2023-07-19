@@ -6,9 +6,9 @@ import { UserLocalStorageDataType } from '../../types/user.types';
 function LoginPage() {
   const { user } = useAuth();
   const userData: UserLocalStorageDataType = !!user && JSON.parse(user);
-  // if (userData?.info && userData?.token) {
-  //   return <Navigate to="/home" />;
-  // }
+  if (userData?.info && userData?.token) {
+    return <Navigate to="/home" />;
+  }
   return (
     <>
       <LoginForm />
