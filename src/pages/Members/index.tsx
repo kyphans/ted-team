@@ -50,7 +50,10 @@ function Members() {
   };
 
   const handleLoginFailed = (err: any) => {
-    const errMessage = err.response.data;
+    const errMessage = err?.response?.data;
+
+    if (!errMessage) addNotification(`${err.message}`, 'error');
+
     for (var key in errMessage) {
       if (errMessage.hasOwnProperty(key)) {
         var messageArray = errMessage[key];
@@ -102,13 +105,12 @@ function Members() {
     const formValues = form.getFieldsValue(true);
     const payload = {
       ...formValues,
+      avatar: formValues.avatar && formValues.avatar[0].originFileObj,
       department_ID: formValues.department,
       role_ID: 5, //default is Member
       joinDate: formValues.joinDate ? dayjs(formValues.joinDate).format('DD/MM/YYYY') : undefined,
       leaveDate: formValues.joinDate ? dayjs(formValues.leaveDate).format('DD/MM/YYYY') : undefined,
     };
-    console.log('payload', payload);
-
     mutation.mutate(payload);
   };
 

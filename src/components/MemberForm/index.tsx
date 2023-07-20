@@ -1,11 +1,26 @@
-import { Col, DatePicker, Divider, Form, Input, InputNumber, Row, Select, Space, Typography, Image } from 'antd';
+import {
+  Col,
+  DatePicker,
+  Divider,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+  Space,
+  Typography,
+  Image,
+  Upload,
+  Button,
+} from 'antd';
 import PrimaryButton from '../__common/custom/PrimaryButton';
 import { tw } from '../../common/utils/classUtil';
 import { useQuery } from '@tanstack/react-query';
 
 import DepartmentServices from '../../services/department.service';
-import { useState } from 'react';
 import useDepartmentStore from '../../store/department';
+import { UploadOutlined } from '@ant-design/icons';
+import { Handle } from 'reactflow';
 
 interface MemberFormProps {
   onSaveMemberForm?: () => void;
@@ -26,6 +41,20 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
     },
   });
 
+  const handleUpload = (file: any, fileList: any) => {
+    // const isJPG = file.type === 'image/jpeg';
+    // if (!isJPG) {
+    //   console.log('You can only upload JPG file!');
+    // }
+    return false;
+  };
+
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
   return (
     <Row
       className={tw(`
@@ -85,15 +114,11 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
             <Select.Option value={false}>Deactivate</Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item label="Avatar" name="img">
-          <Input addonBefore="URL" placeholder="Enter URL avatar" />
+        <Form.Item label="Avatar" name="avatar" valuePropName="fileList" getValueFromEvent={normFile}>
+          <Upload listType="picture" beforeUpload={handleUpload} maxCount={1} multiple={false} onPreview={() => false}>
+            <Button icon={<UploadOutlined />}>Upload</Button>
+          </Upload>
         </Form.Item>
-        <div className="flex justify-center">
-          <Image
-            width={200}
-            src={avt ?? 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'}
-          />
-        </div>
       </Col>
       <Col span={24}>
         <Row gutter={[12, 0]}>
