@@ -19,6 +19,7 @@ import PrimaryModal from '../../components/__common/custom/PrimaryModal';
 import { MembersResponseType } from '../../types/member.types';
 import { UserData } from '../../types/user.types';
 import useDepartmentStore from '../../store/department';
+import { ModalType } from '../../types/modal.types';
 
 function Members() {
   const [form] = Form.useForm();
@@ -33,7 +34,7 @@ function Members() {
     queryFn: () => UserServices.getAllUsers<MembersResponseType>(),
     staleTime: 5 * 60 * 1000, // 5 minute,
   });
-  const [isEdit, setIsEdit] = useState(false);
+  const [statusModal, setStatusModal] = useState<ModalType['status']>('VIEW');
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const filters = {
@@ -70,8 +71,10 @@ function Members() {
 
   const handleEditMemberForm = (value: UserData) => {
     setIsOpenModal(true);
-    setIsEdit(true);
+    setStatusModal('EDIT');
     const { joinedDate, leaveDate, ...rest } = value ?? {};
+    console.log('value', value);
+
     form.setFieldsValue({
       ...rest,
       department: value.info[0]?.departmentName,
@@ -93,7 +96,7 @@ function Members() {
 
   const handleAddMemberForm = () => {
     form.resetFields();
-    setIsEdit(true);
+    setStatusModal('ADD');
     setIsOpenModal(true);
   };
 
@@ -158,21 +161,24 @@ function Members() {
       </div>
 
       <PrimaryModal
-        title={<Typography className="text-blue-2">Add new Teddy</Typography>}
+        title={
+          <Typography className="text-blue-2">{statusModal === 'ADD' ? 'Add new Teddy' : 'Edit info Teddy'}</Typography>
+        }
         centered
         destroyOnClose
         noBodySpacing
         width={800}
         open={isOpenModal}
         onCancel={() => {
-          setIsEdit(false);
+          setStatusModal('VIEW');
           setIsOpenModal(false);
         }}
         footer={null}
       >
         <Divider />
-        <PrimaryForm disabled={!isEdit} form={form}>
+        <PrimaryForm disabled={statusModal === 'VIEW'} form={form}>
           <MemberForm
+            isEdit={statusModal !== 'ADD' ? true : false}
             onSaveMemberForm={handleSubmitForm}
             onCancelMemberForm={() => {
               setIsOpenModal(false);
