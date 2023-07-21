@@ -27,6 +27,7 @@ export default function MemberTable(props: MemberTableProps) {
     {
       title: 'Full Name',
       dataIndex: 'fullName',
+      className: 'whitespace-nowrap',
     },
     {
       title: 'Phone',

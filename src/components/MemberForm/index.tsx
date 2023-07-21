@@ -25,9 +25,12 @@ import { Handle } from 'reactflow';
 interface MemberFormProps {
   onSaveMemberForm?: () => void;
   onCancelMemberForm?: () => void;
+  isEdit: boolean;
 }
 
-export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: MemberFormProps) {
+export default function MemberForm({ onSaveMemberForm, onCancelMemberForm, isEdit }: MemberFormProps) {
+  console.log('isEdit', isEdit);
+
   const form = Form.useFormInstance();
   const avt = form.getFieldValue('avatar');
   const setDepartments = useDepartmentStore((state) => state.setDepartments);
@@ -114,11 +117,26 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm }: Mem
             <Select.Option value={false}>Deactivate</Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item label="Avatar" name="avatar" valuePropName="fileList" getValueFromEvent={normFile}>
-          <Upload listType="picture" beforeUpload={handleUpload} maxCount={1} multiple={false} onPreview={() => false}>
-            <Button icon={<UploadOutlined />}>Upload</Button>
-          </Upload>
-        </Form.Item>
+        {!isEdit ? (
+          <Form.Item label="Avatar" name="avatar" valuePropName="fileList" getValueFromEvent={normFile}>
+            <Upload
+              listType="picture"
+              beforeUpload={handleUpload}
+              maxCount={1}
+              multiple={false}
+              onPreview={() => false}
+            >
+              <Button icon={<UploadOutlined />}>Upload</Button>
+            </Upload>
+          </Form.Item>
+        ) : (
+          <div className="flex justify-center">
+            <Image
+              width={200}
+              src={avt ?? 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'}
+            />
+          </div>
+        )}
       </Col>
       <Col span={24}>
         <Row gutter={[12, 0]}>

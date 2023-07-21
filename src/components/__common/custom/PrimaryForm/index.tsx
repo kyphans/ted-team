@@ -6,9 +6,10 @@ interface PrimaryFormProps extends FormProps {
   children: React.ReactNode;
 }
 
-export default React.forwardRef(
-  function PrimaryForm(props: PrimaryFormProps, ref: React.Ref<FormInstance<any>> | undefined) {
-    const { className, form, ...restProps } = props;
-    return <Form ref={ref} form={form} className={tw('', className)} {...restProps} />;
-  }
-);
+export default React.forwardRef(function PrimaryForm(
+  props: PrimaryFormProps,
+  ref: React.Ref<FormInstance<any>> | undefined,
+) {
+  const { className, form, ...restProps } = props;
+  return <Form ref={ref} form={form} className={tw('', className)} {...restProps} />;
+});
