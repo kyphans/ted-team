@@ -139,6 +139,7 @@ function Collaborators() {
         <Divider />
         <PrimaryForm disabled={!isEdit} form={form}>
           <MemberForm
+            isEdit={false}
             onSaveMemberForm={() => {
               setIsOpenModal(false);
               form.resetFields();
