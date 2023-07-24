@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-
 interface BaseAPIOptions {
   config?: AxiosRequestConfig;
   headers?: any;
@@ -12,6 +11,7 @@ function baseAPI(options?: BaseAPIOptions) {
     const localStorageItem = localStorage.getItem('accessToken');
     return localStorageItem ? { Authorization: 'Bearer ' + localStorageItem } : null;
   };
+
   const axiosInstance: AxiosInstance = axios.create({
     ...options?.config,
     baseURL: options?.baseURL || import.meta.env.VITE_API_URL,
@@ -21,6 +21,18 @@ function baseAPI(options?: BaseAPIOptions) {
     },
     timeout: options?.timeout || 10000,
   });
+
+  // Response interceptor for API calls
+  axiosInstance.interceptors.response.use(
+    response => {
+      return response;
+    },
+    error => {
+      // Handle errors
+      console.log('error', error);
+      return Promise.reject(error);
+    }
+  );
 
   function handleResponseData<T>(data?: any): Promise<AxiosResponse<T>> {
     if (!!data || data.status === 200) {

@@ -11,7 +11,6 @@ import { UserData } from '../../types/user.types';
 
 interface MemberTableProps extends Omit<PrimaryTableProps, 'columns' | 'dataSource'> {
   handleEditMemberForm: (record: UserData) => void;
-  handleViewMemberForm: (record: UserData) => void;
   dataSource: MembersResponseType['results'] | undefined;
 }
 
@@ -70,25 +69,23 @@ export default function MemberTable(props: MemberTableProps) {
       title: 'Action',
       width: 1,
       render: (_, record) => (
-        <Space.Compact block>
+        <Space>
           <Button
+            size="small"
             type="default"
-            className="leading-[0] text-[#1677ff] border-[#1677ff]"
-            onClick={() => props.handleViewMemberForm(record)}
-          >
-            <BulbOutlined />
-          </Button>
-          <Button
-            type="default"
-            className="leading-[0] text-[#d46b08] border-[#d46b08]"
+            className="leading-[0] text-[#1677ff] border-[#1677ff] hover:bg-[#1677ff] hover:text-white"
             onClick={() => props.handleEditMemberForm(record)}
           >
             <EditOutlined />
           </Button>
-          <Button type="default" className="leading-[0]" danger>
+          <Button
+            size="small"
+            type="default"
+            className="leading-[0] text-[#ff4d4f] border-[#ff4d4f] hover:bg-[#ff4d4f] hover:text-white"
+          >
             <DeleteOutlined />
           </Button>
-        </Space.Compact>
+        </Space>
       ),
     },
   ];

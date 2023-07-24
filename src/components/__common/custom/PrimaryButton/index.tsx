@@ -10,6 +10,7 @@ type Variant =
   | 'dark'
   | 'light'
   | 'primary'
+  | 'delete'
 
 export interface PrimaryButtonProps extends ButtonProps {
   variant?: Variant;
@@ -40,7 +41,7 @@ export default function PrimaryButton(props: PrimaryButtonProps, ref: React.Ref<
         <Button
           ref={ref}
           className={tw(
-            'flex w-full items-center justify-center bg-gray-light-11 hover:opacity-60',
+            'bg-gray-light-11 hover:opacity-60',
             className,
           )}
           {...restProps}
@@ -66,7 +67,16 @@ export default function PrimaryButton(props: PrimaryButtonProps, ref: React.Ref<
       break;
     case 'primary': {
       return (
-        <Button ref={ref} type='primary' className={tw('w-full hover:opacity-80', className)} {...restProps}>
+        <Button ref={ref} type='primary' className={tw('hover:opacity-80', className)} {...restProps}>
+          <Typography className={tw('flex h-full items-center justify-center', typographyClassName)}>
+            <Text className={tw('text-base text-white', textClassName)}>{children}</Text>
+          </Typography>
+        </Button>
+      );
+    }
+    case 'delete': {
+      return (
+        <Button ref={ref} type='primary' className={tw('hover:opacity-80', className)} {...restProps}>
           <Typography className={tw('flex h-full items-center justify-center', typographyClassName)}>
             <Text className={tw('text-base text-white', textClassName)}>{children}</Text>
           </Typography>

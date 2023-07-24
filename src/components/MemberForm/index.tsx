@@ -1,21 +1,19 @@
+import { useQuery } from '@tanstack/react-query';
 import {
+  Button,
   Col,
   DatePicker,
   Divider,
   Form,
+  Image,
   Input,
   InputNumber,
   Row,
   Select,
-  Space,
-  Typography,
-  Image,
-  Upload,
-  Button,
+  Upload
 } from 'antd';
 import PrimaryButton from '../__common/custom/PrimaryButton';
 import { tw } from '../../common/utils/classUtil';
-import { useQuery } from '@tanstack/react-query';
 
 import DepartmentServices from '../../services/department.service';
 import useDepartmentStore from '../../store/department';
@@ -23,14 +21,10 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Handle } from 'reactflow';
 
 interface MemberFormProps {
-  onSaveMemberForm?: () => void;
-  onCancelMemberForm?: () => void;
   isEdit: boolean;
 }
 
-export default function MemberForm({ onSaveMemberForm, onCancelMemberForm, isEdit }: MemberFormProps) {
-  console.log('isEdit', isEdit);
-
+export default function MemberForm({isEdit }: MemberFormProps) {
   const form = Form.useFormInstance();
   const avt = form.getFieldValue('avatar');
   const setDepartments = useDepartmentStore((state) => state.setDepartments);
@@ -58,6 +52,7 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm, isEdi
     }
     return e?.fileList;
   };
+
   return (
     <Row
       className={tw(`
@@ -126,29 +121,17 @@ export default function MemberForm({ onSaveMemberForm, onCancelMemberForm, isEdi
               multiple={false}
               onPreview={() => false}
             >
-              <Button icon={<UploadOutlined />}>Upload</Button>
+              <Button className='leading-[0] [&_span]:inline-flex' icon={<UploadOutlined />}>Upload</Button>
             </Upload>
           </Form.Item>
         ) : (
           <div className="flex justify-center">
             <Image
               width={200}
-              src={avt ?? 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'}
+              src={avt ?? 'https://cdn-amz.woka.io/images/I/71qtAiNUCpL.jpg'}
             />
           </div>
         )}
-      </Col>
-      <Col span={24}>
-        <Row gutter={[12, 0]}>
-          <Space className="w-full justify-end">
-            <PrimaryButton disabled={false} className="bg-slate-200" variant="cancel" onClick={onCancelMemberForm}>
-              Cancel
-            </PrimaryButton>
-            <PrimaryButton disabled={false} className="bg-blue-600" variant="primary" onClick={onSaveMemberForm}>
-              Add
-            </PrimaryButton>
-          </Space>
-        </Row>
       </Col>
     </Row>
   );

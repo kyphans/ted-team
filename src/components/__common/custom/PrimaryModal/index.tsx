@@ -6,7 +6,7 @@ import PrimaryButton, { type PrimaryButtonProps } from '../PrimaryButton';
 
 type Variant = 'default' | 'preview' | 'success' | 'warning' | 'error' | 'confirm' | 'info';
 type ModalType = NonNullable<ModalFuncProps['type']>;
-type FooterButtonType = 'accept' | 'cancel' | 'confirm' | 'find-mentor';
+type FooterButtonType = 'accept' | 'cancel' | 'confirm' | 'delete' | 'add' | 'edit';
 type FooterButtonOptions = {
   type: FooterButtonType;
   buttonProps: PrimaryButtonProps;
@@ -80,104 +80,6 @@ export default function PrimaryModal(props: PrimaryModalProps) {
     subtitle,
     ...restProps
   } = props;
-  const navigate = useNavigate();
-
-  const renderFooterButtons = () => {
-    if (_.size(footerButtons)) {
-      // Accept button
-      const acceptButton = (buttonProps?: PrimaryButtonProps) => {
-        const { onClick: buttonPropsOnClick, ...restButtonProps } = buttonProps ?? {};
-
-        return (
-          <PrimaryButton
-            type="primary"
-            onClick={(event) => {
-              if (buttonPropsOnClick) {
-                buttonPropsOnClick(event as React.MouseEvent<HTMLButtonElement, MouseEvent>);
-                onCloseModal?.();
-              } else {
-                onCloseModal?.();
-              }
-            }}
-            {...restButtonProps}
-          >
-            Đồng ý
-          </PrimaryButton>
-        );
-      };
-
-      // Cancel button
-      const cancelButton = (buttonProps?: PrimaryButtonProps) => {
-        const { onClick: buttonPropsOnClick, ...restButtonProps } = buttonProps ?? {};
-        return (
-          <Space>
-            <PrimaryButton
-              type="primary"
-              variant="cancel"
-              onClick={(event) => {
-                if (buttonPropsOnClick) {
-                  buttonPropsOnClick(event as React.MouseEvent<HTMLButtonElement, MouseEvent>);
-                  onCloseModal?.();
-                } else {
-                  onCloseModal?.();
-                }
-              }}
-              {...restButtonProps}
-            >
-              Hủy
-            </PrimaryButton>
-          </Space>
-        );
-      };
-
-      // Confirm button
-      const confirmButton = (buttonProps?: PrimaryButtonProps) => {
-        const { onClick: buttonPropsOnClick, ...restButtonProps } = buttonProps ?? {};
-
-        return (
-          <PrimaryButton
-            type="primary"
-            onClick={(event) => {
-              if (buttonPropsOnClick) {
-                buttonPropsOnClick(event as React.MouseEvent<HTMLButtonElement, MouseEvent>);
-                onCloseModal?.();
-              } else {
-                onCloseModal?.();
-              }
-            }}
-            {...restButtonProps}
-          >
-            Xác nhận
-          </PrimaryButton>
-        );
-      };
-
-      return (
-        <div className={tw('flex w-full justify-center gap-2', footerClassName)}>
-          {_.map(footerButtons, (footerButton) => {
-            // Nếu là chuỗi thì nó là FooterButtonType
-            if (_.isString(footerButton)) {
-              switch (footerButton) {
-                case 'accept': {
-                  return acceptButton();
-                }
-                case 'cancel': {
-                  return cancelButton();
-                }
-                case 'confirm': {
-                  return confirmButton();
-                }
-                default: {
-                  return <></>;
-                }
-              }
-            }
-          })}
-        </div>
-      );
-    }
-    return footer;
-  };
 
   // Variant
   switch (variant) {
@@ -192,6 +94,7 @@ export default function PrimaryModal(props: PrimaryModalProps) {
 
   return (
     <Modal
+      forceRender
       className={tw(
         `
         mmd:my-3

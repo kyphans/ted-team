@@ -1,6 +1,6 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Divider, Form, Typography } from 'antd';
+import { Button, Divider, Form, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
@@ -78,19 +78,8 @@ function Members() {
     form.setFieldsValue({
       ...rest,
       department: value.info[0]?.departmentName,
-      joinDate: dayjs(joinedDate),
-      leaveDate: dayjs(leaveDate),
-    });
-  };
-
-  const handleViewMemberForm = (value: UserData) => {
-    setIsOpenModal(true);
-    const { joinedDate, leaveDate, ...rest } = value ?? {};
-    form.setFieldsValue({
-      ...rest,
-      department: value.info[0]?.departmentName,
-      joinDate: dayjs(joinedDate),
-      leaveDate: dayjs(leaveDate),
+      joinDate: joinedDate && dayjs(joinedDate),
+      leaveDate: leaveDate && dayjs(leaveDate),
     });
   };
 
@@ -121,6 +110,49 @@ function Members() {
     console.log('handelOnChangePagination ', { currentPage, pageSize });
   };
 
+  const renderFooterButtons = () => {
+    let listButtons = [
+      <PrimaryButton
+        key="cancel"
+        className="bg-slate-200"
+        variant="cancel"
+        onClick={() => {
+          setIsOpenModal(false);
+          form.resetFields();
+        }}
+      >
+        Cancel
+      </PrimaryButton>,
+    ];
+
+    if (statusModal !== 'ADD') {
+      listButtons.unshift(
+        <PrimaryButton
+          key="delete"
+          className="bg-red-500"
+          variant="delete"
+          onClick={() => {
+            setIsOpenModal(false);
+          }}
+        >
+          Remove
+        </PrimaryButton>,
+      );
+      listButtons.push(
+        <PrimaryButton key="edit" className="bg-blue-600" variant="primary" onClick={handleSubmitForm}>
+          Edit
+        </PrimaryButton>,
+      );
+    } else {
+      listButtons.push(
+        <PrimaryButton key="add" className="bg-blue-600" variant="primary" onClick={handleSubmitForm}>
+          Add
+        </PrimaryButton>,
+      );
+    }
+    return listButtons;
+  };
+
   return (
     <>
       <div className="flex justify-between mb-3">
@@ -146,13 +178,17 @@ function Members() {
       <Divider className="mb-4 mt-2" />
       <div className="w-full overflow-x-scroll overflow-y-hidden scrollbar-hide">
         <MemberTable
+          onRow={(record, rowIndex) => {
+            return {
+              onDoubleClick: event => {handleEditMemberForm(record)}, // double click row
+            };
+          }}
           rowKey={'id'}
           pagination={false}
           className={tw('[&_.ant-table-tbody]:bg-white')}
           loading={isFetching}
           dataSource={dataResponse?.data?.results}
           handleEditMemberForm={handleEditMemberForm}
-          handleViewMemberForm={handleViewMemberForm}
         />
         <PaginationCustom
           totalItems={dataResponse ? dataResponse.data.count : 0}
@@ -173,18 +209,11 @@ function Members() {
           setStatusModal('VIEW');
           setIsOpenModal(false);
         }}
-        footer={null}
+        footer={renderFooterButtons()}
       >
         <Divider />
         <PrimaryForm disabled={statusModal === 'VIEW'} form={form}>
-          <MemberForm
-            isEdit={statusModal !== 'ADD' ? true : false}
-            onSaveMemberForm={handleSubmitForm}
-            onCancelMemberForm={() => {
-              setIsOpenModal(false);
-              form.resetFields();
-            }}
-          />
+          <MemberForm isEdit={statusModal !== 'ADD' ? true : false} />
         </PrimaryForm>
       </PrimaryModal>
     </>
